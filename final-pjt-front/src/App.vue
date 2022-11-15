@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style>
+<style src="./assets/tailwind.css">
 /* style src="./assets/tailwind.css" */
 
 /* #app {
