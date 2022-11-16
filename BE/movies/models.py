@@ -17,3 +17,13 @@ class Movie(models.Model):
     released_date = models.DateField()
     poster_path = models.TextField(null=True)
     genres = models.ManyToManyField(Genre, related_name='movies')
+
+
+class Credit(models.Model):
+    auto_increment_id = models.AutoField(primary_key=True)
+    person_id = models.IntegerField()
+    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    popularity = models.IntegerField()
+    character = models.CharField(max_length=100)
+    profile_path = models.TextField(null=True)
