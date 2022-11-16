@@ -2,8 +2,8 @@
   <div>
     <h2>유명도(?)에 따른 내림차순 정렬입니당</h2>
     <MovieListItem
-      v-for = "movie in movies"
-      :key = "movie.id"
+      v-for = "(movie, idx) in movies"
+      :key = "idx"
       :movie = "movie"
     />
   </div>
