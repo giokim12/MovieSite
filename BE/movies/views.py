@@ -17,7 +17,7 @@ def movie_list(request):
                 new_movies.append(movie)
         # print(new_movies[0].vote_avg)
         new_movies = sorted(new_movies, key=lambda x: -x.vote_avg)
-        new_movies10 = new_movies[:10]
+        new_movies10 = new_movies[:6]
         serializer = MovieListSerializer(new_movies10, many=True)
         return Response(serializer.data)
 
@@ -32,7 +32,7 @@ def movie_list_new(request):
                 new_movies.append(movie)
         # print(new_movies[0].vote_avg)
         new_movies = sorted(new_movies, key=lambda x: x.released_date)
-        new_movies10 = new_movies[:10]
+        new_movies10 = new_movies[:6]
         serializer = MovieListSerializer(new_movies10, many=True)
         return Response(serializer.data)
 
@@ -47,7 +47,7 @@ def movie_list_popular(request):
                 new_movies.append(movie)
         # print(new_movies[0].vote_avg)
         new_movies = sorted(new_movies, key=lambda x: -x.popularity)
-        new_movies10 = new_movies[:10]
+        new_movies10 = new_movies[:6]
         serializer = MovieListSerializer(new_movies10, many=True)
         return Response(serializer.data)
 

@@ -1,25 +1,33 @@
 <template>
   <div>
     <h2>유명도(?)에 따른 내림차순 정렬입니당</h2>
-    <MovieListItem
-      v-for = "(movie, idx) in movies"
-      :key = "idx"
-      :movie = "movie"
-    />
+    <div class="flex">
+      <MovieListItem
+        v-for = "(movie, idx) in movies"
+        :key = "`movie${idx}`"
+        :movie = "movie"
+      />
+    </div>
     <hr>
     <h2>popular</h2>
-    <MovieListItem
-      v-for = "(movie, idx) in movies_popular"
-      :key = "idx"
-      :movie = "movie"
-    />
+    <div class="flex">
+      <MovieListItem
+        v-for = "(movie, idx) in movies_popular"
+        :key = "idx"
+        :movie = "movie"
+        class="flex"
+      />
+    </div>
     <hr>
     <h2>new</h2>
-    <MovieListItem
-      v-for = "(movie, idx) in movies_new"
-      :key = "idx"
-      :movie = "movie"
-    />
+    <div class="flex">
+      <MovieListItem
+        v-for = "(movie, idx) in movies_new"
+        :key = "idx"
+        :movie = "movie"
+        class="flex"
+      />
+    </div>
   </div>
 </template>
 
@@ -42,8 +50,9 @@ export default {
       return this.$store.state.moviesNew
     }
   }
-
 }
+
+
 </script>
 
 <style>
