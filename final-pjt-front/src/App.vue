@@ -5,12 +5,14 @@
       <router-link to="/random">Random</router-link> |
       <router-link to="/watch">Watch</router-link>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
-<style>
-#app {
+<style src="./assets/tailwind.css">
+/* style src="./assets/tailwind.css" */
+
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,5 +31,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>
