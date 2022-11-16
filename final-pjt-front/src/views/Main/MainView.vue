@@ -15,10 +15,18 @@ export default {
   },
   created() {
     this.getPopularMovies()
+    this.getTopVotedMovies()
+    this.getNewMovies()
   },
   methods: {
     getPopularMovies() {
       this.$store.dispatch('getPopularMovies')
+    },
+    getTopVotedMovies() {
+      this.$store.dispatch('getTopVotedMovies')
+    },
+    getNewMovies() {
+      this.$store.dispatch('getNewMovies')
     },
   }
 };

@@ -6,6 +6,20 @@
       :key = "idx"
       :movie = "movie"
     />
+    <hr>
+    <h2>popular</h2>
+    <MovieListItem
+      v-for = "(movie, idx) in movies_popular"
+      :key = "idx"
+      :movie = "movie"
+    />
+    <hr>
+    <h2>new</h2>
+    <MovieListItem
+      v-for = "(movie, idx) in movies_new"
+      :key = "idx"
+      :movie = "movie"
+    />
   </div>
 </template>
 
@@ -20,6 +34,12 @@ export default {
   computed: {
     movies () {
       return this.$store.state.movies
+    },
+    movies_popular () {
+      return this.$store.state.moviesPopular
+    },
+    movies_new () {
+      return this.$store.state.moviesNew
     }
   }
 
