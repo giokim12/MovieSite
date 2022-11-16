@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h2>유명도(?)에 따른 내림차순 정렬입니당</h2>
+    <h2>투표 내림차순 정렬</h2>
     <div class="flex">
       <MovieListItem
-        v-for = "(movie, idx) in movies"
+        v-for = "(movie, idx) in movies_voted"
         :key = "`movie${idx}`"
         :movie = "movie"
       />
     </div>
     <hr>
-    <h2>popular</h2>
+    <h2>인기도 내림차순 정렬</h2>
     <div class="flex">
       <MovieListItem
         v-for = "(movie, idx) in movies_popular"
@@ -19,10 +19,10 @@
       />
     </div>
     <hr>
-    <h2>new</h2>
+    <h2>고전명작,,, 개봉일 오름차순 정렬</h2>
     <div class="flex">
       <MovieListItem
-        v-for = "(movie, idx) in movies_new"
+        v-for = "(movie, idx) in movies_old"
         :key = "idx"
         :movie = "movie"
         class="flex"
@@ -40,14 +40,14 @@ export default {
     MovieListItem
   },
   computed: {
-    movies () {
-      return this.$store.state.movies
+    movies_voted () {
+      return this.$store.state.moviesVoted
     },
     movies_popular () {
       return this.$store.state.moviesPopular
     },
-    movies_new () {
-      return this.$store.state.moviesNew
+    movies_old () {
+      return this.$store.state.moviesOld
     }
   }
 }

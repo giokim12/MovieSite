@@ -8,32 +8,32 @@ from .serializers import MovieListSerializer, ActorSerializer
 
 
 @api_view(['GET'])
-def movie_list(request):
+def movie_list_voted(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
-        new_movies = []
+        voted_movies = []
         for movie in movies:
             if movie.vote_avg > 5:
-                new_movies.append(movie)
+                voted_movies.append(movie)
         # print(new_movies[0].vote_avg)
-        new_movies = sorted(new_movies, key=lambda x: -x.vote_avg)
-        new_movies10 = new_movies[:6]
-        serializer = MovieListSerializer(new_movies10, many=True)
+        voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
+        voted_movies10 = voted_movies[:6]
+        serializer = MovieListSerializer(voted_movies10, many=True)
         return Response(serializer.data)
 
 
 @api_view(['GET'])
-def movie_list_new(request):
+def movie_list_old(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
-        new_movies = []
+        old_movies = []
         for movie in movies:
             if movie.vote_avg > 5:
-                new_movies.append(movie)
+                old_movies.append(movie)
         # print(new_movies[0].vote_avg)
-        new_movies = sorted(new_movies, key=lambda x: x.released_date)
-        new_movies10 = new_movies[:6]
-        serializer = MovieListSerializer(new_movies10, many=True)
+        old_movies = sorted(old_movies, key=lambda x: x.released_date)
+        old_movies10 = old_movies[:6]
+        serializer = MovieListSerializer(old_movies10, many=True)
         return Response(serializer.data)
 
 
@@ -41,14 +41,14 @@ def movie_list_new(request):
 def movie_list_popular(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
-        new_movies = []
+        popular_movies = []
         for movie in movies:
             if movie.vote_avg > 5:
-                new_movies.append(movie)
+                popular_movies.append(movie)
         # print(new_movies[0].vote_avg)
-        new_movies = sorted(new_movies, key=lambda x: -x.popularity)
-        new_movies10 = new_movies[:6]
-        serializer = MovieListSerializer(new_movies10, many=True)
+        popular_movies = sorted(popular_movies, key=lambda x: -x.popularity)
+        popular_movies10 = popular_movies[:6]
+        serializer = MovieListSerializer(popular_movies10, many=True)
         return Response(serializer.data)
 
 

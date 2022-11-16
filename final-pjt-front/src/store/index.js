@@ -8,9 +8,9 @@ const API_URL = "http://127.0.0.1:8000";
 
 export default new Vuex.Store({
   state: {
-    movies: [],
+    moviesVoted: [],
     moviesPopular: [],
-    moviesNew: [],
+    moviesOld: [],
     // comments: []
   },
   getters: {},
@@ -19,17 +19,17 @@ export default new Vuex.Store({
       state.moviesPopular = movies;
     },
     GET_TOP_VOTED_MOVIES(state, movies) {
-      state.movies = movies;
+      state.moviesVoted = movies;
     },
-    GET_NEW_MOVIES(state, movies) {
-      state.moviesNew = movies;
+    GET_OLD_MOVIES(state, movies) {
+      state.moviesOld = movies;
     },
   },
   actions: {
     getPopularMovies(context) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies_popular/`,
+        url: `${API_URL}/api/v1/movies/popular/`,
       })
         .then((res) => {
           context.commit("GET_POPULAR_MOVIES", res.data);
@@ -41,7 +41,7 @@ export default new Vuex.Store({
     getTopVotedMovies(context) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies/`,
+        url: `${API_URL}/api/v1/movies/voted/`,
       })
         .then((res) => {
           context.commit("GET_TOP_VOTED_MOVIES", res.data);
@@ -50,13 +50,13 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    getNewMovies(context) {
+    getOldMovies(context) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies_new/`,
+        url: `${API_URL}/api/v1/movies/old/`,
       })
         .then((res) => {
-          context.commit("GET_NEW_MOVIES", res.data);
+          context.commit("GET_OLD_MOVIES", res.data);
         })
         .catch((err) => {
           console.log(err);

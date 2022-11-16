@@ -1,22 +1,22 @@
 <template>
   <div>
     <h1>이거는 메인 페이지</h1>
-    <PopularMovieList/>
+    <MovieList/>
   </div>
 </template>
 
 <script>
-import PopularMovieList from '@/views/Main/components/PopularMovieList'
+import MovieList from '@/views/Main/components/MovieList'
 
 export default {
   name: 'MainView',
   components: {
-    PopularMovieList,
+    MovieList,
   },
   created() {
     this.getPopularMovies()
     this.getTopVotedMovies()
-    this.getNewMovies()
+    this.getOldMovies()
   },
   methods: {
     getPopularMovies() {
@@ -25,8 +25,8 @@ export default {
     getTopVotedMovies() {
       this.$store.dispatch('getTopVotedMovies')
     },
-    getNewMovies() {
-      this.$store.dispatch('getNewMovies')
+    getOldMovies() {
+      this.$store.dispatch('getOldMovies')
     },
   }
 };
