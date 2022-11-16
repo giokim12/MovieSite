@@ -4,7 +4,7 @@
       {{ intro }}
     </div>
     <br />
-    <button>회원가입</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">회원가입</button>
   </div>
 </template>
 
