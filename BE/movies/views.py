@@ -23,7 +23,7 @@ def movie_list(request):
 
 
 @api_view(['GET'])
-def movie_list_2(request):
+def movie_list_new(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
         new_movies = []
@@ -31,7 +31,22 @@ def movie_list_2(request):
             if movie.vote_avg > 5:
                 new_movies.append(movie)
         # print(new_movies[0].vote_avg)
-        new_movies = sorted(new_movies, key=lambda x: x.vote_avg)
+        new_movies = sorted(new_movies, key=lambda x: x.released_date)
+        new_movies10 = new_movies[:10]
+        serializer = MovieListSerializer(new_movies10, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def movie_list_popular(request):
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        new_movies = []
+        for movie in movies:
+            if movie.vote_avg > 5:
+                new_movies.append(movie)
+        # print(new_movies[0].vote_avg)
+        new_movies = sorted(new_movies, key=lambda x: -x.popularity)
         new_movies10 = new_movies[:10]
         serializer = MovieListSerializer(new_movies10, many=True)
         return Response(serializer.data)
