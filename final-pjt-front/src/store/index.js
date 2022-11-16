@@ -8,13 +8,44 @@ const API_URL = "http://127.0.0.1:8000";
 
 export default new Vuex.Store({
   state: {
+    // JWT START
+    access: "",
+    refresh: "",
+    // JWT END
+
+    // main start
     moviesVoted: [],
     moviesPopular: [],
     moviesOld: [],
+    // main end
+
     // comments: []
   },
   getters: {},
   mutations: {
+    // JWT START
+    INITAILIZE_STORE(state) {
+      if (localStorage.getItem("access")) {
+        state.access = localStorage.getItem("access");
+        state.refresh = localStorage.getItem("refresh");
+      } else {
+        state.access = "";
+        state.refresh = "";
+      }
+    },
+    SET_ACCESS(state, access) {
+      state.access = access;
+    },
+    SET_REFRESH(state, refresh) {
+      state.refresh = refresh;
+    },
+    REMOVE_ACCESS(state) {
+      state.access = "";
+      state.refresh = "";
+      // state.userdata = "";
+      // state.isAuthenticated = false;
+    },
+    // JWT END
     GET_POPULAR_MOVIES(state, movies) {
       state.moviesPopular = movies;
     },
