@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>{{ movie }}</div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg" @click="goDetail(movie.id)">
       <img class="w-full" :src="imgPath" alt="...">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">{{ movie.title }}</div>
@@ -28,8 +28,12 @@ export default {
     imgPath() {
       return "https://image.tmdb.org/t/p/original/"+this.movie.poster_path
     }
+  },
+  methods: {
+    goDetail(id) {
+      this.$router.push({name: 'detail', params: {id}})
+    }
   }
-
 }
 </script>
 
