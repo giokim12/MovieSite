@@ -49,6 +49,8 @@ export default new Vuex.Store({
       // state.isAuthenticated = false;
     },
     // JWT END
+
+    // main start
     GET_POPULAR_MOVIES(state, movies) {
       state.moviesPopular = movies;
     },
@@ -58,11 +60,16 @@ export default new Vuex.Store({
     GET_OLD_MOVIES(state, movies) {
       state.moviesOld = movies;
     },
+    // main end
+
+    // detail start
     GET_ACTORS(state, actors) {
       state.actors = actors;
-    }
+    },
+    //detail end
   },
   actions: {
+    //main start
     getPopularMovies(context) {
       axios({
         method: "get",
@@ -99,6 +106,9 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    // main end
+
+    // detail start
     getActors(context) {
       axios({
         method: "get",
@@ -110,7 +120,7 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   modules: {},
 });

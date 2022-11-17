@@ -1,6 +1,6 @@
 <template>
     <div class="m-3" @click="goDetail(movie.id)">
-      <img class="w-64 h-80" :src="imgPath" alt="...">
+      <img class="w-64 h-80 rounded-xl lg:hover:scale-110 transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
     </div>
 </template>
 

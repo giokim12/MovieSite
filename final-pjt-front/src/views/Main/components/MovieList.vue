@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>투표 내림차순 정렬</h2>
+    <h2 class="text-white">투표 내림차순 정렬</h2>
     <div class="flex">
       <MovieListItem
         v-for = "(movie, idx) in movies_voted"
@@ -9,7 +9,7 @@
       />
     </div>
     <hr>
-    <h2>인기도 내림차순 정렬</h2>
+    <h2 class="text-white">인기도 내림차순 정렬</h2>
     <div class="flex">
       <MovieListItem
         v-for = "(movie, idx) in movies_popular"
@@ -19,7 +19,7 @@
       />
     </div>
     <hr>
-    <h2>고전명작,,, 개봉일 오름차순 정렬</h2>
+    <h2 class="text-white">고전명작,,, 개봉일 오름차순 정렬</h2>
     <div class="flex">
       <MovieListItem
         v-for = "(movie, idx) in movies_old"

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>이거는 메인 페이지</h1>
+  <div id="back">
+    <h1 class="text-white">이거는 메인 페이지</h1>
     <MovieList />
   </div>
 </template>
@@ -32,4 +32,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* #back{
+  background-color: #141414;
+} */
+</style>

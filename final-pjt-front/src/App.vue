@@ -1,13 +1,6 @@
 <template>
   <div id="app">
     <NavBarVue/>
-    <!-- <nav>
-      <router-link to="/main">Main</router-link> |
-      <router-link to="/random">Random</router-link> |
-      <router-link to="/watch">Watch</router-link> |
-      <router-link to="/signup">signup</router-link> |
-      <router-link to="/login">login</router-link> |
-    </nav> -->
     <router-view />
   </div>
 </template>
@@ -61,27 +54,10 @@ export default {
 }
 </script>
 
-<style src="./assets/tailwind.css">
-/* style src="./assets/tailwind.css" */
+<style src="./assets/tailwind.css"></style>
 
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<style>
+#app {
+  background-color: #141414;
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-} */
 </style>

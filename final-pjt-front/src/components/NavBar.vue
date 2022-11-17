@@ -1,13 +1,6 @@
 <template>
-    <!-- <div :src="user_data">{{ user_data }}</div>
-    <router-link to="/main">Main</router-link> |
-    <router-link to="/random">Random</router-link> |
-    <router-link to="/watch">Watch</router-link> |
-    <span v-if="!isLogin"><router-link to="/signup">signup</router-link> |</span>
-    <span v-if="!isLogin"><router-link to="/login">login</router-link> |</span>
-    <button v-if="isLogin" @click="logout">logout</button> -->
-    <nav class="bg-stone-800 px-1 sm:px-4 py-2.5 rounded">
-      <div class="container flex flex-wrap items-center justify-between mx-auto">
+    <nav class="px-1 sm:px-4 py-2.5 rounded">
+      <div class="container flex flex-wrap items-center justify-between mx-auto border-b-2 border-white">
         <div>
           <router-link to="/main" class="text-white text-4xl">JWT</router-link>
         </div>
