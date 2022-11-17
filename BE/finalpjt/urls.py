@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/v1/', include('movies.urls')),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
+    path('accounts/', include('accounts.urls'), name='accounts'),
 ]

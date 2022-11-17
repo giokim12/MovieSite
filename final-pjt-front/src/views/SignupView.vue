@@ -24,6 +24,10 @@
                       <input v-model="username" type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
                   <div>
+                      <label for="nickname" class="block mb-2 text-sm font-medium text-gray-900">Your nickname</label>
+                      <input v-model="nickname" type="text" name="nickname" id="nickname" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
+                  </div>
+                  <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                       <input v-model="password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
@@ -49,6 +53,7 @@ export default {
     return {
       username: '',
       password: '',
+      nickname: '',
     }
   },
   methods: {
@@ -56,9 +61,10 @@ export default {
       const formData = {
         username: this.username,
         password: this.password,
+        nickname: this.nickname
       }
       axios
-        .post(`${API_URL}/api/v1/auth/users/`, formData)
+        .post(`${API_URL}/accounts/register/`, formData)
         .then((res) => {
           console.log(res)
           this.$router.push('/')
