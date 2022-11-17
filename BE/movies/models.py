@@ -25,15 +25,16 @@ class Movie(models.Model):
     overview = models.TextField()
     released_date = models.DateField()
     poster_path = models.TextField(null=True)
-    movie_genres = models.ManyToManyField(Genre, related_name='genre_contained_movies')
+    genres = models.ManyToManyField(Genre, related_name='genre_contained_movies')
     # movie_credits = models.ManyToManyField(Credit, related_name='genre_contained_movies')
     
     
 class Credit(models.Model):
     # movie_id = models.IntegerField(primary_key = True)
     auto_increment_id = models.AutoField(primary_key=True)
-    person_id = models.ForeignKey(Actor, on_delete=models.CASCADE)
-    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    person_id = models.IntegerField()
+    # person_id = models.ForeignKey(Actor, on_delete=models.CASCADE)
+    movie= models.ForeignKey(Movie, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     popularity = models.IntegerField()
     character = models.CharField(max_length=100)

@@ -1,36 +1,35 @@
 <template>
   <div>
     <h1>이거는 메인 페이지</h1>
-    <MovieList/>
+    <MovieList />
   </div>
 </template>
 
 <script>
-
+import MovieList from "@/views/Main/components/MovieList";
 
 export default {
-  name: 'MainView',
+  name: "MainView",
   components: {
     MovieList,
   },
   created() {
-    this.getPopularMovies()
-    this.getTopVotedMovies()
-    this.getOldMovies()
+    this.getPopularMovies();
+    this.getTopVotedMovies();
+    this.getOldMovies();
   },
   methods: {
     getPopularMovies() {
-      this.$store.dispatch('getPopularMovies')
+      this.$store.dispatch("getPopularMovies");
     },
     getTopVotedMovies() {
-      this.$store.dispatch('getTopVotedMovies')
+      this.$store.dispatch("getTopVotedMovies");
     },
     getOldMovies() {
-      this.$store.dispatch('getOldMovies')
+      this.$store.dispatch("getOldMovies");
     },
-  }
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>
