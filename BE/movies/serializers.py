@@ -13,12 +13,10 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('title', 'overview', 'genres',
-                  'vote_avg', 'released_date', 'popularity', 'poster_path')
+        fields = ('title', 'overview', 'genres', 'vote_avg', 'released_date', 'popularity', 'poster_path')
 
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Credit
-        fields = ('person_id', 'name', 'popularity',
-                  'character', 'profile_path')
+        fields = ('person_id', 'name', 'popularity', 'character', 'profile_path')
