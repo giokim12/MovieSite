@@ -5,9 +5,10 @@
 <script>
 export default {
   name: "ActorListItem",
-}
+  props: {
+    actor: Object
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

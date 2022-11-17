@@ -19,6 +19,9 @@ export default new Vuex.Store({
     moviesOld: [],
     // main end
 
+    // detail start
+    actors: [],
+
     // comments: []
   },
   getters: {},
@@ -55,6 +58,9 @@ export default new Vuex.Store({
     GET_OLD_MOVIES(state, movies) {
       state.moviesOld = movies;
     },
+    GET_ACTORS(state, actors) {
+      state.actors = actors;
+    }
   },
   actions: {
     getPopularMovies(context) {
@@ -93,6 +99,18 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    getActors(context) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/actors/`,
+      })
+        .then((res) => {
+          context.commit("GET_ACTORS", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   },
   modules: {},
 });
