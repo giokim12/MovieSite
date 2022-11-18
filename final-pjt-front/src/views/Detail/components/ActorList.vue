@@ -1,25 +1,21 @@
 <template>
-  <div>
-    <h2>나는 배우들</h2>
-    <ActorListItem 
-      v-for="(actor, idx) in actors" 
-      :key="idx" 
-      :actor="actor" 
-    />
+  <div class="mr-3">
+    <img :src="imgPath" alt="" class="rounded-xl w-32"/>
+    <!-- <div>{{ actor?.name }}</div> -->
   </div>
 </template>
 
 <script>
-import ActorListItem from "@/views/Detail/components/ActorListItem";
 
 export default {
   name: "ActorList",
-  components: {
-    ActorListItem,
+  props: {
+    actor: Object
   },
   computed: {
-    actors() {
-      return this.$store.state.actors
+    imgPath() {
+      // console.log(this.actor?.profile_path)
+      return "https://image.tmdb.org/t/p/original"+this.actor?.profile_path
     }
   }
 };

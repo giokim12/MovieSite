@@ -1,5 +1,5 @@
 <template>
-    <div class="m-3" @click="goDetail(movie.id)">
+    <div class="m-3" @click="goDetail()">
       <img class="w-64 h-80 rounded-xl lg:hover:scale-110 transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
     </div>
 </template>
@@ -16,8 +16,8 @@ export default {
     }
   },
   methods: {
-    goDetail(id) {
-      this.$router.push({name: 'detail', params: {id}})
+    goDetail() {
+      this.$router.push({ name: 'detail', params: { movie_id:this.movie.movie_id }})
     }
   }
 }
