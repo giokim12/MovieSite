@@ -20,7 +20,6 @@ export default new Vuex.Store({
     // main end
 
     // detail start
-    actors: [],
 
     // comments: []
   },
@@ -63,9 +62,6 @@ export default new Vuex.Store({
     // main end
 
     // detail start
-    GET_ACTORS(state, actors) {
-      state.actors = actors;
-    },
     //detail end
   },
   actions: {
@@ -109,18 +105,6 @@ export default new Vuex.Store({
     // main end
 
     // detail start
-    getActors(context) {
-      axios({
-        method: "get",
-        url: `${API_URL}/api/v1/movies/actors/`,
-      })
-        .then((res) => {
-          context.commit("GET_ACTORS", res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
   modules: {},
 });

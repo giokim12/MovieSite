@@ -1,15 +1,34 @@
 <template>
   <div>
-    <div class= "grid grid-rows-6 grid-cols-4 gap-4 lg:gap-6">
-      <div class= "grid row-span-4 col-span-3 bg-red-100">영화</div>
-      <div class= "grid col-span-1 row-span-6 bg-green-100">댓글이랑 좋아요랑</div>
-      <div class= "grid col-span-3 bg-red-100"><ActorList /></div>
-      <div class= "grid col-span-3 bg-red-100">영화 설명</div>
+    <div class= "grid grid-cols-6 gap-4">
+      <div class="col-span-4">
+        <div class= " bg-red-100">
+          <img class="h-96 w-full" :src="imgPath" alt="">
+        </div>
+        <div class="bg-red-500">
+          <h1>출연진</h1>
+          <div class="flex mr-3">
+            <ActorList 
+              v-for="(actor, idx) in actors"
+              :key="idx"
+              :actor = "actor"
+            />
+          </div>
+        </div>
+        <div class= " bg-red-100">
+          {{ movie?.overview }}
+        </div>
+      </div>
+      <div class="col-span-2">
+        <div class="bg-green-100">댓글이랑 좋아요랑</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+const API_URL = 'http://127.0.0.1:8000'
 import ActorList from "@/views/Detail/components/ActorList";
 
 export default {
@@ -19,27 +38,45 @@ export default {
   },
   data() {
     return {
-      actor: []
+      movie: null,
+      actors: null,
+
     }
   },
   computed: {
-    actors() {
-      return this.$store.state.actors
+    imgPath() {
+      return "https://image.tmdb.org/t/p/original/"+this.movie?.poster_path
     }
   },
   created() {
-    this.getActors()
+    this.getActorsbyMovie()
+    this.getMovieDetial()
   },
   methods: {
+    getMovieDetial() {
+      axios({
+        method: 'GET',
+        url: `${API_URL}/api/v1/movies/${this.$route.params.movie_id}`
+      })
+        .then((res) => {
+          this.movie = res.data
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     getActorsbyMovie() {
-      const movie_id = this.$route.params.movie_id
-      for (const actor of this.actors) {
-        if (actor.movie_id === Number(movie_id)) {
-          this.actor = actor
-          break
-        }
-      }
-      // this.$store.dispatch('getActors')
+      axios({
+        method: 'GET',
+        url: `${API_URL}/api/v1/movies/actors/${this.$route.params.movie_id}`
+      })
+        .then((res) => {
+          this.actors = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 };

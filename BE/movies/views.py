@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Genre, Credit
-from .serializers import MovieListSerializer, ActorSerializer
+from .serializers import MovieListSerializer, ActorSerializer, MovieSerailizer
 # Create your views here.
 
 
@@ -53,8 +53,18 @@ def movie_list_popular(request):
 
 
 @api_view(['GET'])
-def actor_list(request):
+def actor_list(request, movie_id):
     if request.method == 'GET':
-        actors = get_list_or_404(Credit)
-        serializer = ActorSerializer(actors, many=True)
+        actors = get_list_or_404(Credit, movie=movie_id)
+        actors_5 = actors[:5]
+        serializer = ActorSerializer(actors_5, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def movie_detail(request, movie_id):
+    # article = Article.objects.get(pk=article_pk)
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if request.method == 'GET':
+        serializer = MovieSerailizer(movie)
         return Response(serializer.data)
