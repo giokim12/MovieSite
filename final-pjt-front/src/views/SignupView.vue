@@ -1,17 +1,9 @@
 <template>
   <div>
-    <!-- <h1>sign up</h1>
-    <form v-on:submit.prevent="submitForm">
-      <label for="username">Username</label>
-      <input type="text" name="username" v-model="username">
-      <label for="password">Username</label>
-      <input type="password" name="password" v-model="password">
-    </form> -->
-    <section class="bg-gray-50">
+    <section class="bg-black">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
-            <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-            Flowbite    
+        <a href="#" class="flex items-center mb-6">
+            <img class="w-80 h-60 mr-2 text-white" src="../assets/logo.png" alt="logo">  
         </a>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -31,8 +23,8 @@
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                       <input v-model="password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
-                  <button type="submit" class="w-full text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign up</button>
-                  <p class="text-sm font-light text-gray-500">
+                  <button type="submit" class="w-full text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">가입하기</button>
+                  <p class="text-sm font-light text-gray-500 text-white">
                     Already have an account? <a href="#" class="font-medium text-cyan-600 hover:underline">Sign in</a>
                   </p>
               </form>
