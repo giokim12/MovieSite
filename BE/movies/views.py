@@ -65,6 +65,7 @@ def actor_list(request, movie_id):
 @api_view(['GET'])
 def movie_detail(request, movie_id):
     # article = Article.objects.get(pk=article_pk)
+    print(request)
     movie = get_object_or_404(Movie, pk=movie_id)
     if request.method == 'GET':
         serializer = MovieSerailizer(movie)

@@ -62,7 +62,11 @@ export default {
           this.$router.push('/')
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
+          console.log(typeof(err.response.data))
+          if (err.response.data.username !== 'undefined') {
+            alert('중복된 아이디임')
+          }
         });
     },
   }
