@@ -1,6 +1,6 @@
 <template>
     <div class="m-3" @click="goDetail(), addView()">
-      <img class="w-64 h-80 rounded-xl lg:hover:scale-110 transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
+      <img class="w-64 h-80 shrink-0 rounded-xl lg:hover:scale-110 transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
     </div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
             console.log(res)
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err) 
           })
       }
     }

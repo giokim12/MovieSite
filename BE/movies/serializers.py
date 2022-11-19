@@ -36,5 +36,7 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
 
-
-
+class ClickedMovieSerializer:
+    class Meta:
+        model = ClickedMovies
+        fields = '__all__'

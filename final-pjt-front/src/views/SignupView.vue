@@ -1,11 +1,12 @@
 <template>
+  <!-- <div class="overflow-auto"> -->
   <div>
     <section class="bg-black">
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a href="#" class="flex items-center mb-6">
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
+        <div class="flex items-center mt-8 mb-4">
             <img class="w-80 h-60 mr-2 text-white" src="../assets/logo.png" alt="logo">  
-        </a>
-        <div class="w-full bg-black rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
+        </div>
+        <div class="w-full bg-black rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-2 ">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8 bg-black opacity-75 rounded-xl border border-white">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
                 JWT 시작하기

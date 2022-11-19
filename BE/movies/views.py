@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Genre, Credit, Comment, ClickedMovies
-from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer
+from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer
 # Create your views here.
 
 
@@ -62,7 +62,7 @@ def movie_list_clicked(request, user_id):
         for clicked_movie in clicked_movies:
             if user_id == clicked_movie.user_id:
                 user_clicked_movies.append(clicked_movie)
-        user_clicked_movies = sorted(clicked_movies, key=lambda x: -x.clicked_movie_id)
+        user_clicked_movies = sorted(user_licked_movies, key=lambda x: -x.clicked_movie_id)
         movies = get_list_or_404(Movie)
         show_movies = []
 
@@ -72,8 +72,33 @@ def movie_list_clicked(request, user_id):
                     show_movies.append(movie)      
         
         show_movies = set(show_movies)
+        # show_movies = sorted(show_movies, key=lambda x: -x.clicked_movie_id)
+        # print(show_movies)
         serializer = MovieListSerializer(show_movies, many=True)
         return Response(serializer.data)
+
+# @api_view(['GET'])
+# def movie_list_genre_recommend(request, user_id):
+#     if request.method == 'GET':
+#         clicked_movies = get_list_or_404(ClickedMovies)
+#         movies = get_list_or_404(Movie)
+#         user_clicked_movies = []
+#         for clicked_movie in clicked_movies:
+#             if user_id == clicked_movie.user_id:
+#                 user_clicked_movies.append(clicked_movie)
+                
+#         print(user_clicked_movies)
+#         same_genre_movies = []
+#         for clicked_movie in user_clicked_movies:
+#             for movie in movies:
+#                 if clicked_movie.id == movie.movie_id:
+#                     show_movies.append(movie)      
+        
+#         # show_movies = set(show_movies)
+#         # show_movies = sorted(show_movies, key=lambda x: -x.clicked_movie_id)
+#         print(show_movies)
+#         serializer = MovieListSerializer(show_movies, many=True)
+#         return Response(serializer.data)
 
 @api_view(['GET'])
 def actor_list(request, movie_id):

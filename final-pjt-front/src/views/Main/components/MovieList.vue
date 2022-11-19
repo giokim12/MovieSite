@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h2 class="text-white">투표 내림차순 정렬</h2>
     <div class="flex">
       <MovieListItem

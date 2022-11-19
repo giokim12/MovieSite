@@ -17,8 +17,6 @@ class Actor(models.Model):
 
 
 class Movie(models.Model):
-    # auto_increment_id = models.AutoField(primary_key = True)
-    # movie_id = models.ForeignKey(Credit, on_delete=models.CASCADE)
     movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     popularity = models.IntegerField()
@@ -28,7 +26,6 @@ class Movie(models.Model):
     poster_path = models.TextField(null=True)
     genres = models.ManyToManyField(
         Genre, related_name='genre_contained_movies')
-    # movie_credits = models.ManyToManyField(Credit, related_name='genre_contained_movies')
 
 
 class Credit(models.Model):
