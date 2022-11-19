@@ -5,9 +5,9 @@
         <a href="#" class="flex items-center mb-6">
             <img class="w-80 h-60 mr-2 text-white" src="../assets/logo.png" alt="logo">  
         </a>
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+        <div class="w-full bg-black rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8 bg-black opacity-75 rounded-xl border border-white">
+              <h1 class="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
                 Create and account
               </h1>
               <form class="space-y-4 md:space-y-6" v-on:submit.prevent="submitForm">

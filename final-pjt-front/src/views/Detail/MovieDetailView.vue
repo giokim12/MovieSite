@@ -13,6 +13,7 @@
               :key="idx"
               :actor = "actor"
             />
+            <button class="bg-blue-500">></button>
           </div>
         </div>
         <div class= " bg-red-100">
@@ -50,10 +51,10 @@ export default {
   },
   created() {
     this.getActorsbyMovie()
-    this.getMovieDetial()
+    this.getMovieDetail()
   },
   methods: {
-    getMovieDetial() {
+    getMovieDetail() {
       axios({
         method: 'GET',
         url: `${API_URL}/api/v1/movies/${this.$route.params.movie_id}`
