@@ -21,7 +21,15 @@
         </div>
       </div>
       <div class="col-span-2">
-        <div class="bg-green-100">댓글이랑 좋아요랑</div>
+        <div class="bg-green-100">
+          <CommentFormVue
+            :movie= "movie"
+          />
+          <hr>
+          <CommentListVue
+            :movie= "movie"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -31,17 +39,20 @@
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 import ActorList from "@/views/Detail/components/ActorList";
+import CommentFormVue from './components/CommentForm.vue';
+import CommentListVue from './components/CommentList.vue';
 
 export default {
   name: "MovieDetailView",
   components: {
     ActorList,
+    CommentFormVue,
+    CommentListVue,
   },
   data() {
     return {
       movie: null,
       actors: null,
-
     }
   },
   computed: {

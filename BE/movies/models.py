@@ -1,11 +1,12 @@
 from django.db import models
-
+from django.conf import settings
 # Create your models here.
 
 
 class Genre(models.Model):
     genre_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
+
 
 class Actor(models.Model):
     actor_id = models.IntegerField(primary_key=True)
@@ -18,25 +19,39 @@ class Actor(models.Model):
 class Movie(models.Model):
     # auto_increment_id = models.AutoField(primary_key = True)
     # movie_id = models.ForeignKey(Credit, on_delete=models.CASCADE)
-    movie_id = models.IntegerField(primary_key = True)
+    movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     popularity = models.IntegerField()
     vote_avg = models.IntegerField()
     overview = models.TextField()
     released_date = models.DateField()
     poster_path = models.TextField(null=True)
-    genres = models.ManyToManyField(Genre, related_name='genre_contained_movies')
+    genres = models.ManyToManyField(
+        Genre, related_name='genre_contained_movies')
     # movie_credits = models.ManyToManyField(Credit, related_name='genre_contained_movies')
-    
-    
+
+
 class Credit(models.Model):
     # movie_id = models.IntegerField(primary_key = True)
     auto_increment_id = models.AutoField(primary_key=True)
     person_id = models.IntegerField()
     # person_id = models.ForeignKey(Actor, on_delete=models.CASCADE)
-    movie= models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     popularity = models.IntegerField()
     character = models.CharField(max_length=100)
     profile_path = models.TextField(null=True)
-    credit_movies = models.ManyToManyField(Movie, related_name='movie_contained_credits')
+    credit_movies = models.ManyToManyField(
+        Movie, related_name='movie_contained_credits')
+
+
+class Comment(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+    content = models.TextField()
+    likes = models.IntegerField(default=0)
+    rate = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

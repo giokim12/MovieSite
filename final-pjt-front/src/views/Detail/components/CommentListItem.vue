@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div>나는 댓글하나+ 좋아요 기능 하투하투</div>
+    <div>{{ comment }}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "CommentListItem",
+  props: {
+    comment:Object
+  }
 }
 </script>
 
