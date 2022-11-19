@@ -7,8 +7,9 @@ urlpatterns = [
     path('movies/voted/', views.movie_list_voted),
     path('movies/old/', views.movie_list_old),
     path('movies/popular/', views.movie_list_popular),
+    path('movies/clicked/<int:user_id>', views.movie_list_clicked),
 
-    path('movies/<int:movie_id>/', views.movie_detail),
+    path('detail/<int:movie_id>/', views.movie_detail),
     path('movies/actors/<int:movie_id>', views.actor_list),
 
     path('comments/<int:movie_id>/list/', views.comment_list),
@@ -20,4 +21,5 @@ urlpatterns = [
     # # optional UI
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'),
          name='swagger-ui'),
+
 ]

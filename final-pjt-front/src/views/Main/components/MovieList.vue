@@ -28,6 +28,16 @@
         class="flex"
       />
     </div>
+    <hr>
+    <h2 class="text-white">클릭한거</h2>
+    <div class="flex">
+      <MovieListItem
+        v-for = "(movie, idx) in movies_clicked"
+        :key = "idx"
+        :movie = "movie"
+        class="flex"
+      />
+    </div>
   </div>
 </template>
 
@@ -48,6 +58,9 @@ export default {
     },
     movies_old () {
       return this.$store.state.moviesOld
+    },
+    movies_clicked () {
+      return this.$store.state.moviesClicked
     }
   }
 }
