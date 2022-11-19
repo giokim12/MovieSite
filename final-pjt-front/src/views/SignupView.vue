@@ -8,24 +8,24 @@
         <div class="w-full bg-black rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8 bg-black opacity-75 rounded-xl border border-white">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
-                Create and account
+                JWT 시작하기
               </h1>
               <form class="space-y-4 md:space-y-6" v-on:submit.prevent="submitForm">
                   <div>
-                      <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Your username</label>
+                      <label for="username" class="block mb-2 text-sm font-medium text-white">아이디</label>
                       <input v-model="username" type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
                   <div>
-                      <label for="nickname" class="block mb-2 text-sm font-medium text-gray-900">Your nickname</label>
+                      <label for="nickname" class="block mb-2 text-sm font-medium text-white">닉네임</label>
                       <input v-model="nickname" type="text" name="nickname" id="nickname" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
                   <div>
-                      <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                      <label for="password" class="block mb-2 text-sm font-medium text-white">비밀번호</label>
                       <input v-model="password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
                   <button type="submit" class="w-full text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">가입하기</button>
                   <p class="text-sm font-light text-gray-500 text-white">
-                    Already have an account? <a href="#" class="font-medium text-cyan-600 hover:underline">Sign in</a>
+                    계정이 있으신가요? <a href="#" class="font-medium text-red-400 hover:underline text-red-300">로그인</a>
                   </p>
               </form>
           </div>

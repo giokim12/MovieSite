@@ -18,6 +18,8 @@ export default new Vuex.Store({
     moviesVoted: [],
     moviesPopular: [],
     moviesOld: [],
+    moviesClicked: [],
+
     // main end
 
     // detail start
@@ -63,6 +65,9 @@ export default new Vuex.Store({
     },
     GET_OLD_MOVIES(state, movies) {
       state.moviesOld = movies;
+    },
+    GET_CLICKED_MOVIES(state, movies) {
+      state.moviesClicked = movies;
     },
     // main end
 
@@ -110,14 +115,26 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
+    getClickedMovies(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/clicked/${user_id}`
+      })
+        .then((res) => {
+          context.commit("GET_CLICKED_MOVIES", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     // main end
 
     // detail start
-    getCommentList(context, moive_id) {
+    getCommentList(context, movie_id) {
       // this.$store.dispatch("getCommentList", this.$route.params.movie_id)
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/comments/${moive_id}/list/`,
+        url: `${API_URL}/api/v1/comments/${movie_id}/list/`,
       })
         .then((res) => {
           context.commit("GET_COMMENT_LIST", res.data);

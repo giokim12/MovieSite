@@ -13,10 +13,16 @@ export default {
   components: {
     MovieList,
   },
+  computed: {
+    isLogin() {
+      return this.$store.state.access
+    }
+  },
   created() {
     this.getPopularMovies();
     this.getTopVotedMovies();
     this.getOldMovies();
+    this.getClickedMovies();
   },
   methods: {
     getPopularMovies() {
@@ -28,6 +34,11 @@ export default {
     getOldMovies() {
       this.$store.dispatch("getOldMovies");
     },
+    getClickedMovies() {
+      if (this.isLogin) {
+        this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
+      }
+    }
   },
 };
 </script>

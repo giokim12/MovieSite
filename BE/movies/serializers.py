@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Genre, Credit, Comment
+from .models import Movie, Genre, Credit, Comment, ClickedMovies
 
 # 영화 리스트
 
@@ -31,7 +31,10 @@ class ActorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class MovieSerailizer(serializers.ModelSerializer):
+class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
+
+
+
