@@ -11,6 +11,7 @@ export default new Vuex.Store({
     // JWT START
     access: "",
     refresh: "",
+    userdata: "",
     // JWT END
 
     // main start
@@ -21,7 +22,7 @@ export default new Vuex.Store({
 
     // detail start
 
-    // comments: []
+    comments: [],
   },
   getters: {},
   mutations: {
@@ -36,16 +37,20 @@ export default new Vuex.Store({
       }
     },
     SET_ACCESS(state, access) {
+      console.log("access = ", access);
       state.access = access;
     },
     SET_REFRESH(state, refresh) {
       state.refresh = refresh;
     },
+    GET_ME(state, me) {
+      state.userdata = me;
+    },
     REMOVE_ACCESS(state) {
       state.access = "";
       state.refresh = "";
-      // state.userdata = "";
-      // state.isAuthenticated = false;
+      state.userdata = "";
+      state.isAuthenticated = false;
     },
     // JWT END
 
@@ -62,6 +67,9 @@ export default new Vuex.Store({
     // main end
 
     // detail start
+    GET_COMMENT_LIST(state, comments) {
+      state.comments = comments;
+    },
     //detail end
   },
   actions: {
@@ -105,6 +113,19 @@ export default new Vuex.Store({
     // main end
 
     // detail start
+    getCommentList(context, moive_id) {
+      // this.$store.dispatch("getCommentList", this.$route.params.movie_id)
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/comments/${moive_id}/list/`,
+      })
+        .then((res) => {
+          context.commit("GET_COMMENT_LIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   modules: {},
 });

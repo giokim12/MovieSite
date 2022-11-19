@@ -21,7 +21,7 @@ class TimestampedModel(models.Model):
 
 
 class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
-
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255, unique=True)
     nickname = models.CharField(max_length=255)
     is_active = BooleanField(default=True)
@@ -29,9 +29,10 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
 
     USERNAME_FIELD = 'username'
 
-    # REQUIRED_FIELDS = [
-    #     'username',
-    # ]
+    REQUIRED_FIELDS = [
+        'nickname',
+        'password'
+    ]
     objects = managers.UserManager()
 
     def get_full_name(self):

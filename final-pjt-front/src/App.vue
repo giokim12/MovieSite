@@ -28,9 +28,13 @@ export default {
     }
   },
   mounted(){
-    setInterval(() => {
-      this.getAccess()
-    }, 59000)
+    const access = this.$store.state.access
+    if (access !== '') {
+      setInterval(() => {
+        this.getAccess()
+        this.getMe()
+      }, 59000)
+    }
   },
   methods: {
     getAccess() {
@@ -44,6 +48,21 @@ export default {
           const access = res.data.access
           localStorage.setItem('acccess', access)
           this.$store.commit('SET_ACCESS', access)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getMe() {
+      axios({
+        method: 'get',
+        url: `${API_URL}/api/v1/auth/users/me/`,
+          headers: {
+            Authorization: `Bearer ${this.$store.state.access}`
+          }
+        })
+        .then((res) => {
+          this.$store.commit('GET_ME', res.data)
         })
         .catch(err => {
           console.log(err)
