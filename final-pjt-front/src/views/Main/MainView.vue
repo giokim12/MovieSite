@@ -23,6 +23,7 @@ export default {
     this.getTopVotedMovies();
     this.getOldMovies();
     this.getClickedMovies();
+    this.getAlgoGenre();
   },
   methods: {
     getPopularMovies() {
@@ -37,6 +38,11 @@ export default {
     getClickedMovies() {
       if (this.isLogin) {
         this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
+      }
+    },
+    getAlgoGenre() {
+      if (this.isLogin) {
+        this.$store.dispatch("getAlgoGenre", this.$store.state.userdata.id);
       }
     }
   },
