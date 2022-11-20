@@ -9,11 +9,13 @@ class Genre(models.Model):
 
 
 class Actor(models.Model):
-    actor_id = models.IntegerField(primary_key=True)
+    person_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     gender = models.IntegerField()
     popularity = models.IntegerField()
     profile_path = models.TextField(null=True)
+    biography = models.TextField(null=True)
+    birthday = models.CharField(max_length=255)
 
 
 class Movie(models.Model):

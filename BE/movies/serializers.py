@@ -32,6 +32,12 @@ class ActorSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    class GenreNameSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Genre
+            fields = ('name',)
+    genres = GenreNameSerializer(many=True, read_only=True)
+
     class Meta:
         model = Movie
         fields = '__all__'

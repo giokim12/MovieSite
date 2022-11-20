@@ -1,6 +1,6 @@
 <template>
   <div class="absolute inset-x-0 top-0 bg-black z-0">
-    <div class="h-[1200px]">
+    <div class="h-[1000px]">
       <div
         :style="{backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.0)), url('${imgPath}')`}"
         class="top-0 h-full bg-cover bg-clip-content ml-96 rounded-tl-[50px] rounded-bl-[20%] top-back-img"
@@ -8,40 +8,68 @@
         <MovieDetailTopTextVue
           :movie="movie"
           :comment="get_comment"
+          :actors="actors"
           class="relative top-[200px] right-[300px]"
         />
       </div>
     </div>
-    <br>
-    <div class= "grid grid-cols-6 gap-4">
-      <div class="col-span-4">
-        <div class= " bg-red-100">
-          <img class="h-96 w-full" :src="imgPath" alt="">
-        </div>
-        <div class="bg-red-500">
-          <h1>출연진</h1>
-          <div class="flex mr-3">
-            <ActorList 
-              v-for="(actor, idx) in actors"
-              :key="idx"
-              :actor = "actor"
-            />
-            <button class="bg-blue-500">></button>
+    <div class="flex flex-wrap">
+      <div class="w-full">
+        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+            <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-red-500 bg-white': openTab !== 1, 'text-white bg-red-500': openTab === 1}">
+              포스터
+            </a>
+          </li>
+          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+            <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-red-500 bg-white': openTab !== 2, 'text-white bg-red-500': openTab === 2}">
+              출연진
+            </a>
+          </li>
+          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+            <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-red-500 bg-white': openTab !== 3, 'text-white bg-red-500': openTab === 3}">
+              코멘트
+            </a>
+          </li>
+        </ul>
+        <div class="relative flex flex-col min-w-0 break-words w-full mb-3 shadow-lg rounded">
+          <div class="px-4 py-5 flex-auto">
+            <div class="tab-content tab-space">
+              <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" class="place-items-center">
+                <img :src="posterPath" class="w-[90%] h-[70%] place-items-center mx-auto" alt="">
+              </div>
+              <div class="actors" v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
+                <Carousel :per-page="5" paginationColor="white" paginationActiveColor="#FF3471" class="text-white">
+                  <slide 
+                    v-for="actor in actors"
+                    :key="actor.person_id"
+                    class=""
+                  >
+                    <!-- <div class="no-underline rounded border border-white m-3 text-center text-xl h-{800px} w-{500px} md:h-{1200px} md:w-{800px}">
+                      <div class="text-center h-[120px] pt-3">
+                        <div class="text-3xl">{{ actor.name }}</div>
+                        <div class="text-2xl mb-2">{{ actor.character }}</div>
+                      </div>
+                      <img :src="'https://image.tmdb.org/t/p/original'+actor.profile_path" class="rounded h-full w-full" alt="">
+                      <div @click="search(actor.name)">detail</div>
+                    </div> -->
+                    <ActorProfile
+                      :actor="actor"
+                    />
+                  </slide>
+                </Carousel>
+              </div>
+              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+                <CommentFormVue
+                  :movie= "movie"
+                />
+                <hr>
+                <CommentListVue
+                  :movie= "movie"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div class= " bg-red-100">
-          {{ movie?.overview }}
-        </div>
-      </div>
-      <div class="col-span-2">
-        <div class="bg-green-100">
-          <CommentFormVue
-            :movie= "movie"
-          />
-          <hr>
-          <CommentListVue
-            :movie= "movie"
-          />
         </div>
       </div>
     </div>
@@ -51,33 +79,42 @@
 <script>
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
-import ActorList from "@/views/Detail/components/ActorList";
+import ActorProfile from "@/views/Detail/components/ActorProfile";
 import CommentFormVue from './components/CommentForm.vue';
 import CommentListVue from './components/CommentList.vue';
 import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
-
+import { Carousel, Slide } from 'vue-carousel';
+import { VueScreenSizeMixin } from 'vue-screen-size';
 
 export default {
   name: "MovieDetailView",
+  mixins: [VueScreenSizeMixin],
   components: {
-    ActorList,
+    // ActorList,
     CommentFormVue,
     CommentListVue,
+    ActorProfile,
     MovieDetailTopTextVue,
+    Carousel,
+    Slide,
   },
   data() {
     return {
       movie: null,
       actors: null,
+      openTab: 1
     }
   },
   computed: {
     imgPath() {
       return "https://image.tmdb.org/t/p/original/"+this.movie?.backdrop_path
     },
+    posterPath() {
+      return "https://image.tmdb.org/t/p/original/"+this.movie?.poster_path
+    },
     get_comment () {
       return this.$store.state.comments
-    }
+    },
   },
   created() {
     this.getActorsbyMovie()
@@ -92,7 +129,7 @@ export default {
       })
         .then((res) => {
           this.movie = res.data
-          console.log(res.data)
+          // console.log(res.data)
         })
         .catch((err) => {
           console.log(err)
@@ -112,13 +149,20 @@ export default {
     },
     getCommentList() {
       this.$store.dispatch("getCommentList", this.$route.params.movie_id)
+    },
+    toggleTabs: function(tabNumber){
+      this.openTab = tabNumber
+    },
+    search(name) {
+      window.open('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+name)
     }
   }
 };
 </script>
-
+<!-- <script src="../../assets/actors.js"></script> -->
 <style>
 .top-back-img {
   box-shadow: 30px 2px 50px 50px black inset;
 }
+/* @import "../../assets/actors.css"; */
 </style>
