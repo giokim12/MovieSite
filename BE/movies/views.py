@@ -64,6 +64,7 @@ def movie_list_clicked(request, user_id):
                 user_clicked_movies.append(clicked_movie)
         user_clicked_movies = sorted(
             clicked_movies, key=lambda x: -x.clicked_movie_id)
+        # print(user_clicked_movies)
         movies = get_list_or_404(Movie)
         show_movies = []
 
@@ -72,8 +73,12 @@ def movie_list_clicked(request, user_id):
                 if clicked_movie.movie_id == movie.movie_id:
                     show_movies.append(movie)
 
-        show_movies = set(show_movies)
-        serializer = MovieListSerializer(show_movies, many=True)
+        result = []
+        for show_movie in show_movies:
+            if show_movie not in result:
+                result.append(show_movie)
+
+        serializer = MovieListSerializer(result, many=True)
         return Response(serializer.data)
 
 
