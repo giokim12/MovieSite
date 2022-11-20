@@ -16,17 +16,17 @@
     <div class="flex flex-wrap">
       <div class="w-full">
         <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
-          <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
             <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-red-500 bg-white': openTab !== 1, 'text-white bg-red-500': openTab === 1}">
               포스터
             </a>
           </li>
-          <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
             <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-red-500 bg-white': openTab !== 2, 'text-white bg-red-500': openTab === 2}">
               출연진
             </a>
           </li>
-          <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
             <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-red-500 bg-white': openTab !== 3, 'text-white bg-red-500': openTab === 3}">
               코멘트
             </a>
@@ -43,16 +43,19 @@
                   <slide 
                     v-for="actor in actors"
                     :key="actor.person_id"
-                    class="text-white"
+                    class=""
                   >
-                    <div class="no-underline rounded border border-white m-3 text-center text-xl h-{800px} w-{500px} md:h-{1200px} md:w-{800px}">
+                    <!-- <div class="no-underline rounded border border-white m-3 text-center text-xl h-{800px} w-{500px} md:h-{1200px} md:w-{800px}">
                       <div class="text-center h-[120px] pt-3">
                         <div class="text-3xl">{{ actor.name }}</div>
                         <div class="text-2xl mb-2">{{ actor.character }}</div>
                       </div>
                       <img :src="'https://image.tmdb.org/t/p/original'+actor.profile_path" class="rounded h-full w-full" alt="">
                       <div @click="search(actor.name)">detail</div>
-                    </div>
+                    </div> -->
+                    <ActorProfile
+                      :actor="actor"
+                    />
                   </slide>
                 </Carousel>
               </div>
@@ -76,7 +79,7 @@
 <script>
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
-// import ActorList from "@/views/Detail/components/ActorList";
+import ActorProfile from "@/views/Detail/components/ActorProfile";
 import CommentFormVue from './components/CommentForm.vue';
 import CommentListVue from './components/CommentList.vue';
 import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
@@ -90,6 +93,7 @@ export default {
     // ActorList,
     CommentFormVue,
     CommentListVue,
+    ActorProfile,
     MovieDetailTopTextVue,
     Carousel,
     Slide,
