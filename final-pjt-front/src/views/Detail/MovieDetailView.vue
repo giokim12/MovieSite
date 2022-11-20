@@ -1,5 +1,18 @@
 <template>
-  <div>
+  <div class="absolute inset-x-0 top-0 bg-black z-0">
+    <div class="h-[1200px]">
+      <div
+        :style="{backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.0)), url('${imgPath}')`}"
+        class="top-0 h-full bg-cover bg-clip-content ml-96 rounded-tl-[50px] rounded-bl-[20%] top-back-img"
+      > 
+        <MovieDetailTopTextVue
+          :movie="movie"
+          :comment="get_comment"
+          class="relative top-[200px] right-[300px]"
+        />
+      </div>
+    </div>
+    <br>
     <div class= "grid grid-cols-6 gap-4">
       <div class="col-span-4">
         <div class= " bg-red-100">
@@ -41,6 +54,8 @@ const API_URL = 'http://127.0.0.1:8000'
 import ActorList from "@/views/Detail/components/ActorList";
 import CommentFormVue from './components/CommentForm.vue';
 import CommentListVue from './components/CommentList.vue';
+import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
+
 
 export default {
   name: "MovieDetailView",
@@ -48,6 +63,7 @@ export default {
     ActorList,
     CommentFormVue,
     CommentListVue,
+    MovieDetailTopTextVue,
   },
   data() {
     return {
@@ -57,12 +73,16 @@ export default {
   },
   computed: {
     imgPath() {
-      return "https://image.tmdb.org/t/p/original/"+this.movie?.poster_path
+      return "https://image.tmdb.org/t/p/original/"+this.movie?.backdrop_path
+    },
+    get_comment () {
+      return this.$store.state.comments
     }
   },
   created() {
     this.getActorsbyMovie()
     this.getMovieDetail()
+    this.getCommentList()
   },
   methods: {
     getMovieDetail() {
@@ -89,10 +109,16 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    getCommentList() {
+      this.$store.dispatch("getCommentList", this.$route.params.movie_id)
     }
   }
 };
 </script>
 
 <style>
+.top-back-img {
+  box-shadow: 30px 2px 50px 50px black inset;
+}
 </style>

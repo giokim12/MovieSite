@@ -20,21 +20,49 @@ export default {
     this.$store.commit('INITAILIZE_STORE')
 
     const access = this.$store.state.access
-
     if ( access ) {
-      axios.defaults.headers.common['Authorization'] = "JWT " + access
+      console.log('access')
+      axios.defaults.headers.common['Authorization'] = "Bearer " + access
+      const accessData = {
+        refresh: this.$store.state.refresh
+      }
+
+      axios
+        .post(`${API_URL}/api/v1/auth/jwt/refresh/`, accessData)
+        .then(res => {
+          const access = res.data.access
+          localStorage.setItem('acccess', access)
+          this.$store.commit('SET_ACCESS', access)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      axios({
+        method: 'get',
+        url: `${API_URL}/api/v1/auth/users/me/`,
+          headers: {
+            Authorization: `Bearer ${this.$store.state.access}`
+          }
+        })
+        .then((res) => {
+          this.$store.commit('GET_ME', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     } else {
+      console.log('notaccess')
       axios.defaults.headers.common['Authorization'] = ''
     }
   },
   mounted(){
-    const access = this.$store.state.access
-    if (access !== '') {
-      setInterval(() => {
-        this.getAccess()
-        this.getMe()
-      }, 59000)
-    }
+    // const access = this.$store.state.access
+    // if (access !== '') {
+    //   setInterval(() => {
+    //     this.getAccess()
+    //     this.getMe()
+    //   }, 59000)
+    // }
   },
   methods: {
     getAccess() {
@@ -77,6 +105,6 @@ export default {
 
 <style>
 #app {
-  background-color: #141414;
+  background-color: black;
 }
 </style>

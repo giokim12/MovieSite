@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from datetime import timedelta
 
 from pathlib import Path
 
@@ -51,6 +52,8 @@ SPECTACULAR_SETTINGS = {
 # JMT
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer'),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 

@@ -73,7 +73,11 @@ export default new Vuex.Store({
 
     // detail start
     GET_COMMENT_LIST(state, comments) {
+      state.comments = [];
       state.comments = comments;
+    },
+    NOT_COMMENT_LIST(state) {
+      state.comments = [];
     },
     //detail end
   },
@@ -118,14 +122,14 @@ export default new Vuex.Store({
     getClickedMovies(context, user_id) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies/clicked/${user_id}`
+        url: `${API_URL}/api/v1/movies/clicked/${user_id}`,
       })
         .then((res) => {
           context.commit("GET_CLICKED_MOVIES", res.data);
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     },
     // main end
 
@@ -141,6 +145,7 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err);
+          context.commit("NOT_COMMENT_LIST");
         });
     },
   },

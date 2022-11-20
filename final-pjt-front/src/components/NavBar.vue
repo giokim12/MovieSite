@@ -1,6 +1,6 @@
 <template>
-    <nav class="px-1 sm:px-4 rounded">
-      <div class="container flex flex-wrap items-center justify-between mx-auto border-b-2 border-white">
+    <nav class="px-1 sm:px-4 rounded relative z-50">
+      <div class="flex flex-wrap items-center justify-between mx-auto border-b-2 border-white px-20">
         <div>
           <router-link to="/main">
             <img class="w-15 h-10 mr-2 text-white my-2" src="../assets/small-logo.png" alt="">

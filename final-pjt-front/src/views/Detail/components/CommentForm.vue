@@ -3,7 +3,8 @@
     <h2>나는 댓글다는곳</h2>
     <form @submit.prevent="createComment">
       <label for="rate">별점</label>
-      <input v-model="rate" type="number" id="rate">
+      <!-- <input v-model="rate" type="number" id="rate"> -->
+      <StarRatingVue v-model="rate"/>
       <textarea v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
       <br>
       <input type="submit" id="submit" value="댓글 작성">
@@ -14,17 +15,21 @@
 <script>
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
+import StarRatingVue from './StarRating.vue'
 
 export default {
   name: "CommentForm",
   data() {
     return {
-      rate: null,
+      rate: 3,
       content: null,
     }
   },
   props: {
     movie: Object,
+  },
+  components: {
+    StarRatingVue
   },
   computed: {
     isLogin() {
