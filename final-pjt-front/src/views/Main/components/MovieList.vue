@@ -38,6 +38,16 @@
         class="flex"
       />
     </div>
+    <hr>
+    <h2 class="text-white">장르같은거</h2>
+    <div class="flex">
+      <MovieListItem
+        v-for = "(movie, idx) in movies_algo_genre"
+        :key = "idx"
+        :movie = "movie"
+        class="flex"
+      />
+    </div>
   </div>
 </template>
 
@@ -61,6 +71,9 @@ export default {
     },
     movies_clicked () {
       return this.$store.state.moviesClicked
+    },
+    movies_algo_genre() {
+      return this.$store.state.moviesAlgoGenre
     }
   }
 }

@@ -19,6 +19,7 @@ export default new Vuex.Store({
     moviesPopular: [],
     moviesOld: [],
     moviesClicked: [],
+    moviesAlgoGenre: [],
 
     // main end
 
@@ -68,6 +69,9 @@ export default new Vuex.Store({
     },
     GET_CLICKED_MOVIES(state, movies) {
       state.moviesClicked = movies;
+    },
+    GET_ALGO_GENRES(state, movies) {
+      state.moviesAlgoGenre = movies;
     },
     // main end
 
@@ -126,6 +130,18 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit("GET_CLICKED_MOVIES", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAlgoGenre(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/recommend/genre/${user_id}`,
+      })
+        .then((res) => {
+          context.commit("GET_ALGO_GENRES", res.data);
         })
         .catch((err) => {
           console.log(err);

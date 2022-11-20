@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video
 from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer
+import random
+
 # Create your views here.
 
 
@@ -16,10 +18,12 @@ def movie_list_voted(request):
         for movie in movies:
             if movie.vote_avg > 5:
                 voted_movies.append(movie)
+        # print(len(voted_movies)) 
         # print(new_movies[0].vote_avg)
         voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
-        voted_movies10 = voted_movies[:6]
-        serializer = MovieListSerializer(voted_movies10, many=True)
+        voted_movies30 = voted_movies[:30]
+        voted_movies6 = random.sample(voted_movies30, 6)
+        serializer = MovieListSerializer(voted_movies6, many=True)
         return Response(serializer.data)
 
 
@@ -33,8 +37,9 @@ def movie_list_old(request):
                 old_movies.append(movie)
         # print(new_movies[0].vote_avg)
         old_movies = sorted(old_movies, key=lambda x: x.released_date)
-        old_movies10 = old_movies[:6]
-        serializer = MovieListSerializer(old_movies10, many=True)
+        old_movies30 = old_movies[:30]
+        old_movies6 = random.sample(old_movies30, 6)
+        serializer = MovieListSerializer(old_movies6, many=True)
         return Response(serializer.data)
 
 
@@ -48,8 +53,9 @@ def movie_list_popular(request):
                 popular_movies.append(movie)
         # print(new_movies[0].vote_avg)
         popular_movies = sorted(popular_movies, key=lambda x: -x.popularity)
-        popular_movies10 = popular_movies[:6]
-        serializer = MovieListSerializer(popular_movies10, many=True)
+        popular_movies30 = popular_movies[:30]
+        popular_movies6 = random.sample(popular_movies30, 6)
+        serializer = MovieListSerializer(popular_movies6, many=True)
         return Response(serializer.data)
 
 
@@ -77,9 +83,121 @@ def movie_list_clicked(request, user_id):
         for show_movie in show_movies:
             if show_movie not in result:
                 result.append(show_movie)
+        result6 = result[:6]
 
-        serializer = MovieListSerializer(result, many=True)
+        serializer = MovieListSerializer(result6, many=True)
         return Response(serializer.data)
+'''
+# 내가 클릭한 영화들과 같은 장르 가진 영화들 모두 추출
+@api_view(['GET'])
+def movie_list_genre_recommend(request, user_id):
+    clicked_movies = get_list_or_404(ClickedMovies)
+    movies = get_list_or_404(Movie)
+
+    # 해당 사용자가 클릭한 영화만 뽑아서 user_clicked_movies 에 넣기
+    user_clicked_movies = []
+    for clicked_movie in clicked_movies:
+        if user_id == clicked_movie.user_id:
+            user_clicked_movies.append(clicked_movie) 
+
+    # 클릭한 영화의 정보를 가져와서 clicked_movies_info에 넣기
+    clicked_movies_info = []
+    for clicked_movie in user_clicked_movies:
+        for movie in movies:
+            if clicked_movie.movie_id == movie.movie_id:
+                clicked_movies_info.append(movie)
+    # print(clicked_movies_info)
+    # 중복제거
+    clicked_movies_info_unique = []
+    for clicked_movie_info in clicked_movies_info:
+        if clicked_movie_info not in clicked_movies_info_unique:
+            clicked_movies_info_unique.append(clicked_movie_info)
+    print(clicked_movies_info_unique)
+
+    # 사용자가 클릭한 영화의 장르 중복없이 뽑기
+    genres = []
+    for clicked_movie in clicked_movies_info_unique:
+        a = clicked_movie.genres.all()
+        for b in a:
+            genres.append(b.name)
+
+    genre_unique = []
+    for g in genres:
+        if g not in genre_unique:
+            genre_unique.append(g)
+    # print(genre_unique)
+
+    movies_recommend =[]
+    for movie in movies:
+        mg = movie.genres.all()
+        for i in genre_unique:
+            # print(i)
+            for g in mg:
+                # print(g.name)
+                if g.name == i:
+                    movies_recommend.append(movie)
+    # print(movies_recommend)
+    # 중복제거 후 출력
+    result = []
+    for movie_recommend in movies_recommend:
+        if movie_recommend not in result:
+            result.append(movie_recommend)
+    # print("-------------------------")
+    # print(result)
+    # print("---------------------------")
+    result6 = result[:6]
+    serializer = MovieListSerializer(result6, many=True)
+    return Response(serializer.data)
+'''
+
+@api_view(['GET'])
+def movie_list_genre_recommend(request, user_id):
+    clicked_movies = get_list_or_404(ClickedMovies)
+    movies = get_list_or_404(Movie)
+
+    # 해당 사용자가 클릭한 영화만 뽑아서 user_clicked_movies 에 넣기
+    user_clicked_movies = []
+    for clicked_movie in clicked_movies:
+        if user_id == clicked_movie.user_id:
+            user_clicked_movies.append(clicked_movie)
+
+    # 클릭한 영화의 정보를 가져와서 clicked_movies_info에 넣기
+    clicked_movies_info = []
+    for clicked_movie in user_clicked_movies:
+        for movie in movies:
+            if clicked_movie.movie_id == movie.movie_id:
+                clicked_movies_info.append(movie)
+    # bucket1 = [1]*len(clicked_movies_info)
+    # 중복제거
+    user_clicked_movies_unique = []
+    for clicked_movie_info in clicked_movies_info:
+        if clicked_movie_info not in user_clicked_movies_unique:
+            user_clicked_movies_unique.append(clicked_movie_info)
+    
+    bucket = [0]*len(user_clicked_movies_unique)
+    # 해당 사용자가 클릭 더 많이 할수록 가중치
+    for i in range(len(user_clicked_movies_unique)):
+        for j in range(len(clicked_movies_info)):
+            if user_clicked_movies_unique[i] == clicked_movies_info[j]:
+                bucket[i] +=1
+
+    movies_bucket = [0]*len(movies)
+    for i in range(len(user_clicked_movies_unique)):
+        for j in clicked_movies_info[i].genres.all():
+            for k in range(len(movies)):
+                for l in movies[k].genres.all():
+                    if j == l:
+                        movies_bucket[k] += bucket[i]
+    
+    # print(movies_bucket)
+
+    result = random.choices(movies, movies_bucket, k = 6)
+    serializer = MovieListSerializer(result, many=True)
+    return Response(serializer.data)
+
+    
+    
+
 
 
 @api_view(['GET'])
