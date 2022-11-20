@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Genre, Credit, Comment, ClickedMovies
+from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video
 
 # 영화 리스트
 
@@ -14,7 +14,7 @@ class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ('movie_id', 'title', 'overview', 'genres',
-                  'vote_avg', 'released_date', 'popularity', 'poster_path')
+                  'vote_avg', 'released_date', 'popularity', 'poster_path', 'backdrop_path')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -37,4 +37,13 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ClickedMovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClickedMovies
+        fields = '__all__'
 
+
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = '__all__'

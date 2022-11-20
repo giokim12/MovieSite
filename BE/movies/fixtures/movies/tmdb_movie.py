@@ -1,6 +1,5 @@
-import requests
 import json
-import os
+import requests
 TMDB_API_KEY = '94cfb0b050444c186251cd8dee48a17d'
 
 movie_id = []
@@ -23,6 +22,7 @@ def get_movie_datas():
                     'vote_avg': movie['vote_average'],
                     'overview': movie['overview'],
                     'poster_path': movie['poster_path'],
+                    'backdrop_path': movie['backdrop_path'],
                     'genres': movie['genre_ids']
                 }
 
@@ -63,5 +63,32 @@ def get_credit_datas():
         json.dump(total_data, w, indent="\t", ensure_ascii=False)
 
 
+def get_video_datas():
+    total_data = []
+    for mid in movie_id:
+        request_url = f"https://api.themoviedb.org/3/movie/{mid}/videos?api_key={TMDB_API_KEY}&language=ko-KR"
+        get_videos = requests.get(request_url).json()
+        for video in get_videos['results']:
+            fields = {
+                'key': video['key'],
+                "movie_id": mid,
+                'iso_639_1': video['iso_639_1'],
+                'iso_3166_1': video['iso_3166_1'],
+                'name': video['name'],
+                'site': video['site'],
+                'video_id': video['id'],
+                'published_at': video['published_at'],
+            }
+            data = {
+                'model': "movies.video",
+                "fields": fields
+            }
+            total_data.append(data)
+    print(len(total_data))
+    with open("video.json", "w", encoding="utf-8") as w:
+        json.dump(total_data, w, indent="\t", ensure_ascii=False)
+
+
 get_movie_datas()
 get_credit_datas()
+get_video_datas()
