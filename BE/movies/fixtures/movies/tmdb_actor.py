@@ -6,12 +6,13 @@ TMDB_API_KEY = '94cfb0b050444c186251cd8dee48a17d'
 person_id = []
 total_data = []
 
+
 def get_person_datas():
-    
+
     # 배우 만명을 불러오겠삼
-    for i in range(1, 1000):
-    # for i in range(1, 3):
-        request_url = f"https://api.themoviedb.org/3/person/{i}?api_key={TMDB_API_KEY}&language=en-US"
+    for i in range(1, 10000):
+        # for i in range(1, 3):
+        request_url = f"https://api.themoviedb.org/3/person/{i}?api_key={TMDB_API_KEY}&language=ko-KR"
         person = requests.get(request_url).json()
 
         # print(person)
@@ -29,7 +30,11 @@ def get_person_datas():
                     'name': person['name'],
                     'gender': person['gender'],
                     'popularity': person['popularity'],
-                    'profile_path': person['profile_path']
+                    'profile_path': person['profile_path'],
+                    'biography': person['biography'],
+                    'birthday': person['birthday'],
+                    'place_of_birth': person['place_of_birth'],
+                    'homepage': person['homepage'],
                 }
                 # print(person.id)
                 data = {
@@ -43,5 +48,6 @@ def get_person_datas():
 
             with open("person.json", "w", encoding="utf-8") as w:
                 json.dump(total_data, w, indent="\t", ensure_ascii=False)
+
 
 get_person_datas()

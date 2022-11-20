@@ -1,30 +1,39 @@
 <template>
   <div class="text-slate-200">
     <div v-if="video" class="text-center fixed top-0 left-0 w-full h-full bg-opacity-60 bg-black" @click="video=false">
-      <div id="ytplayer" class="text-center fixed top-36 left-[25%]"></div>
+      <div id="ytplayer" class="text-center fixed top-[10%] left-[25%]"></div>
     </div>
-    <div class="font-bold text-5xl">{{movie.title}}</div>
+    <div class="font-bold text-5xl">{{movie?.title}}</div>
     <br>
     <div class="flex">
       <svg class="block h-8 w-8 text-red-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 20 24"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
       <div class="font-bold text-2xl ml-1 mt-0.5">
         {{rate}}
-        ({{comment.length}})
+        ({{comment?.length}})
         •
-        {{movie.released_date}}
+        {{movie?.released_date}}
       </div>
     </div>
     <br>
     <button @click="showModalMethod" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-blue-700 rounded w-80 h-16">
       ▶ 트레일러
     </button>
-    <!-- <MovieTrailerVue v-if="showModal" @close="showModal=false" :movieKey="key">
-      <div slot="body">
-        <div id="ytplayer"></div>
+    <div class="font-bold text-1xl w-[500px] mt-4 text-justify">
+      {{movie?.overview}}
+    </div>
+    <div class="font-bold text-slate-400 text-1xl w-[1000px] mt-4 flex">
+      <div class="mr-4">
+        장르
       </div>
-    </MovieTrailerVue> -->
-    <div class="font-bold text-1xl w-[500px] mt-4">
-      {{movie.overview}}
+      <span class="mr-1">|</span>
+      <span v-for="(genre, idx) in movie?.genres" :key="idx" class="mr-1">{{ genre.name }} | </span>
+    </div>
+    <div class="font-bold text-slate-400 text-1xl w-[1000px] mt-1 flex">
+      <div class="mr-4">
+        출연
+      </div>
+      <span class="mr-1">|</span>
+      <span v-for="actor in actors?.slice(0, 3)" :key="actor.persod_id" class="mr-1">{{ actor.name }} | </span>
     </div>
   </div>
 </template>
@@ -46,13 +55,14 @@ export default {
   },
   props: {
     movie:Object,
-    comment:Object
+    comment:Array,
+    actors:Array
   },
   computed: {
     rate() {
       let totalRate = 0
       let result = 0
-      console.log(this.comment)
+      // console.log(this.comment)
       if (this.comment.length > 0) {
         this.comment.forEach((el) => { totalRate += el.rate})
         result = (totalRate/this.comment.length).toFixed(1)
@@ -91,7 +101,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 let player;
 // eslint-disable-next-line
 function onYouTubePlayerAPIReady(movieKey) {
-  console.log('qkwpodkqwpodkp')
+  // console.log('qkwpodkqwpodkp')
   // eslint-disable-next-line
   player = new YT.Player('ytplayer', {
     height: '860',
@@ -109,6 +119,9 @@ function onYouTubePlayerAPIReady(movieKey) {
   });
 }
 </script>
+/* eslint-disable */
+<!-- <script src="../../../assets/actors.js"></script> -->
 
 <style>
+/* @import "../../../assets/actors.css"; */
 </style>

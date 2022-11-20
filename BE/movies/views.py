@@ -16,7 +16,6 @@ def movie_list_voted(request):
         for movie in movies:
             if movie.vote_avg > 5:
                 voted_movies.append(movie)
-        # print(new_movies[0].vote_avg)
         voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
         voted_movies10 = voted_movies[:6]
         serializer = MovieListSerializer(voted_movies10, many=True)
@@ -86,7 +85,7 @@ def movie_list_clicked(request, user_id):
 def actor_list(request, movie_id):
     if request.method == 'GET':
         actors = get_list_or_404(Credit, movie=movie_id)
-        actors_5 = actors[:5]
+        actors_5 = actors[:10]
         serializer = ActorSerializer(actors_5, many=True)
         return Response(serializer.data)
 
