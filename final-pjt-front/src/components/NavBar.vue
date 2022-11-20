@@ -7,10 +7,13 @@
           </router-link>
         </div>
         <div>
+          <button v-if="isLogin" class="text-white mr-3">{{ nickname.nickname }} 님 환영합니다!</button>
+        </div>
+        <div>
           <router-link v-if="!isLogin" to="/signup" class="text-white mr-3">회원가입</router-link>
           <router-link v-if="!isLogin" to="/login" class="text-white rounded">로그인</router-link>
-          <button v-if="isLogin" class="text-white mr-3">{{ nickname.nickname }} 님 환영합니다!</button>
-          <button v-if="isLogin" @click="logout" class="text-white">로그아웃</button>
+          <button v-if="isLogin" @click="logout" class="text-white mr-3 hover:underline">로그아웃</button>
+          <router-link v-if="isLogin" to="/profile" class="text-white">내 프로필</router-link>
         </div>
       </div>
     </nav>
