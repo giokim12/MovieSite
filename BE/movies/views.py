@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Movie, Genre, Credit, Comment, ClickedMovies
+from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video
 from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer
 # Create your views here.
 
@@ -105,6 +105,19 @@ def movie_detail(request, movie_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def movie_detail_video(request, movie_id):
+
+    video = get_list_or_404(Video, movie_id=movie_id)
+    print(video)
+    get_video = video[:1]
+    print(get_video)
+    if request.method == 'GET':
+        serializer = VideoSerializer(get_video, many=True)
+        print(serializer.data)
+        return Response(serializer.data)
 
 
 @api_view(['GET'])
