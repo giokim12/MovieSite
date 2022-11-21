@@ -84,11 +84,11 @@ import CommentFormVue from './components/CommentForm.vue';
 import CommentListVue from './components/CommentList.vue';
 import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
 import { Carousel, Slide } from 'vue-carousel';
-import { VueScreenSizeMixin } from 'vue-screen-size';
+// import { VueScreenSizeMixin } from 'vue-screen-size';
 
 export default {
   name: "MovieDetailView",
-  mixins: [VueScreenSizeMixin],
+  // mixins: [VueScreenSizeMixin],
   components: {
     // ActorList,
     CommentFormVue,
