@@ -71,7 +71,15 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class CommentLike(models.Model):
+    like_id = models.AutoField(primary_key=True)
+    comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+
+
 class ClickedMovies(models.Model):
     clicked_movie_id = models.AutoField(primary_key=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)

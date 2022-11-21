@@ -33,6 +33,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 # class LoginSerializer(serializers.Serializer):
 #     # 1.
 #     username = serializers.CharField(max_length=255, write_only=True)
