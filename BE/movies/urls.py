@@ -10,7 +10,7 @@ urlpatterns = [
     path('movies/clicked/<int:user_id>', views.movie_list_clicked),
     # path('movies/similar/<int:user_id>', views.movie_list_similar),
     path('movies/recommend/genre/<int:user_id>', views.movie_list_genre_recommend),
-    # path('movies/recommend/actor/<int:user_id>', views.movie_list_actor_recommend),
+    path('movies/recommend/euclidean/<int:user_id>', views.movie_list_euclidean_recommend),
 
     path('detail/<int:movie_id>/', views.movie_detail),
     path('detail/video/<int:movie_id>', views.movie_detail_video),

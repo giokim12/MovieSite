@@ -20,6 +20,7 @@ export default new Vuex.Store({
     moviesOld: [],
     moviesClicked: [],
     moviesAlgoGenre: [],
+    moviesAlgoEuc: [],
 
     // main end
 
@@ -72,6 +73,9 @@ export default new Vuex.Store({
     },
     GET_ALGO_GENRES(state, movies) {
       state.moviesAlgoGenre = movies;
+    },
+    GET_ALGO_EUC(state, movies) {
+      state.moviesAlgoEuc = movies;
     },
     // main end
 
@@ -142,6 +146,18 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit("GET_ALGO_GENRES", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAlgoEuc(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/recommend/euclidean/${user_id}`,
+      })
+        .then((res) => {
+          context.commit("GET_ALGO_EUC", res.data);
         })
         .catch((err) => {
           console.log(err);
