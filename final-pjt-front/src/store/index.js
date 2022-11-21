@@ -27,6 +27,7 @@ export default new Vuex.Store({
     // detail start
 
     comments: [],
+    moviesSimilar: [],
   },
   getters: {},
   mutations: {
@@ -86,6 +87,9 @@ export default new Vuex.Store({
     },
     NOT_COMMENT_LIST(state) {
       state.comments = [];
+    },
+    GET_SIMILAR_MOVIES(state, movies) {
+      state.moviesSimilar = movies;
     },
     //detail end
   },
@@ -178,6 +182,18 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err);
           context.commit("NOT_COMMENT_LIST");
+        });
+    },
+    getSimilarMovies(context, movie_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/similar/${movie_id}/`,
+      })
+        .then((res) => {
+          context.commit("GET_SIMILAR_MOVIES", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },
