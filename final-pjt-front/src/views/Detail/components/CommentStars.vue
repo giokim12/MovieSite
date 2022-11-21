@@ -2,7 +2,7 @@
   <div>
     <div class="flex">
       <div class="font-bold text-8xl mr-3">
-        {{rate}}
+        {{rate ? rate : '0.0'}}
       </div>
       <svg style="display:none;">
         <defs>
@@ -26,19 +26,31 @@
         <svg><use xlink:href="#fivestars"/></svg>
       </div>
     </div>
+    <div>
+      <CommentCreateVue
+        :movie='movie'
+        class="mt-5"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import CommentCreateVue from './CommentCreate.vue'
+
 export default {
   name:'CommentStars',
   props: {
     comment:Array,
+    movie:Object
+  },
+  components: {
+    CommentCreateVue
   },
   computed: {
     rate() {
-      let totalRate = 0
-      let result = 0
+      let totalRate = 0.0
+      let result = 0.0
       if (this.comment.length > 0) {
         this.comment.forEach((el) => { totalRate += el.rate})
         result = (totalRate/this.comment.length).toFixed(1)

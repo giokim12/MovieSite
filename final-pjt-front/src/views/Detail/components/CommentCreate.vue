@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <h2>나는 댓글다는곳</h2>
+  <div class="bg-[#1C1C1C] p-5 w-[650px]">
+    <div class="text-3xl">{{ movie.title }}</div>
+    <div class="text-3xl">어떠셨나요?</div>
+    <div class="text-xl my-3">다른 사용자가 참고할 수 있도록 리뷰를 남겨보세요.</div>
     <form @submit.prevent="createComment">
-      <label for="rate">별점</label>
       <!-- <input v-model="rate" type="number" id="rate"> -->
+      <input type="submit" id="submit" class="float-right bg-[gray] p-2 mt-1 rounded" value="작성하기"/>
       <StarRatingVue v-model="rate"/>
-      <textarea v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
-      <br>
-      <input type="submit" id="submit" value="댓글 작성">
+      <span></span>
+      <textarea v-model="content" name="content" id="content" cols="48" rows="10" class="text-white bg-black text-2xl mt-1"></textarea>
     </form>
   </div>
 </template>
@@ -18,7 +19,7 @@ const API_URL = 'http://127.0.0.1:8000'
 import StarRatingVue from './StarRating.vue'
 
 export default {
-  name: "CommentForm",
+  name: "CommentCreate",
   data() {
     return {
       rate: 3,
@@ -39,7 +40,7 @@ export default {
   methods: {
     createComment() {
       if (!this.isLogin) {
-        alert('로그인이 필요합니다.')
+        alert('로그인이 하세용.')
       } else if (this.isLogin){
         console.log(this.$store.state.userdata)
         const rate = this.rate
@@ -64,8 +65,9 @@ export default {
             Authorization: `Bearer ${this.$store.state.access}`
           }
         })
-          .then((res) => {
-            console.log(res)
+          .then(() => {
+            this.content = null
+            this.rate = 3
             this.$store.dispatch("getCommentList", this.$route.params.movie_id)
           })
           .catch((err) => {
