@@ -1,12 +1,17 @@
 <template>
   <div>
     <h2 class="text-white">투표 내림차순 정렬</h2>
-    <div class="flex">
-      <MovieListItem
-        v-for = "(movie, idx) in movies_voted"
-        :key = "`movie${idx}`"
-        :movie = "movie"
-      />
+    <div class="w-full h-full">
+      <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" centerMode="true" autoplay="true" loop="true" autoplayTimeout="6000" speed="1000">
+        <slide
+          v-for = "(movie, idx) in movies_voted"
+          :key = "`movie${idx}`"
+          :movie = "movie"
+          class="h-full"
+        >
+          <MovieListItem :movie = "movie"/>
+        </slide>
+      </Carousel>
     </div>
     <hr>
     <h2 class="text-white">인기도 내림차순 정렬</h2>
@@ -63,11 +68,14 @@
 
 <script>
 import MovieListItem from '@/views/Main/components/MovieListItem'
+import { Carousel, Slide } from 'vue-carousel';
 
 export default {
   name: "PopularMovieList",
   components: {
-    MovieListItem
+    MovieListItem,
+    Carousel,
+    Slide
   },
   computed: {
     movies_voted () {

@@ -18,7 +18,7 @@
         <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
           <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
             <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-red-500 bg-white': openTab !== 1, 'text-white bg-red-500': openTab === 1}">
-              포스터
+              코멘트
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
@@ -35,8 +35,16 @@
         <div class="relative flex flex-col min-w-0 break-words w-full mb-3 shadow-lg rounded">
           <div class="px-4 py-5 flex-auto">
             <div class="tab-content tab-space">
-              <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" class="place-items-center">
-                <img :src="posterPath" class="w-[90%] h-[70%] place-items-center mx-auto" alt="">
+              <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" class="text-white flex">
+                <CommentStarsVue
+                  :comment="get_comment"
+                  class="border border-white mr-2"
+                >
+                </CommentStarsVue>
+                <CommentListVue
+                  :movie= "movie"
+                  class="border border-white"
+                />
               </div>
               <div class="actors" v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <Carousel :per-page="5" paginationColor="white" paginationActiveColor="#FF3471" class="text-white">
@@ -61,12 +69,9 @@
               </div>
               <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
                 <CommentFormVue
-                  :movie= "movie"
-                />
-                <hr>
-                <CommentListVue
-                  :movie= "movie"
-                />
+                    :movie= "movie"
+                    class="border border-white col-span-1"
+                  />
               </div>
             </div>
           </div>
@@ -80,19 +85,19 @@
 import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 import ActorProfile from "@/views/Detail/components/ActorProfile";
+import CommentStarsVue from './components/CommentStars.vue';
 import CommentFormVue from './components/CommentForm.vue';
 import CommentListVue from './components/CommentList.vue';
 import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
 import { Carousel, Slide } from 'vue-carousel';
-// import { VueScreenSizeMixin } from 'vue-screen-size';
 
 export default {
   name: "MovieDetailView",
-  // mixins: [VueScreenSizeMixin],
   components: {
     // ActorList,
     CommentFormVue,
     CommentListVue,
+    CommentStarsVue,
     ActorProfile,
     MovieDetailTopTextVue,
     Carousel,

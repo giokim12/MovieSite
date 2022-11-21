@@ -1,6 +1,6 @@
 <template>
-    <div class="m-3" @click="goDetail(), addView()">
-      <img class="w-64 h-80 rounded-xl lg:hover:scale-110 transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
+    <div class="m-3 h-[100%]" @click="goDetail(), addView()">
+      <img class="w-[90%] h-[100%] rounded-xl lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
     </div>
 </template>
 
