@@ -126,7 +126,6 @@ def movie_list_genre_recommend(request, user_id):
                     if j == l:
                         movies_bucket[k] += bucket[i]
 
-
     # print(movies_bucket)
 
     result = random.choices(movies, movies_bucket, k=6)
@@ -240,6 +239,8 @@ def movie_detail_video(request, movie_id):
         return Response(serializer.data)
 
 # 내가 디테일 페이지 들어간 영화랑 같은 장르 가진 영화들 모두 추출
+
+
 @api_view(['GET'])
 def movie_list_similar(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -251,7 +252,7 @@ def movie_list_similar(request, movie_id):
     for b in a:
         genres.append(b.name)
 
-    movies_recommend =[]
+    movies_recommend = []
     for genre in genres:
         for m in movies:
             g = m.genres.all()
@@ -268,7 +269,6 @@ def movie_list_similar(request, movie_id):
     result6 = result[:6]
     serializer = MovieListSerializer(result6, many=True)
     return Response(serializer.data)
-
 
 
 @api_view(['GET'])
@@ -322,16 +322,12 @@ def comment_like_list(request, comment_id):
 @permission_classes((IsAuthenticated, ))
 def comment_like_detail(request, comment_id):
     likes = get_list_or_404(CommentLike, comment_id=comment_id)
-    print('---------------------')
-    print('---------------------')
-    print('---------------------')
-    print('---------------------')
-    print('---------------------')
+
     # print(request.data['user_id'])
     if request.method == 'DELETE':
         for like in likes:
             if str(like.user_id) == str(request.data['user_id']):
-                print('qwdqwdqdqwdqwdqqwd')
+                # print('qwdqwdqdqwdqwdqqwd')
                 # serializer = CommentLikeSerializer(data=request.data)
                 # print(serializer.data)
                 data = {

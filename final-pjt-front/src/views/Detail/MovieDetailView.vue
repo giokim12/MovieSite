@@ -38,6 +38,7 @@
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" class="text-white flex">
                 <CommentStarsVue
                   :comment="get_comment"
+                  :movie="movie"
                   class="mr-5 min-w-96"
                 >
                 </CommentStarsVue>
@@ -45,10 +46,10 @@
                   :movie= "movie"
                   class="ml-5 w-full"
                 />
-                <!-- <CommentFormVue
+                <!-- <CommentCreateVue
                   :movie= "movie"
-                  class="border border-white col-span-1">
-                  /> -->
+                  class="border border-white">
+                ></CommentCreateVue> -->
               </div>
               <div class="actors" v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <Carousel :per-page="5" paginationColor="white" paginationActiveColor="#FF3471" class="text-white">
@@ -79,7 +80,7 @@ import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 import ActorProfile from "@/views/Detail/components/ActorProfile";
 import CommentStarsVue from './components/CommentStars.vue';
-// import CommentFormVue from './components/CommentForm.vue';
+// import CommentCreateVue from './components/CommentCreate.vue';
 import CommentListVue from './components/CommentList.vue';
 import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
 import { Carousel, Slide } from 'vue-carousel';
@@ -89,7 +90,7 @@ export default {
   name: "MovieDetailView",
   components: {
     // ActorList,
-    // CommentFormVue,
+    // CommentCreateVue,
     CommentListVue,
     CommentStarsVue,
     ActorProfile,

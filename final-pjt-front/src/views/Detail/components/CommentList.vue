@@ -10,6 +10,7 @@
       v-for="(comment, idx) in get_comment"
       :key="idx"
       :comment="comment"
+      v-on:del="getCommentList"
     />
   </div>
 </template>

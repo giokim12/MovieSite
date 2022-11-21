@@ -83,11 +83,37 @@ export default {
         .then((res) => {
           onYouTubePlayerAPIReady(res.data[0].key)
         })
-        .catch((err) => {
-          console.log(err)
-          
+        .catch(() => {
+          this.getYoutube()
         })
-    }
+    },
+    getYoutube() {
+      let URL = `https://www.googleapis.com/youtube/v3/search`
+      const API_KEY = 'AIzaSyB1iUyONDiUkQt3nMDN4T9pcxuOi4BXw-0'
+      // let params = {
+      //   key: API_KEY,
+      //   type: 'video',
+      //   part: 'snippet',
+      //   q: '슈렉',
+      //   maxResults: 20,
+      // }
+      // then: 성공하면 수행할 로직, catch: 실패하면 수행할 로직
+      axios({
+        method: 'get',
+        url: `${URL}?key=${API_KEY}&type=video&part=snippet&q=${this.movie.title}&maxResuluts=20`,
+        headers: {
+          Authorization: `Bearer ${this.$store.state.access}`
+        }
+      })
+      
+        .then((response) => {
+          console.log(response.data.items)
+          // this.$store.dispatch('videoPush', response.data.items)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   }
 }
 let tag = document.createElement('script');
