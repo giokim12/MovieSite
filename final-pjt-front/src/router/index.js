@@ -5,7 +5,7 @@ import SignupView from "../views/SignupView.vue";
 import LoginView from "../views/LoginView.vue";
 import MainView from "@/views/Main/MainView";
 import MovieDetailView from "@/views/Detail/MovieDetailView.vue";
-// import MyProfileView from '../views/MyProfileView.vue'
+import MyProfileView from '@/views/Profile/MyProfileView'
 // import UnseenMovieView from '../views/UnseenMovieView.vue'
 // import AccountDeleteView from '../views/AccountDeleteView.vue'
 
@@ -39,11 +39,11 @@ const routes = [
     name: "detail",
     component: MovieDetailView,
   },
-  // {
-  //   path: "/profile",
-  //   name: "profile",
-  //   component: MyProfileView,
-  // }
+  {
+    path: "/profile",
+    name: "profile",
+    component: MyProfileView,
+  }
 ];
 
 const router = new VueRouter({

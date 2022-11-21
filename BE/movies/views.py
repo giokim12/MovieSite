@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video
 from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer
 import random
+from scipy.stats import pearsonr
 
 # Create your views here.
 
@@ -196,6 +197,71 @@ def movie_list_genre_recommend(request, user_id):
     serializer = MovieListSerializer(result, many=True)
     return Response(serializer.data)
 
+
+# 유사도측정(유클리디안 거리)
+@api_view(['GET'])
+def movie_list_euclidean_recommend(request, user_id):
+    clicked_movies = get_list_or_404(ClickedMovies)
+    movies = get_list_or_404(Movie)
+
+    # 해당 사용자가 클릭한 영화만 뽑아서 user_clicked_movies 에 넣기
+    user_clicked_movies = []
+    for clicked_movie in clicked_movies:
+        if user_id == clicked_movie.user_id:
+            user_clicked_movies.append(clicked_movie)
+
+    # 클릭한 영화의 정보를 가져와서 clicked_movies_info에 넣기
+    clicked_movies_info = []
+    for clicked_movie in user_clicked_movies:
+        for movie in movies:
+            if clicked_movie.movie_id == movie.movie_id:
+                clicked_movies_info.append(movie)
+
+    # 클릭한 영화 중복제거
+    # # bucket1 = [1]*len(clicked_movies_info)
+    user_clicked_movies_unique = []
+    for clicked_movie_info in clicked_movies_info:
+        if clicked_movie_info not in user_clicked_movies_unique:
+            user_clicked_movies_unique.append(clicked_movie_info)
+
+    # 클릭한 영화의 인기도랑 투표수만 가져와서 배열에 넣기
+    user_clicked_movies_numbers = []
+    for user_clicked_movie_unique in user_clicked_movies_unique:
+        user_clicked_movies_numbers.append([user_clicked_movie_unique.vote_avg, user_clicked_movie_unique.popularity])
+    # print(user_clicked_movies_numbers)
+
+    # 모든 영화의 인기도랑 투표수만 가져와서 배열에 넣기
+    movies_numbers = []
+    for movie in movies:
+        movies_numbers.append([movie.vote_avg, movie.popularity])  
+    # print(movies_numbers)
+
+    # 유클리디안 거리 구하기
+    euc = []
+    for user_clicked_movie_numbers in user_clicked_movies_numbers:
+        for i in range(len(movies_numbers)):
+            temp = []
+            dist = ((movies_numbers[i][0]-user_clicked_movie_numbers[0])**2 +(movies_numbers[i][1]-user_clicked_movie_numbers[1])**2 )**(1/2)
+            if dist != 0:
+                temp.append(dist)
+                temp.append(movies[i])
+                euc.append(temp)
+
+    euc = sorted(euc, key = lambda x: x[0])
+    # 중복 없애기
+    result = []
+    for e in euc:
+        if e not in result:
+            result.append(e)
+
+    final_result = []
+    for k in result:
+        final_result.append(k[1])
+    
+    result6 = final_result[:6]
+
+    serializer = MovieListSerializer(result6, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def actor_list(request, movie_id):

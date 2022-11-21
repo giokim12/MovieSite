@@ -53,6 +53,16 @@
         class="flex"
       />
     </div>
+    <hr>
+    <h2 class="text-white">유클리디안 거리</h2>
+    <div class="flex">
+      <MovieListItem
+        v-for = "(movie, idx) in movies_algo_euc"
+        :key = "idx"
+        :movie = "movie"
+        class="flex"
+      />
+    </div>
   </div>
 </template>
 
@@ -82,7 +92,10 @@ export default {
     },
     movies_algo_genre() {
       return this.$store.state.moviesAlgoGenre
-    }
+    },
+    movies_algo_euc() {
+      return this.$store.state.moviesAlgoEuc
+    },
   }
 }
 
