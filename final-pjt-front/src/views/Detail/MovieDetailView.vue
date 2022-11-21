@@ -28,7 +28,7 @@
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
             <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-red-500 bg-white': openTab !== 3, 'text-white bg-red-500': openTab === 3}">
-              코멘트
+              영화
             </a>
           </li>
         </ul>
@@ -45,6 +45,10 @@
                   :movie= "movie"
                   class="border border-white"
                 />
+                <!-- <CommentFormVue
+                  :movie= "movie"
+                  class="border border-white col-span-1">
+                  /> -->
               </div>
               <div class="actors" v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <Carousel :per-page="5" paginationColor="white" paginationActiveColor="#FF3471" class="text-white">
@@ -68,10 +72,7 @@
                 </Carousel>
               </div>
               <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-                <CommentFormVue
-                    :movie= "movie"
-                    class="border border-white col-span-1"
-                  />
+                <SimilarMovieList/>
               </div>
             </div>
           </div>
@@ -86,22 +87,24 @@ import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
 import ActorProfile from "@/views/Detail/components/ActorProfile";
 import CommentStarsVue from './components/CommentStars.vue';
-import CommentFormVue from './components/CommentForm.vue';
+// import CommentFormVue from './components/CommentForm.vue';
 import CommentListVue from './components/CommentList.vue';
 import MovieDetailTopTextVue from './components/MovieDetailTopText.vue';
 import { Carousel, Slide } from 'vue-carousel';
+import SimilarMovieList from './components/SimilarMovieList.vue';
 
 export default {
   name: "MovieDetailView",
   components: {
     // ActorList,
-    CommentFormVue,
+    // CommentFormVue,
     CommentListVue,
     CommentStarsVue,
     ActorProfile,
     MovieDetailTopTextVue,
     Carousel,
     Slide,
+    SimilarMovieList,
   },
   data() {
     return {
@@ -125,6 +128,7 @@ export default {
     this.getActorsbyMovie()
     this.getMovieDetail()
     this.getCommentList()
+    this.getSimilar() 
   },
   methods: {
     getMovieDetail() {
@@ -160,8 +164,11 @@ export default {
     },
     search(name) {
       window.open('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query='+name)
+    },
+    getSimilar() {
+      this.$store.dispatch("getSimilarMovies", this.$route.params.movie_id);
     }
-  }
+  },
 };
 </script>
 <!-- <script src="../../assets/actors.js"></script> -->
