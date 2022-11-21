@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section class="bg-black">
+    <section class="bg-black h-screen">
       <!-- <img src="../assets/jwt-bg.png" alt="bg">  -->
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
         <div class="flex items-center mb-6">
             <img class="w-80 h-60 mr-2 text-white" src="../assets/logo.png" alt="logo">  
         </div>

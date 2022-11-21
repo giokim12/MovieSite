@@ -2,7 +2,7 @@
   <div class="profile-div">
     <section class="bg-black bg-opacity-75 h-screen">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
-        <div class="w-full bg-black rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-2 opacity-100">
+        <div class="w-full rounded-xl shadow dark:border md:mt-0 sm:max-w-md xl:p-2 opacity-100">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8 bg-black rounded-xl border border-white">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
               내 프로필
@@ -24,9 +24,9 @@
                     <button class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm mx-6 px-5 py-2.5 mb-10 text-center">안보고싶은영화보러가기</button>
                   </div>
                   <div class="flex">
-                    <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm mx-6 px-5 py-2.5 text-center">적용하기</button>
-                    <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                      <router-link to="/main" class="text-white mr-3">취소하기</router-link>
+                    <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm mr-6 px-3 py-2.5 text-center">적용하기</button>
+                    <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-3 py-2.5 text-center">
+                      <router-link to="/main" class="text-white">취소하기</router-link>
                     </button>
                   </div>
               </form>

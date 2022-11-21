@@ -87,70 +87,6 @@ def movie_list_clicked(request, user_id):
         return Response(serializer.data)
 
 
-'''
-# 내가 클릭한 영화들과 같은 장르 가진 영화들 모두 추출
-@api_view(['GET'])
-def movie_list_genre_recommend(request, user_id):
-    clicked_movies = get_list_or_404(ClickedMovies)
-    movies = get_list_or_404(Movie)
-
-    # 해당 사용자가 클릭한 영화만 뽑아서 user_clicked_movies 에 넣기
-    user_clicked_movies = []
-    for clicked_movie in clicked_movies:
-        if user_id == clicked_movie.user_id:
-            user_clicked_movies.append(clicked_movie) 
-
-    # 클릭한 영화의 정보를 가져와서 clicked_movies_info에 넣기
-    clicked_movies_info = []
-    for clicked_movie in user_clicked_movies:
-        for movie in movies:
-            if clicked_movie.movie_id == movie.movie_id:
-                clicked_movies_info.append(movie)
-    # print(clicked_movies_info)
-    # 중복제거
-    clicked_movies_info_unique = []
-    for clicked_movie_info in clicked_movies_info:
-        if clicked_movie_info not in clicked_movies_info_unique:
-            clicked_movies_info_unique.append(clicked_movie_info)
-    print(clicked_movies_info_unique)
-
-    # 사용자가 클릭한 영화의 장르 중복없이 뽑기
-    genres = []
-    for clicked_movie in clicked_movies_info_unique:
-        a = clicked_movie.genres.all()
-        for b in a:
-            genres.append(b.name)
-
-    genre_unique = []
-    for g in genres:
-        if g not in genre_unique:
-            genre_unique.append(g)
-    # print(genre_unique)
-
-    movies_recommend =[]
-    for movie in movies:
-        mg = movie.genres.all()
-        for i in genre_unique:
-            # print(i)
-            for g in mg:
-                # print(g.name)
-                if g.name == i:
-                    movies_recommend.append(movie)
-    # print(movies_recommend)
-    # 중복제거 후 출력
-    result = []
-    for movie_recommend in movies_recommend:
-        if movie_recommend not in result:
-            result.append(movie_recommend)
-    # print("-------------------------")
-    # print(result)
-    # print("---------------------------")
-    result6 = result[:6]
-    serializer = MovieListSerializer(result6, many=True)
-    return Response(serializer.data)
-'''
-
-
 @api_view(['GET'])
 def movie_list_genre_recommend(request, user_id):
     clicked_movies = get_list_or_404(ClickedMovies)
@@ -189,6 +125,7 @@ def movie_list_genre_recommend(request, user_id):
                 for l in movies[k].genres.all():
                     if j == l:
                         movies_bucket[k] += bucket[i]
+
 
     # print(movies_bucket)
 
@@ -301,6 +238,37 @@ def movie_detail_video(request, movie_id):
         serializer = VideoSerializer(get_video, many=True)
         print(serializer.data)
         return Response(serializer.data)
+
+# 내가 디테일 페이지 들어간 영화랑 같은 장르 가진 영화들 모두 추출
+@api_view(['GET'])
+def movie_list_similar(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    movies = get_list_or_404(Movie)
+
+    # 이 영화의 장르 중복없이 뽑기
+    genres = []
+    a = movie.genres.all()
+    for b in a:
+        genres.append(b.name)
+
+    movies_recommend =[]
+    for genre in genres:
+        for m in movies:
+            g = m.genres.all()
+            for i in g:
+                if i.name == genre:
+                    movies_recommend.append(m)
+
+    # # 중복제거 후 출력
+    result = []
+    for movie_recommend in movies_recommend:
+        if movie_recommend not in result:
+            result.append(movie_recommend)
+
+    result6 = result[:6]
+    serializer = MovieListSerializer(result6, many=True)
+    return Response(serializer.data)
+
 
 
 @api_view(['GET'])

@@ -1,7 +1,15 @@
 <template>
-    <div class="m-3 h-[100%]" @click="goDetail(), addView()">
-      <img class="w-[90%] h-[100%] rounded-xl lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer" :src="imgPath" alt="...">
+  <div>
+    <div @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] border border-white lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" @click="goDetail(), addView()">
+      <!-- <div :style="{backgroundImage: `url('${imgPath}')`}"></div> -->
+      <img class="w-[90%] h-[100%] rounded-xl hihi" :src="imgPath" alt="...">
+      <div :class="isHover? 'visible' : 'invisible'" class="w-[90%] h-[100%] border border-red-700 del-button-container">
+        <button :class="isHover? 'visible' : 'invisible'" class="text-white border border-white del-button ">
+          <router-link to="/home" class="router-temp">{{ isHover }}</router-link>
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -10,6 +18,11 @@ const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: "MovieListItem",
+  data() {
+    return{
+      isHover: false
+    }
+  },
   props: {
     movie: Object
   },
@@ -22,6 +35,10 @@ export default {
     }
   },
   methods: {
+    hover() {
+      // alert(!this.isHover)
+      this.isHover = !this.isHover
+    },
     goDetail() {
       this.$router.push({ name: 'detail', params: { movie_id:this.movie.movie_id }})
     },
@@ -55,5 +72,33 @@ export default {
   -webkit-box-orient:vertical; 
   overflow:hidden; 
   text-overflow:ellipsis;
+}
+
+.movie-card {
+  /* background-image: :src="imgPath"; */
+  position: relative;
+
+
+}
+
+.hihi {
+
+}
+
+.del-button-container {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+
+}
+.del-button {
+  position: absolute;
+  top: 80%;
+  left: 70%;
+
+}
+
+.router-temp {
+
 }
 </style>

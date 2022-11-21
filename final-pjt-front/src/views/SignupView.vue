@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="bg-black">
+    <section class="bg-black h-screen">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
         <div class="flex items-center mt-8 mb-4">
             <img class="w-80 h-60 mr-2 text-white" src="../assets/logo.png" alt="logo">  
