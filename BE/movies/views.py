@@ -3,10 +3,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video
-from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer
+from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video, CommentLike
+from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer, CommentLikeSerializer
 import random
-from scipy.stats import pearsonr
 
 # Create your views here.
 
@@ -164,13 +163,14 @@ def movie_list_euclidean_recommend(request, user_id):
     # 클릭한 영화의 인기도랑 투표수만 가져와서 배열에 넣기
     user_clicked_movies_numbers = []
     for user_clicked_movie_unique in user_clicked_movies_unique:
-        user_clicked_movies_numbers.append([user_clicked_movie_unique.vote_avg, user_clicked_movie_unique.popularity])
+        user_clicked_movies_numbers.append(
+            [user_clicked_movie_unique.vote_avg, user_clicked_movie_unique.popularity])
     # print(user_clicked_movies_numbers)
 
     # 모든 영화의 인기도랑 투표수만 가져와서 배열에 넣기
     movies_numbers = []
     for movie in movies:
-        movies_numbers.append([movie.vote_avg, movie.popularity])  
+        movies_numbers.append([movie.vote_avg, movie.popularity])
     # print(movies_numbers)
 
     # 유클리디안 거리 구하기
@@ -178,13 +178,14 @@ def movie_list_euclidean_recommend(request, user_id):
     for user_clicked_movie_numbers in user_clicked_movies_numbers:
         for i in range(len(movies_numbers)):
             temp = []
-            dist = ((movies_numbers[i][0]-user_clicked_movie_numbers[0])**2 +(movies_numbers[i][1]-user_clicked_movie_numbers[1])**2 )**(1/2)
+            dist = ((movies_numbers[i][0]-user_clicked_movie_numbers[0])**2 + (
+                movies_numbers[i][1]-user_clicked_movie_numbers[1])**2)**(1/2)
             if dist != 0:
                 temp.append(dist)
                 temp.append(movies[i])
                 euc.append(temp)
 
-    euc = sorted(euc, key = lambda x: x[0])
+    euc = sorted(euc, key=lambda x: x[0])
     # 중복 없애기
     result = []
     for e in euc:
@@ -194,11 +195,12 @@ def movie_list_euclidean_recommend(request, user_id):
     final_result = []
     for k in result:
         final_result.append(k[1])
-    
+
     result6 = final_result[:6]
 
     serializer = MovieListSerializer(result6, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def actor_list(request, movie_id):
@@ -272,7 +274,6 @@ def movie_list_similar(request, movie_id):
 @api_view(['GET'])
 def comment_list(request, movie_id):
     if request.method == 'GET':
-        # comments = Comment.objects.all()
         comments = get_list_or_404(Comment, movie=movie_id)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
@@ -280,7 +281,6 @@ def comment_list(request, movie_id):
 
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
-    # comment = Comment.objects.get(pk=comment_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     if request.method == 'GET':
@@ -308,3 +308,48 @@ def comment_create(request, movie_id):
     if serializer.is_valid(raise_exception=True):
         serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def comment_like_list(request, comment_id):
+    if request.method == 'GET':
+        comment_likes = get_list_or_404(CommentLike, comment_id=comment_id)
+        serializer = CommentLikeSerializer(comment_likes, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes((IsAuthenticated, ))
+def comment_like_detail(request, comment_id):
+    likes = get_list_or_404(CommentLike, comment_id=comment_id)
+    print('---------------------')
+    print('---------------------')
+    print('---------------------')
+    print('---------------------')
+    print('---------------------')
+    # print(request.data['user_id'])
+    if request.method == 'DELETE':
+        for like in likes:
+            if str(like.user_id) == str(request.data['user_id']):
+                print('qwdqwdqdqwdqwdqqwd')
+                # serializer = CommentLikeSerializer(data=request.data)
+                # print(serializer.data)
+                data = {
+                    'message': 'del'
+                }
+                like.delete()
+                return Response(data, status=status.HTTP_204_NO_CONTENT)
+            else:
+                print('qwdwq')
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+def comment_like_create(request, comment_id):
+
+    comment = get_object_or_404(Comment, comment_id=comment_id)
+    if request.method == 'POST':
+        serializer = CommentLikeSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(comment_id=comment)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)

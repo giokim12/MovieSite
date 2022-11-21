@@ -134,7 +134,7 @@ export default new Vuex.Store({
     getClickedMovies(context, user_id) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies/clicked/${user_id}`,
+        url: `${API_URL}/api/v1/movies/clicked/${user_id}/`,
       })
         .then((res) => {
           context.commit("GET_CLICKED_MOVIES", res.data);
@@ -146,7 +146,7 @@ export default new Vuex.Store({
     getAlgoGenre(context, user_id) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies/recommend/genre/${user_id}`,
+        url: `${API_URL}/api/v1/movies/recommend/genre/${user_id}/`,
       })
         .then((res) => {
           context.commit("GET_ALGO_GENRES", res.data);
@@ -158,7 +158,7 @@ export default new Vuex.Store({
     getAlgoEuc(context, user_id) {
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies/recommend/euclidean/${user_id}`,
+        url: `${API_URL}/api/v1/movies/recommend/euclidean/${user_id}/`,
       })
         .then((res) => {
           context.commit("GET_ALGO_EUC", res.data);

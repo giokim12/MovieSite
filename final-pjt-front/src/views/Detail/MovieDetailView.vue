@@ -38,12 +38,12 @@
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" class="text-white flex">
                 <CommentStarsVue
                   :comment="get_comment"
-                  class="border border-white mr-2"
+                  class="mr-5 min-w-96"
                 >
                 </CommentStarsVue>
                 <CommentListVue
                   :movie= "movie"
-                  class="border border-white"
+                  class="ml-5 w-full"
                 />
                 <!-- <CommentFormVue
                   :movie= "movie"
@@ -57,14 +57,6 @@
                     :key="actor.person_id"
                     class=""
                   >
-                    <!-- <div class="no-underline rounded border border-white m-3 text-center text-xl h-{800px} w-{500px} md:h-{1200px} md:w-{800px}">
-                      <div class="text-center h-[120px] pt-3">
-                        <div class="text-3xl">{{ actor.name }}</div>
-                        <div class="text-2xl mb-2">{{ actor.character }}</div>
-                      </div>
-                      <img :src="'https://image.tmdb.org/t/p/original'+actor.profile_path" class="rounded h-full w-full" alt="">
-                      <div @click="search(actor.name)">detail</div>
-                    </div> -->
                     <ActorProfile
                       :actor="actor"
                     />
