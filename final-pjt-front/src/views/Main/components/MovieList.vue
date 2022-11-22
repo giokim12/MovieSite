@@ -1,6 +1,9 @@
 <template>
   <div>
-      <h2 class="text-white">투표 내림차순 정렬</h2>
+    <div
+      v-if="!isLogin"
+    >
+      <h2 class="text-white">투표 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -14,7 +17,7 @@
         </Carousel>
       </div>
       <hr>
-      <h2 class="text-white">인기도 내림차순 정렬</h2>
+      <h2 class="text-white">인기도 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -28,7 +31,7 @@
         </Carousel>
       </div>
       <hr>
-      <h2 class="text-white">고전명작</h2>
+      <h2 class="text-white">고전명작🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -41,74 +44,97 @@
           </slide>
         </Carousel>
       </div>
-      <hr>
+    </div>
+    <!-- 여기서부터는 로그인 해야지 되는거 -->
     <div
       v-if="isLogin"
     >
+      <!-- <hr> -->
+      <h2 class=" text-white ml-4 pl-2">🍿유클리디안 거리 기반 알고리즘 추천 영화🍿</h2>
+      <div class="w-full h-full">
+        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+          <slide
+            v-for = "(movie, idx) in movies_algo_euc"
+            :key = "`movie${idx}`"
+            :movie = "movie"
+            class="h-full"
+          >
+            <MovieListItem :movie = "movie"/>
+          </slide>
+        </Carousel>
+      </div>
       <hr>
-      <h2 class="text-white">클릭한거</h2>
-      <div class="flex">
-        <MovieListItem
-          v-for = "(movie, idx) in movies_clicked"
-          :key = "idx"
-          :movie = "movie"
-          class="flex"
-        />
+      <h2 class="text-white ml-4 pl-2">🍿장르 기반 추천 영화🍿</h2>
+      <div class="w-full h-full">
+        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+          <slide
+            v-for = "(movie, idx) in movies_algo_genre"
+            :key = "`movie${idx}`"
+            :movie = "movie"
+            class="h-full"
+          >
+            <MovieListItem :movie = "movie"/>
+          </slide>
+        </Carousel>
+      </div>
+      <hr>
+      <h2 class="text-white ml-4 pl-2">🍿요즘 핫한 영화🍿</h2>
+      <div class="w-full h-full">
+        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+          <slide
+            v-for = "(movie, idx) in movies_algo_popular"
+            :key = "`movie${idx}`"
+            :movie = "movie"
+            class="h-full"
+          >
+            <MovieListItem :movie = "movie"/>
+          </slide>
+        </Carousel>
+      </div>
+      <hr>
+      <h2 class="text-white ml-4 pl-2">🍿고전 명작🍿</h2>
+      <div class="w-full h-full">
+        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+          <slide
+            v-for = "(movie, idx) in movies_algo_old"
+            :key = "`movie${idx}`"
+            :movie = "movie"
+            class="h-full"
+          >
+            <MovieListItem :movie = "movie"/>
+          </slide>
+        </Carousel>
+      </div>
+      <hr>
+      <h2 class="text-white ml-4 pl-2">🍿타 이용자들이 극찬한 영화🍿</h2>
+      <div class="w-full h-full">
+        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+          <slide
+            v-for = "(movie, idx) in movies_algo_voted"
+            :key = "`movie${idx}`"
+            :movie = "movie"
+            class="h-full"
+          >
+            <MovieListItem :movie = "movie"/>
+          </slide>
+        </Carousel>
+      </div>
+      <hr>
+      <h2 class="text-white ml-4 pl-2">🍿최근 내가 본 영화🍿</h2>
+      <div class="w-full h-full">
+        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+          <slide
+            v-for = "(movie, idx) in movies_clicked"
+            :key = "`movie${idx}`"
+            :movie = "movie"
+            class="h-full"
+          >
+            <MovieListItem :movie = "movie"/>
+          </slide>
+        </Carousel>
       </div>
     </div>
-    <hr>
-    <h2 class="text-white">장르같은거</h2>
-    <div class="flex">
-      <MovieListItem
-        v-for = "(movie, idx) in movies_algo_genre"
-        :key = "idx"
-        :movie = "movie"
-        class="flex"
-      />
-    </div>
-    <hr>
-    <h2 class="text-white">유클리디안 거리</h2>
-    <div class="flex">
-      <MovieListItem
-        v-for = "(movie, idx) in movies_algo_euc"
-        :key = "idx"
-        :movie = "movie"
-        class="flex"
-      />
-    </div>
-    <hr>
-    <h2 class="text-white">개인 유명영화</h2>
-    <div class="flex">
-      <MovieListItem
-        v-for = "(movie, idx) in movies_algo_popular"
-        :key = "idx"
-        :movie = "movie"
-        class="flex"
-      />
-    </div>
-    <hr>
-    <h2 class="text-white">개인 고전영화</h2>
-    <div class="flex">
-      <MovieListItem
-        v-for = "(movie, idx) in movies_algo_old"
-        :key = "idx"
-        :movie = "movie"
-        class="flex"
-      />
-    </div>
-    <hr>
-    <h2 class="text-white">개인 투표영화</h2>
-    <div class="flex">
-      <MovieListItem
-        v-for = "(movie, idx) in movies_algo_voted"
-        :key = "idx"
-        :movie = "movie"
-        class="flex"
-      />
-    </div>
   </div>
-
-
 </template>
 
 <script>
