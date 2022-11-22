@@ -31,6 +31,9 @@ export default {
     this.getClickedMovies();
     this.getAlgoGenre();
     this.getAlgoEuc();
+    this.getAlgoPopular();
+    this.getAlgoOld();
+    this.getAlgoVoted();
   },
   methods: {
     getPopularMovies() {
@@ -43,7 +46,7 @@ export default {
       this.$store.dispatch("getOldMovies");
     },
     getClickedMovies() {
-      if (this.login) {
+      if (this.isLogin) {
         this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
       }
     },
@@ -57,7 +60,21 @@ export default {
         this.$store.dispatch("getAlgoEuc", this.$store.state.userdata.id);
       }
     },
+    getAlgoPopular() {
+      if (this.isLogin) {
+        this.$store.dispatch("getAlgoPopular", this.$store.state.userdata.id);
+      }
+    },
+    getAlgoOld() {
+      if (this.isLogin) {
+        this.$store.dispatch("getAlgoOld", this.$store.state.userdata.id);
+      }
+    },
+    getAlgoVoted() {
+      if (this.isLogin) {
+        this.$store.dispatch("getAlgoVoted", this.$store.state.userdata.id);
+      }
+    },
   },
 };
-
 </script>
