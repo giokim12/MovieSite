@@ -365,9 +365,6 @@ def comment_like_detail(request, comment_id):
     if request.method == 'DELETE':
         for like in likes:
             if str(like.user_id) == str(request.data['user_id']):
-                # print('qwdqwdqdqwdqwdqqwd')
-                # serializer = CommentLikeSerializer(data=request.data)
-                # print(serializer.data)
                 data = {
                     'message': 'del'
                 }
@@ -397,7 +394,7 @@ def user_profile():
 # 003
 
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 def movie_unseen(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     if request.method == "POST":
@@ -405,6 +402,23 @@ def movie_unseen(request, movie_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    elif request.method == 'DELETE':
+        unseen = get_object_or_404(
+            UnseenMovies, movie_id=movie_id, user=request.data['user'])
+        unseen.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # print(request.data['user_id'])
+    # if request.method == 'DELETE':
+    #     for like in likes:
+    #         if str(like.user_id) == str(request.data['user_id']):
+    #             data = {
+    #                 'message': 'del'
+    #             }
+    #             like.delete()
+    #             return Response(data, status=status.HTTP_204_NO_CONTENT)
+    #         else:
+    #             print('qwdwq')
 
 # 003
 

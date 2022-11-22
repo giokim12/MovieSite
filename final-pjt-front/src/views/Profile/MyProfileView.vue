@@ -51,9 +51,15 @@ export default {
     },
   },
   created() {
-    this.getUnseenMovies() 
+    this.getUnseenMovies()
+    this.isLogin()
   },
   methods: {
+    isLogin() {
+      if (!this.$store.state.userdata) {
+        this.$router.push({ name: 'login'})
+      }
+    },
     nicknameForm() {
       axios({
         method: 'put',

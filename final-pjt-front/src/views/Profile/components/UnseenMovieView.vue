@@ -23,8 +23,14 @@ export default {
   },
   created() {
     this.getUnseenMovies()
+    this.isLoginCheck()
   },
   methods: {
+    isLoginCheck() {
+      if (!this.$store.state.userdata) {
+        this.$router.push({ name: 'login'})
+      }
+    },
     getUnseenMovies() {
       this.$store.dispatch("getUnseenMovies", this.$store.state.userdata.id);
     },
