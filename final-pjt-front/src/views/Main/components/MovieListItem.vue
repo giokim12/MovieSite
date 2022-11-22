@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] border border-white lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" @click="goDetail(), addView()">
+    <div  @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" >
       <!-- <div :style="{backgroundImage: `url('${imgPath}')`}"></div> -->
-      <img class="w-[90%] h-[100%] rounded-xl hihi" :src="imgPath" alt="...">
-      <div :class="isHover? 'visible' : 'invisible'" class="w-[90%] h-[100%] border border-red-700 del-button-container">
-        <button :class="isHover? 'visible' : 'invisible'" class="text-white border border-white del-button ">
-          <router-link to="/home" class="router-temp">{{ isHover }}</router-link>
-        </button>
+      <div :class="isUnseen? '' : 'hidden'" class="text-white absolute top-40 left-10 h-[50%]"> 이제 이 영화는 추천되지 않습니다</div>
+      <img :class="isUnseen? 'opacity-25' : ''" class="w-[90%] h-[100%] rounded-xl" :src="imgPath" alt="..." @click="goDetail(), addView()">
+      <div :class="isHover? 'visible' : 'invisible'" class="w-[90%] h-[100%] del-button-container">
+        <button :class="isHover? 'visible' : 'invisible'" class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-red-200 del-button" @click="addUnseen()">안볼래요</button>
       </div>
     </div>
   </div>
@@ -20,7 +19,8 @@ export default {
   name: "MovieListItem",
   data() {
     return{
-      isHover: false
+      isHover: false,
+      isUnseen: false
     }
   },
   props: {
@@ -59,6 +59,25 @@ export default {
             console.log(err)
           })
       }
+    },
+    addUnseen() {
+      if (this.isLogin) {
+        axios ({
+          method: 'POST',
+          url: `${API_URL}/api/v1/unseen/${this.movie.movie_id}/`,
+          data: {
+            user: this.$store.state.userdata.id,
+            movie: this.movie.movie_id
+          }
+        })
+          .then((res) => {
+            console.log(res)
+            this.isUnseen = true
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     }
   },
 }
@@ -81,9 +100,6 @@ export default {
 
 }
 
-.hihi {
-
-}
 
 .del-button-container {
   position: absolute;
@@ -93,12 +109,9 @@ export default {
 }
 .del-button {
   position: absolute;
-  top: 80%;
+  top: 90%;
   left: 70%;
 
 }
 
-.router-temp {
-
-}
 </style>

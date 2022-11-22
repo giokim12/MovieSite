@@ -9,6 +9,8 @@ urlpatterns = [
     path('movies/popular/', views.movie_list_popular),
 
     path('movies/clicked/<int:user_id>/', views.movie_list_clicked),
+    #안보고싶은거 조회
+    path('movies/unseen/<int:user_id>/', views.movie_list_unseen),
     path('movies/recommend/genre/<int:user_id>/',
         views.movie_list_genre_recommend),
     path('movies/recommend/euclidean/<int:user_id>/',
@@ -18,6 +20,8 @@ urlpatterns = [
     path('detail/video/<int:movie_id>/', views.movie_detail_video),
     path('movies/actors/<int:movie_id>/', views.actor_list),
     path('movies/similar/<int:movie_id>/', views.movie_list_similar),
+    # 안보고싶은거 추가하는 url
+    path('unseen/<int:movie_id>/', views.movie_unseen),
 
     path('comments/<int:movie_id>/list/', views.comment_list),
     path('comments/<int:comment_pk>/', views.comment_detail),
@@ -28,7 +32,7 @@ urlpatterns = [
     path('comments/like/<int:comment_id>/', views.comment_like_create),
 
     path('profile/<int:user_id>/', views.user_profile),
-    path('profile/unseen/<int:movie_id>/', views.user_unseen_list),
+
     
 
     # # 필수 작성
