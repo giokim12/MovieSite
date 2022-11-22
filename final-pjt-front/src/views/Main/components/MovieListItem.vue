@@ -4,9 +4,6 @@
       <!-- <div :style="{backgroundImage: `url('${imgPath}')`}"></div> -->
       <div :class="isUnseen? '' : 'hidden'" class="text-white absolute top-40 left-10 h-[50%]"> 이제 이 영화는 추천되지 않습니다</div>
       <img @click="goDetail(), addView()" :class="isUnseen? 'opacity-25' : ''" class="w-[90%] h-[100%] rounded-xl" :src="imgPath" alt="..."/>
-      <!-- <div :class="isHover? 'visible' : 'invisible'" class="w-[90%] h-[100%] del-button-container">
-        <button :class="isHover? 'visible' : 'invisible'" class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-red-200 del-button" @click="addUnseen()">안볼래요</button>
-      </div> -->
       <button :class="isHover? 'visible' : 'invisible'" class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-red-200 del-button" @click="addUnseen()">안볼래요</button>
     </div>
   </div>
