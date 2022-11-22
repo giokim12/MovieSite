@@ -53,6 +53,8 @@ export default {
       this.$store.commit('REMOVE_ACCESS');
       localStorage.setItem('access', '');
       localStorage.setItem('refresh', '');
+      localStorage.setItem('vuex', '');
+      this.$router.go()
     }
   }
 }

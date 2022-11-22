@@ -8,7 +8,11 @@ Vue.use(Vuex);
 const API_URL = "http://127.0.0.1:8000";
 
 export default new Vuex.Store({
-  plugins: [createPersistedState()],
+  plugins: [
+    createPersistedState({
+      paths: ["userdata"],
+    }),
+  ],
   state: {
     // JWT START
     access: "",
@@ -30,9 +34,11 @@ export default new Vuex.Store({
     // main end
 
     // detail start
-
     comments: [],
     moviesSimilar: [],
+
+    //profile start
+    moviesUnseen: [],
   },
   getters: {},
   mutations: {
@@ -106,6 +112,11 @@ export default new Vuex.Store({
       state.moviesSimilar = movies;
     },
     //detail end
+
+    //profile start
+    GET_UNSEEN_MOVIES(state, movies) {
+      state.moviesUnseen = movies;
+    },
   },
   actions: {
     //main start
@@ -146,9 +157,10 @@ export default new Vuex.Store({
         });
     },
     getClickedMovies(context, user_id) {
+      console.log(user_id);
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/movies/clicked/${user_id}/`,
+        url: `${API_URL}/api/v1/movies/clicked/${this.state.userdata.id}/`,
       })
         .then((res) => {
           context.commit("GET_CLICKED_MOVIES", res.data);
@@ -241,6 +253,20 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit("GET_SIMILAR_MOVIES", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    //profile start
+    getUnseenMovies(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/unseen/${user_id}/`,
+      })
+        .then((res) => {
+          context.commit("GET_UNSEEN_MOVIES", res.data);
         })
         .catch((err) => {
           console.log(err);

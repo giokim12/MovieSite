@@ -116,7 +116,7 @@ import MovieListItem from '@/views/Main/components/MovieListItem'
 import { Carousel, Slide } from 'vue-carousel';
 
 export default {
-  name: "PopularMovieList",
+  name: "MovieList",
   components: {
     MovieListItem,
     Carousel,

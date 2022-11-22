@@ -45,6 +45,14 @@ export default {
       nickname: '',
     }
   },
+  computed: {
+    movies_unseen() {
+      return this.$store.state.moviesUnseen
+    },
+  },
+  created() {
+    this.getUnseenMovies() 
+  },
   methods: {
     nicknameForm() {
       console.log(this.$store.state.userdata)
@@ -73,6 +81,9 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    getUnseenMovies() {
+      this.$store.dispatch("getUnseenMovies", this.$store.state.userdata.id);
     }
   }
 };

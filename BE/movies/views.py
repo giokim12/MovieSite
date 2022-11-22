@@ -8,6 +8,13 @@ from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, 
 import random
 
 # Create your views here.
+# 001 movie_list
+# 002 movie_detail
+# 003 movie_unseen
+# 004
+# 005
+
+# 001
 
 
 @api_view(['GET'])
@@ -23,6 +30,8 @@ def movie_list_voted(request):
         voted_movies30 = random.sample(voted_movies150, 30)
         serializer = MovieListSerializer(voted_movies30, many=True)
         return Response(serializer.data)
+
+# 001
 
 
 @api_view(['GET'])
@@ -40,6 +49,8 @@ def movie_list_old(request):
         serializer = MovieListSerializer(old_movies30, many=True)
         return Response(serializer.data)
 
+# 001
+
 
 @api_view(['GET'])
 def movie_list_popular(request):
@@ -55,6 +66,8 @@ def movie_list_popular(request):
         # popular_movies6 = random.sample(popular_movies30, 6)
         serializer = MovieListSerializer(popular_movies30, many=True)
         return Response(serializer.data)
+
+# 001
 
 
 @api_view(['GET'])
@@ -85,6 +98,8 @@ def movie_list_clicked(request, user_id):
 
         serializer = MovieListSerializer(result6, many=True)
         return Response(serializer.data)
+
+# 001
 
 
 @api_view(['GET'])
@@ -127,13 +142,14 @@ def movie_list_genre_recommend(request, user_id):
                         movies_bucket[k] += bucket[i]
     # print(movies_bucket)
 
-
     result = random.choices(movies, movies_bucket, k=6)
     serializer = MovieListSerializer(result, many=True)
     return Response(serializer.data)
 
-
+# 001
 # 유사도측정(유클리디안 거리)
+
+
 @api_view(['GET'])
 def movie_list_euclidean_recommend(request, user_id):
     clicked_movies = get_list_or_404(ClickedMovies)
@@ -200,6 +216,8 @@ def movie_list_euclidean_recommend(request, user_id):
     serializer = MovieListSerializer(result6, many=True)
     return Response(serializer.data)
 
+# 002
+
 
 @api_view(['GET'])
 def actor_list(request, movie_id):
@@ -208,6 +226,8 @@ def actor_list(request, movie_id):
         actors_5 = actors[:10]
         serializer = ActorSerializer(actors_5, many=True)
         return Response(serializer.data)
+
+# 002
 
 
 @api_view(['GET', 'POST'])
@@ -225,6 +245,8 @@ def movie_detail(request, movie_id):
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# 002
+
 
 @api_view(['GET'])
 def movie_detail_video(request, movie_id):
@@ -239,6 +261,8 @@ def movie_detail_video(request, movie_id):
         return Response(serializer.data)
 
 # 내가 디테일 페이지 들어간 영화랑 같은 장르 가진 영화들 모두 추출
+
+# 002
 
 
 @api_view(['GET'])
@@ -270,6 +294,8 @@ def movie_list_similar(request, movie_id):
     serializer = MovieListSerializer(result6, many=True)
     return Response(serializer.data)
 
+# 002
+
 
 @api_view(['GET'])
 def comment_list(request, movie_id):
@@ -277,6 +303,8 @@ def comment_list(request, movie_id):
         comments = get_list_or_404(Comment, movie=movie_id)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+
+# 002
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
@@ -297,6 +325,8 @@ def comment_detail(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
 
+# 002
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -309,6 +339,8 @@ def comment_create(request, movie_id):
         serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# 002
+
 
 @api_view(['GET'])
 def comment_like_list(request, comment_id):
@@ -316,6 +348,8 @@ def comment_like_list(request, comment_id):
         comment_likes = get_list_or_404(CommentLike, comment_id=comment_id)
         serializer = CommentLikeSerializer(comment_likes, many=True)
         return Response(serializer.data)
+
+# 002
 
 
 @api_view(['DELETE'])
@@ -338,6 +372,8 @@ def comment_like_detail(request, comment_id):
             else:
                 print('qwdwq')
 
+# 002
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -350,10 +386,11 @@ def comment_like_create(request, comment_id):
             serializer.save(comment_id=comment)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        
+
 def user_profile():
-        pass
-        
+    pass
+
+# 003
 
 
 @api_view(['POST'])
@@ -364,6 +401,8 @@ def movie_unseen(request, movie_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# 003
 
 
 @api_view(['GET'])
@@ -389,7 +428,6 @@ def movie_list_unseen(request, user_id):
 
         serializer = MovieListSerializer(result, many=True)
         return Response(serializer.data)
-
     
 @api_view(['GET'])
 def personal_movie_list_voted(request, user_id):

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      {{ isLogin }}
+    </div>
     <MovieList/>
   </div>
 </template>
@@ -8,6 +11,11 @@
 import MovieList from "@/views/Main/components/MovieList";
 export default {
   name: "MainView",
+  data() {
+    return{
+      login: this.$store.state.access
+    }
+  },
   components: {
     MovieList,
   },

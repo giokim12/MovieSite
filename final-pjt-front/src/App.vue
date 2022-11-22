@@ -99,6 +99,29 @@ export default {
     }
   },
 }
+window.onbeforeunload = function (e) {
+
+e = e || window.event;
+
+
+
+// For IE<8 and Firefox prior to version 4
+
+if (e) {
+
+  localStorage.setItem('acccess', '')
+  localStorage.setItem('refresh', '');
+  localStorage.setItem('vuex', '');
+
+}
+
+
+
+// For Chrome, Safari, IE8+ and Opera 12+
+
+return '페이지를 닫습니다.';
+
+};
 </script>
 
 <style src="./assets/tailwind.css"></style>
