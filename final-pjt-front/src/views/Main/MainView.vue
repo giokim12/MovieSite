@@ -32,7 +32,7 @@ export default {
   created() {
     setTimeout(() => {
       this.isLoading = true
-    }, 5000);
+    }, 500);
     this.getPopularMovies();
     this.getTopVotedMovies();
     this.getOldMovies();
