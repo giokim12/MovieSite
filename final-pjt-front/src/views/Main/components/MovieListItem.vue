@@ -3,7 +3,15 @@
     <div  @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" >
       <div :class="isUnseen? '' : 'hidden'" class="text-white absolute top-40 left-10 h-[50%]"> 이제 이 영화는 추천되지 않습니다</div>
       <img @click="goDetail(), addView()" :class="isUnseen? 'opacity-25' : ''" class="w-[90%] h-[100%] rounded-xl" :src="imgPath" alt="..."/>
-      <button :class="isHover? 'visible' : 'invisible'" class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-red-200 del-button" @click="addUnseen()">안볼래요</button>
+      <button 
+        :class="isHover? 'visible' : 'invisible'" 
+        v-if="isLogin" 
+        class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-red-200 del-button" 
+        v-on="isUnseen ? {click:() => {cancelUnseen();}} : {click:() => {addUnseen();}}"
+        
+      >
+        {{ isUnseenText }}
+      </button>
     </div>
   </div>
 </template>
@@ -17,7 +25,8 @@ export default {
   data() {
     return{
       isHover: false,
-      isUnseen: false
+      isUnseen: false,
+      isUnseenText: '안볼래용'
     }
   },
   props: {
@@ -70,11 +79,31 @@ export default {
           .then((res) => {
             console.log(res)
             this.isUnseen = true
+            this.isUnseenText = '볼래용'
           })
           .catch((err) => {
             console.log(err)
           })
       }
+    },
+    cancelUnseen() {
+      axios ({
+        method: 'DELETE',
+        url: `${API_URL}/api/v1/unseen/${this.movie.movie_id}/`,
+        data: {
+          user: this.$store.state.userdata.id,
+          movie: this.movie.movie_id
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.isUnseen = false
+          this.isUnseenText = '안볼래용'
+        })
+        .catch((err) => {
+          console.log('볼래용 에러에용')
+          console.log(err)
+        })
     }
   },
 }
