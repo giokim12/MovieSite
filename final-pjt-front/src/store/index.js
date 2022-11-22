@@ -1,12 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
 const API_URL = "http://127.0.0.1:8000";
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     // JWT START
     access: "",
@@ -21,6 +23,9 @@ export default new Vuex.Store({
     moviesClicked: [],
     moviesAlgoGenre: [],
     moviesAlgoEuc: [],
+    moviesAlgoPopular: [],
+    moviesAlgoOld: [],
+    moviesAlgoVoted: [],
 
     // main end
 
@@ -77,6 +82,15 @@ export default new Vuex.Store({
     },
     GET_ALGO_EUC(state, movies) {
       state.moviesAlgoEuc = movies;
+    },
+    GET_ALGO_POPULAR(state, movies) {
+      state.moviesAlgoPopular = movies;
+    },
+    GET_ALGO_OLD(state, movies) {
+      state.moviesAlgoOld = movies;
+    },
+    GET_ALGO_VOTED(state, movies) {
+      state.moviesAlgoVoted = movies;
     },
     // main end
 
@@ -162,6 +176,42 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit("GET_ALGO_EUC", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAlgoPopular(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/popular/${user_id}/`,
+      })
+        .then((res) => {
+          context.commit("GET_ALGO_POPULAR", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAlgoOld(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/old/${user_id}/`,
+      })
+        .then((res) => {
+          context.commit("GET_ALGO_OLD", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAlgoVoted(context, user_id) {
+      axios({
+        method: "get",
+        url: `${API_URL}/api/v1/movies/voted/${user_id}/`,
+      })
+        .then((res) => {
+          context.commit("GET_ALGO_VOTED", res.data);
         })
         .catch((err) => {
           console.log(err);
