@@ -46,7 +46,8 @@ export default {
       this.isHover = !this.isHover
     },
     goDetail() {
-      this.$router.push({ name: 'detail', params: { movie_id:this.movie.movie_id }})
+      this.$router.push({ name: 'detail', params: { movie_id:this.movie.movie_id }}).catch(() => {})
+      this.$router.go(this.$router.currentRoute)
     },
     addView() {
       if (this.isLogin) {
