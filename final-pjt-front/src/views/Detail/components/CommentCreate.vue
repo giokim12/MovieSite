@@ -1,10 +1,9 @@
 <template>
   <div class="bg-[#1C1C1C] p-5 w-[650px]">
-    <div class="text-3xl">{{ movie.title }}</div>
+    <div class="text-3xl">{{ movie?.title }}</div>
     <div class="text-3xl">어떠셨나요?</div>
     <div class="text-xl my-3">다른 사용자가 참고할 수 있도록 리뷰를 남겨보세요.</div>
     <form @submit.prevent="createComment">
-      <!-- <input v-model="rate" type="number" id="rate"> -->
       <input type="submit" id="submit" class="float-right bg-[gray] p-2 mt-1 rounded" value="작성하기"/>
       <StarRatingVue v-model="rate"/>
       <span></span>
