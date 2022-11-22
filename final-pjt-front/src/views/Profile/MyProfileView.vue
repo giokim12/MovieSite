@@ -79,7 +79,7 @@ export default {
       this.$store.dispatch("getUnseenMovies", this.$store.state.userdata.id);
     },
     unseenList() {
-      alert('qwdqw')
+      // alert('qwdqw')
       this.$router.push({ name: 'unseen'})
     },
   }
