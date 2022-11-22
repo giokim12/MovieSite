@@ -1,20 +1,28 @@
 <template>
   <div>
-    <MovieList/>
+    <LoadingEvent
+      v-if="!isLoading"
+    />
+    <MovieList
+      v-else
+    />
   </div>
 </template>
 
 <script>
 import MovieList from "@/views/Main/components/MovieList";
+import LoadingEvent from "@/components/LoadingEvent.vue"
 export default {
   name: "MainView",
   data() {
     return{
-      login: this.$store.state.access
+      login: this.$store.state.access,
+      isLoading: false,
     }
   },
   components: {
     MovieList,
+    LoadingEvent
   },
   computed: {
     isLogin() {
@@ -22,15 +30,20 @@ export default {
     }
   },
   created() {
+    setTimeout(() => {
+      this.isLoading = true
+    }, 5000);
     this.getPopularMovies();
     this.getTopVotedMovies();
     this.getOldMovies();
-    this.getClickedMovies();
-    this.getAlgoGenre();
-    this.getAlgoEuc();
-    this.getAlgoPopular();
-    this.getAlgoOld();
-    this.getAlgoVoted();
+    if (this.isLogin) {
+      this.getClickedMovies();
+      this.getAlgoGenre();
+      this.getAlgoEuc();
+      this.getAlgoPopular();
+      this.getAlgoOld();
+      this.getAlgoVoted();
+    }
   },
   methods: {
     getPopularMovies() {
@@ -43,34 +56,22 @@ export default {
       this.$store.dispatch("getOldMovies");
     },
     getClickedMovies() {
-      if (this.isLogin) {
-        this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
-      }
+      this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
     },
     getAlgoGenre() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoGenre", this.$store.state.userdata.id);
-      }
+      this.$store.dispatch("getAlgoGenre", this.$store.state.userdata.id);
     },
     getAlgoEuc() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoEuc", this.$store.state.userdata.id);
-      }
+      this.$store.dispatch("getAlgoEuc", this.$store.state.userdata.id);
     },
     getAlgoPopular() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoPopular", this.$store.state.userdata.id);
-      }
+      this.$store.dispatch("getAlgoPopular", this.$store.state.userdata.id);
     },
     getAlgoOld() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoOld", this.$store.state.userdata.id);
-      }
+      this.$store.dispatch("getAlgoOld", this.$store.state.userdata.id);
     },
     getAlgoVoted() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoVoted", this.$store.state.userdata.id);
-      }
+      this.$store.dispatch("getAlgoVoted", this.$store.state.userdata.id);
     },
   },
 };

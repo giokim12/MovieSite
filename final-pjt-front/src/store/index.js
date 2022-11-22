@@ -241,8 +241,7 @@ export default new Vuex.Store({
         .then((res) => {
           context.commit("GET_COMMENT_LIST", res.data);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           context.commit("NOT_COMMENT_LIST");
         });
     },
