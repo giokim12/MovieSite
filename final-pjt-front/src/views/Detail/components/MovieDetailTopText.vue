@@ -81,6 +81,7 @@ export default {
           return res
         })
         .then((res) => {
+          // this.getYoutube()
           onYouTubePlayerAPIReady(res.data[0].key)
         })
         .catch(() => {
@@ -90,28 +91,24 @@ export default {
     getYoutube() {
       let URL = `https://www.googleapis.com/youtube/v3/search`
       const API_KEY = 'AIzaSyB1iUyONDiUkQt3nMDN4T9pcxuOi4BXw-0'
-      // let params = {
-      //   key: API_KEY,
-      //   type: 'video',
-      //   part: 'snippet',
-      //   q: '슈렉',
-      //   maxResults: 20,
-      // }
-      // then: 성공하면 수행할 로직, catch: 실패하면 수행할 로직
       axios({
         method: 'get',
-        url: `${URL}?key=${API_KEY}&type=video&part=snippet&q=${this.movie.title}&maxResuluts=20`,
-        headers: {
-          Authorization: `Bearer ${this.$store.state.access}`
-        }
+        url: `${URL}?key=${API_KEY}&type=video&part=snippet&q=${this.movie.title}&maxResuluts=1`,
+        // headers: {
+        //   Authorization: `Bearer ${this.$store.state.access}`
+        // }
       })
-      
         .then((response) => {
-          console.log(response.data.items)
+          console.log(response.data.items[0])
+          this.video=true
+          return response
           // this.$store.dispatch('videoPush', response.data.items)
         })
+        .then((response) => {
+          onYouTubePlayerAPIReady(response.data.items[0].id.videoId)
+        }) 
         .catch((error) => {
-          console.log(error)
+          console.log('error',error)
         })
     },
   }
@@ -128,11 +125,12 @@ let player;
 // eslint-disable-next-line
 function onYouTubePlayerAPIReady(movieKey) {
   // console.log('qkwpodkqwpodkp')
+  console.log('movie', movieKey)
   // eslint-disable-next-line
   player = new YT.Player('ytplayer', {
     height: '860',
     width: '1200',
-    videoId: movieKey,
+    videoId: String(movieKey),
     playerVars: {
         'rel': 0,    //연관동영상 표시여부(0:표시안함)
         'controls': 1,    //플레이어 컨트롤러 표시여부(0:표시안함)
