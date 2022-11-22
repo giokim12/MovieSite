@@ -5,8 +5,8 @@ import SignupView from "../views/SignupView.vue";
 import LoginView from "../views/LoginView.vue";
 import MainView from "@/views/Main/MainView";
 import MovieDetailView from "@/views/Detail/MovieDetailView.vue";
-import MyProfileView from '@/views/Profile/MyProfileView'
-// import UnseenMovieView from '../views/UnseenMovieView.vue'
+import MyProfileView from "@/views/Profile/MyProfileView";
+import UnseenMovieView from "@/views/Profile/components/UnseenMovieView.vue";
 // import AccountDeleteView from '../views/AccountDeleteView.vue'
 
 Vue.use(VueRouter);
@@ -43,7 +43,13 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: MyProfileView,
-  }
+    children: [
+      {
+        path: "unseen",
+        component: UnseenMovieView,
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

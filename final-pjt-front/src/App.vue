@@ -59,38 +59,13 @@ export default {
     setTimeout(() => {
       this.loading = false
     }, 7000)
-    this.getPopularMovies();
-    this.getTopVotedMovies();
-    this.getOldMovies();
-    this.getClickedMovies();
-    this.getAlgoGenre();
-    this.getAlgoEuc();
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.access
+    }
   },
   methods: {
-    getPopularMovies() {
-      this.$store.dispatch("getPopularMovies");
-    },
-    getTopVotedMovies() {
-      this.$store.dispatch("getTopVotedMovies");
-    },
-    getOldMovies() {
-      this.$store.dispatch("getOldMovies");
-    },
-    getClickedMovies() {
-      if (this.isLogin) {
-        this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
-      }
-    },
-    getAlgoGenre() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoGenre", this.$store.state.userdata.id);
-      }
-    },
-    getAlgoEuc() {
-      if (this.isLogin) {
-        this.$store.dispatch("getAlgoEuc", this.$store.state.userdata.id);
-      }
-    },
     getAccess() {
       const accessData = {
         refresh: this.$store.state.refresh
@@ -123,8 +98,30 @@ export default {
         })
     }
   },
-    
 }
+window.onbeforeunload = function (e) {
+
+e = e || window.event;
+
+
+
+// For IE<8 and Firefox prior to version 4
+
+if (e) {
+
+  localStorage.setItem('acccess', '')
+  localStorage.setItem('refresh', '');
+  localStorage.setItem('vuex', '');
+
+}
+
+
+
+// For Chrome, Safari, IE8+ and Opera 12+
+
+return '페이지를 닫습니다.';
+
+};
 </script>
 
 <style src="./assets/tailwind.css"></style>

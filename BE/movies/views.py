@@ -14,7 +14,6 @@ import random
 def movie_list_voted(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
-        unseenmovies = get_list_or_404(UnseenMovies)
         voted_movies = []
         for movie in movies:
             if movie.vote_avg > 5:
@@ -127,7 +126,6 @@ def movie_list_genre_recommend(request, user_id):
                     if j == l:
                         movies_bucket[k] += bucket[i]
     # print(movies_bucket)
-
 
     result = random.choices(movies, movies_bucket, k=6)
     serializer = MovieListSerializer(result, many=True)
@@ -351,10 +349,9 @@ def comment_like_create(request, comment_id):
             serializer.save(comment_id=comment)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        
+
 def user_profile():
-        pass
-        
+    pass
 
 
 @api_view(['POST'])
@@ -390,4 +387,3 @@ def movie_list_unseen(request, user_id):
 
         serializer = MovieListSerializer(result, many=True)
         return Response(serializer.data)
-
