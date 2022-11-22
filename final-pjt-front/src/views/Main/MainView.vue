@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div>
-      {{ isLogin }}
-    </div>
     <MovieList/>
   </div>
 </template>

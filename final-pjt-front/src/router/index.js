@@ -48,12 +48,11 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: MyProfileView,
-    children: [
-      {
-        path: "unseen",
-        component: UnseenMovieView,
-      },
-    ],
+  },
+  {
+    path: "/profile/unseen",
+    name: "unseen",
+    component: UnseenMovieView,
   },
 ];
 

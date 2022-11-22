@@ -58,7 +58,7 @@ export default {
   created() {
     setTimeout(() => {
       this.loading = false
-    }, 7000)
+    }, 3000)
   },
   computed: {
     isLogin() {
@@ -101,8 +101,9 @@ export default {
 }
 window.onbeforeunload = function (e) {
 
-e = e || window.event;
-
+  localStorage.setItem('acccess', '')
+  localStorage.setItem('refresh', '');
+  localStorage.setItem('vuex', '');
 
 
 // For IE<8 and Firefox prior to version 4

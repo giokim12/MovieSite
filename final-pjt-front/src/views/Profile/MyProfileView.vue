@@ -19,7 +19,7 @@
                 </div>
               </form>
               <div>
-                <button class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm mx-6 px-5 py-2.5 mb-10 text-center">안보고싶은영화보러가기</button>
+                <button @click="unseenList()" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm mx-6 px-5 py-2.5 mb-10 text-center">안보고싶은영화보러가기</button>
               </div>
               <div class="flex flex-row-reverse">
                 <!-- <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm mr-6 px-3 py-2.5 text-center">적용하기</button> -->
@@ -55,13 +55,6 @@ export default {
   },
   methods: {
     nicknameForm() {
-      console.log(this.$store.state.userdata)
-      // const formData = {
-      //   username: this.$store.state.userdata.username,
-      //   nickname: this.nickname,
-      //   password: this.$store.state.userdata.password,
-      //   id: this.$store.state.userdata.id
-      // }
       axios({
         method: 'put',
         url: `${API_URL}/api/v1/auth/users/me/`,
@@ -84,7 +77,11 @@ export default {
     },
     getUnseenMovies() {
       this.$store.dispatch("getUnseenMovies", this.$store.state.userdata.id);
-    }
+    },
+    unseenList() {
+      alert('qwdqw')
+      this.$router.push({ name: 'unseen'})
+    },
   }
 };
 </script>
