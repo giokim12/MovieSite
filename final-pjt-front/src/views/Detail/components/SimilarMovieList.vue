@@ -1,8 +1,7 @@
 <template>
   <div class="flex">
     <hr>
-    <h2 class="text-white">같은장르 영화</h2>
-    <div class="flex">
+    <div class="flex grid grid-cols-6 gap-4">
       <MovieListItem
         v-for = "(movie, idx) in movies_similar"
         :key = "idx"

@@ -1,14 +1,11 @@
 <template>
   <div>
-
-    <div class="grid grid-cols-6">
-      <div>
-          <UnseenMovieItem
-            v-for="movie in movies_unseen"
-            :key="movie.id"
-            :movie="movie"
-          />
-        </div>
+    <div class="grid grid-cols-6 gap-4">
+        <UnseenMovieItem
+          v-for="movie in movies_unseen"
+          :key="movie.id"
+          :movie="movie"
+        />
     </div>
   </div>
 </template>
