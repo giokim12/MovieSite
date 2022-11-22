@@ -1,19 +1,28 @@
 <template>
   <div class="bg-black h-[100vh] text-white">
-    {{ movies_unseen }}
+    <UnseenMovieList/>
   </div>
 </template>
 
 <script>
+import UnseenMovieList from '@/views/Profile/components/UnseenMovieList'
 export default {
   name:'UnseenMovieView',
-  created() {
-    this.getUnseenMovies()
+  data() {
+    return{
+      login: this.$store.state.access
+    }
+  },
+  components: {
+    UnseenMovieList,
   },
   computed: {
-    movies_unseen() {
-      return this.$store.state.moviesUnseen
-    },
+    isLogin() {
+      return this.$store.state.access
+    }
+  },
+  created() {
+    this.getUnseenMovies()
   },
   methods: {
     getUnseenMovies() {

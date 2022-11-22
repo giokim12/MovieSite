@@ -3,6 +3,7 @@
     <div
       v-if="!isLogin"
     >
+      <hr>
       <h2 class="text-white">투표 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
@@ -49,7 +50,7 @@
     <div
       v-if="isLogin"
     >
-      <!-- <hr> -->
+      <hr>
       <h2 class=" text-white ml-4 pl-2">🍿유클리디안 거리 기반 알고리즘 추천 영화🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
