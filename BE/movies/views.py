@@ -349,3 +349,9 @@ def comment_like_create(request, comment_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save(comment_id=comment)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+def user_profile():
+    pass
+
+def user_unseen_list():
+    pass

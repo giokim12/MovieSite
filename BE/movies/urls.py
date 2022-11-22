@@ -10,9 +10,9 @@ urlpatterns = [
 
     path('movies/clicked/<int:user_id>/', views.movie_list_clicked),
     path('movies/recommend/genre/<int:user_id>/',
-         views.movie_list_genre_recommend),
+        views.movie_list_genre_recommend),
     path('movies/recommend/euclidean/<int:user_id>/',
-         views.movie_list_euclidean_recommend),
+        views.movie_list_euclidean_recommend),
 
     path('detail/<int:movie_id>/', views.movie_detail),
     path('detail/video/<int:movie_id>/', views.movie_detail_video),
@@ -27,10 +27,14 @@ urlpatterns = [
     path('comments/like/list/<int:comment_id>/', views.comment_like_list),
     path('comments/like/<int:comment_id>/', views.comment_like_create),
 
+    path('profile/<int:user_id>/', views.user_profile),
+    path('profile/unseen/<int:movie_id>/', views.user_unseen_list),
+    
+
     # # 필수 작성
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     # # optional UI
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'),
-         name='swagger-ui'),
+        name='swagger-ui'),
 
 ]
