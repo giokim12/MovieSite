@@ -18,14 +18,14 @@
                   <div class="flex items-center mt-8 mb-4">
                       <!-- <label for="username" class="block mb-2 text-sm font-medium text-white">아이디</label> -->
                       <input v-model="username" type="text" name="username" id="username" placeholder="닉네임 수정" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-75 p-2.5">
-                      <button class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm w-25 p-2.5 mx-6 text-center">수정완료</button>
+                      <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm w-25 p-2.5 mx-6 text-center">수정완료</button>
                   </div>
                   <div>
                     <button class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm mx-6 px-5 py-2.5 mb-10 text-center">안보고싶은영화보러가기</button>
                   </div>
-                  <div class="flex">
-                    <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm mr-6 px-3 py-2.5 text-center">적용하기</button>
-                    <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-3 py-2.5 text-center">
+                  <div class="flex flex-row-reverse">
+                    <!-- <button class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm mr-6 px-3 py-2.5 text-center">적용하기</button> -->
+                    <button class=" text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-3 py-2.5 text-center">
                       <router-link to="/main" class="text-white">취소하기</router-link>
                     </button>
                   </div>
