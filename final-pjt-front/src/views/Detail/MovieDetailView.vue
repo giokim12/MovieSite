@@ -15,23 +15,40 @@
     </div>
     <div class="flex flex-wrap">
       <div class="w-full">
-        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
-          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
-            <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-red-500 bg-white': openTab !== 1, 'text-white bg-red-500': openTab === 1}">
-              코멘트
-            </a>
-          </li>
-          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
-            <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-red-500 bg-white': openTab !== 2, 'text-white bg-red-500': openTab === 2}">
-              출연진
-            </a>
-          </li>
-          <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
-            <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-red-500 bg-white': openTab !== 3, 'text-white bg-red-500': openTab === 3}">
-              영화
-            </a>
-          </li>
-        </ul>
+        <div class="border-b-2 border-[#808078]">
+          <ul class="flex mb-0 w-[500px] list-none flex-wrap flex-row">
+            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+              <a class="text-xl bg-black font-bold uppercase px-5 py-3 shadow-lg block hover:text-white leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-[#808078]': openTab !== 1, 'text-white border-b-4 border-white': openTab === 1}">
+                코멘트
+              </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+              <a class="text-xl bg-black font-bold uppercase px-5 py-3 shadow-lg block hover:text-white leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-[#808078]': openTab !== 2, 'text-white border-b-4 border-white': openTab === 2}">
+                출연진
+              </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+              <a class="text-xl bg-black font-bold uppercase px-5 py-3 shadow-lg block hover:text-white leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-[#808078]': openTab !== 3, 'text-white border-b-4 border-white': openTab === 3}">
+                영화
+              </a>
+            </li>
+            <!-- <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+              <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-red-500 bg-white': openTab !== 1, 'text-white bg-red-500': openTab === 1}">
+                코멘트
+              </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+              <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-red-500 bg-white': openTab !== 2, 'text-white bg-red-500': openTab === 2}">
+                출연진
+              </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
+              <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-red-500 bg-white': openTab !== 3, 'text-white bg-red-500': openTab === 3}">
+                영화
+              </a>
+            </li> -->
+          </ul>
+        </div>
         <div class="relative flex flex-col min-w-0 break-words w-full mb-3 shadow-lg rounded">
           <div class="px-4 py-5 flex-auto">
             <div class="tab-content tab-space">
