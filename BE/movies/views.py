@@ -45,7 +45,7 @@ def movie_list_old(request):
         # print(new_movies[0].vote_avg)
         old_movies = sorted(old_movies, key=lambda x: x.released_date)
         old_movies30 = old_movies[:30]
-        # old_movies6 = random.sample(old_movies30, 6)
+
         serializer = MovieListSerializer(old_movies30, many=True)
         return Response(serializer.data)
 
@@ -63,7 +63,7 @@ def movie_list_popular(request):
         # print(new_movies[0].vote_avg)
         popular_movies = sorted(popular_movies, key=lambda x: -x.popularity)
         popular_movies30 = popular_movies[:30]
-        # popular_movies6 = random.sample(popular_movies30, 6)
+
         serializer = MovieListSerializer(popular_movies30, many=True)
         return Response(serializer.data)
 
@@ -94,9 +94,9 @@ def movie_list_clicked(request, user_id):
         for show_movie in show_movies:
             if show_movie not in result:
                 result.append(show_movie)
-        result6 = result[:6]
+        result30 = result[:30]
 
-        serializer = MovieListSerializer(result6, many=True)
+        serializer = MovieListSerializer(result30, many=True)
         return Response(serializer.data)
 
 # 001
@@ -142,7 +142,7 @@ def movie_list_genre_recommend(request, user_id):
                         movies_bucket[k] += bucket[i]
     # print(movies_bucket)
 
-    result = random.choices(movies, movies_bucket, k=6)
+    result = random.choices(movies, movies_bucket, k=30)
     serializer = MovieListSerializer(result, many=True)
     return Response(serializer.data)
 
@@ -211,9 +211,9 @@ def movie_list_euclidean_recommend(request, user_id):
     for k in result:
         final_result.append(k[1])
 
-    result6 = final_result[:6]
+    result30 = final_result[:30]
 
-    serializer = MovieListSerializer(result6, many=True)
+    serializer = MovieListSerializer(result30, many=True)
     return Response(serializer.data)
 
 # 002
@@ -290,8 +290,8 @@ def movie_list_similar(request, movie_id):
         if movie_recommend not in result:
             result.append(movie_recommend)
 
-    result6 = result[:6]
-    serializer = MovieListSerializer(result6, many=True)
+    result30 = result[:30]
+    serializer = MovieListSerializer(result30, many=True)
     return Response(serializer.data)
 
 # 002
