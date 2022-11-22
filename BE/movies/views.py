@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video, CommentLike, UnseenMovies
 from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer, CommentLikeSerializer, UnseenMovieSerializer
 import random
+import numpy as np
 
 # Create your views here.
 
@@ -59,7 +60,7 @@ def movie_list_popular(request):
         return Response(serializer.data)
 
 #------------------------------------------------------------------------------
-# 로그인 메인 페이지
+# 로그인 후 메인 페이지
 
 # 내가 클릭한거 중에서 안보고 싶은거 뺀 함수 (여기저기에서 다 사용할거임,,,)
 def get_user_clicked(user_id):
@@ -75,22 +76,27 @@ def get_user_clicked(user_id):
     for unseen_movie in unseen_movies:
         if user_id == unseen_movie.user_id:
             user_unseen_movies.append(unseen_movie)
-    # 내가 클릭한 거랑 안보고 싶은거 비교하면서 title 달라야지만 넣기
+    # 내가 클릭한 거랑 안보고 싶은거 비교하면서 movie_id 달라야지만 넣기
     user_clicked_movies1 = []
     for movie in user_clicked_movies:
         if movie not in user_unseen_movies:
             user_clicked_movies1.append(movie)
+
     # 영화의 정보까지 가져오기
     movies = get_list_or_404(Movie)
-    result = []
+    user_clicked_movie_info = []
     for clicked_movie in user_clicked_movies:
         for movie in movies:
             if clicked_movie.movie_id == movie.movie_id:
-                result.append(movie)
-    return result
-    
-########################################
-# 여기서부터 해야돼!!!!!!!!!!!!!!!!!!
+                user_clicked_movie_info.append(movie)
+    # 중복제거
+    # user_clicked_movie_info_unique = []
+    # for show_movie in user_clicked_movie_info:
+    #     if show_movie not in user_clicked_movie_info_unique:
+    #         user_clicked_movie_info_unique.append(show_movie)
+    return user_clicked_movie_info
+
+
 # 내가 클릭한 영화 최신순
 @api_view(['GET'])
 def movie_list_clicked(request, user_id):
@@ -108,72 +114,45 @@ def movie_list_clicked(request, user_id):
 # 내가 클릭한거 기반 장르 알고리즘
 @api_view(['GET'])
 def movie_list_genre_recommend(request, user_id):
-    clicked_movies = get_list_or_404(ClickedMovies)
-    movies = get_list_or_404(Movie)
+    if request.method == 'GET':
+        clicked_movies_info = get_user_clicked(user_id)
+        movies = get_list_or_404(Movie)
 
-    # 해당 사용자가 클릭한 영화만 뽑아서 user_clicked_movies 에 넣기
-    user_clicked_movies = []
-    for clicked_movie in clicked_movies:
-        if user_id == clicked_movie.user_id:
-            user_clicked_movies.append(clicked_movie)
+        # 중복제거
+        user_clicked_movies_unique = []
+        for clicked_movie_info in clicked_movies_info:
+            if clicked_movie_info not in user_clicked_movies_unique:
+                user_clicked_movies_unique.append(clicked_movie_info)
 
-    # 클릭한 영화의 정보를 가져와서 clicked_movies_info에 넣기
-    clicked_movies_info = []
-    for clicked_movie in user_clicked_movies:
-        for movie in movies:
-            if clicked_movie.movie_id == movie.movie_id:
-                clicked_movies_info.append(movie)
-    # bucket1 = [1]*len(clicked_movies_info)
-    # 중복제거
-    user_clicked_movies_unique = []
-    for clicked_movie_info in clicked_movies_info:
-        if clicked_movie_info not in user_clicked_movies_unique:
-            user_clicked_movies_unique.append(clicked_movie_info)
+        bucket = [0]*len(user_clicked_movies_unique)
+        # 해당 사용자가 클릭 더 많이 할수록 가중치
+        for i in range(len(user_clicked_movies_unique)):
+            for j in range(len(clicked_movies_info)):
+                if user_clicked_movies_unique[i] == clicked_movies_info[j]:
+                    bucket[i] += 1
+                    break
+        # 장르 같으면 가중치 추가
+        movies_bucket = [0]*len(movies)
+        for i in range(len(user_clicked_movies_unique)):
+            for j in clicked_movies_info[i].genres.all():
+                for k in range(len(movies)):
+                    for l in movies[k].genres.all():
+                        if j == l:
+                            movies_bucket[k] += bucket[i]
+        prob = []
+        for p in movies_bucket:
+            prob.append(p/sum(movies_bucket))
+        result = np.random.choice(movies, size=30, replace=False, p=prob)
+        serializer = MovieListSerializer(result, many=True)
+        return Response(serializer.data)
 
-    bucket = [0]*len(user_clicked_movies_unique)
-    # 해당 사용자가 클릭 더 많이 할수록 가중치
-    for i in range(len(user_clicked_movies_unique)):
-        for j in range(len(clicked_movies_info)):
-            if user_clicked_movies_unique[i] == clicked_movies_info[j]:
-                bucket[i] += 1
 
-    movies_bucket = [0]*len(movies)
-    for i in range(len(user_clicked_movies_unique)):
-        for j in clicked_movies_info[i].genres.all():
-            for k in range(len(movies)):
-                for l in movies[k].genres.all():
-                    if j == l:
-                        movies_bucket[k] += bucket[i]
-    # print(movies_bucket)
-
-    result = random.choices(movies, movies_bucket, k=30)
-    serializer = MovieListSerializer(result, many=True)
-    return Response(serializer.data)
-
-# 001
 # 유사도측정(유클리디안 거리)
-
-
 @api_view(['GET'])
 def movie_list_euclidean_recommend(request, user_id):
-    clicked_movies = get_list_or_404(ClickedMovies)
+    clicked_movies_info = get_user_clicked(user_id)
     movies = get_list_or_404(Movie)
-
-    # 해당 사용자가 클릭한 영화만 뽑아서 user_clicked_movies 에 넣기
-    user_clicked_movies = []
-    for clicked_movie in clicked_movies:
-        if user_id == clicked_movie.user_id:
-            user_clicked_movies.append(clicked_movie)
-
-    # 클릭한 영화의 정보를 가져와서 clicked_movies_info에 넣기
-    clicked_movies_info = []
-    for clicked_movie in user_clicked_movies:
-        for movie in movies:
-            if clicked_movie.movie_id == movie.movie_id:
-                clicked_movies_info.append(movie)
-
     # 클릭한 영화 중복제거
-    # # bucket1 = [1]*len(clicked_movies_info)
     user_clicked_movies_unique = []
     for clicked_movie_info in clicked_movies_info:
         if clicked_movie_info not in user_clicked_movies_unique:
@@ -184,45 +163,144 @@ def movie_list_euclidean_recommend(request, user_id):
     for user_clicked_movie_unique in user_clicked_movies_unique:
         user_clicked_movies_numbers.append(
             [user_clicked_movie_unique.vote_avg, user_clicked_movie_unique.popularity])
-    # print(user_clicked_movies_numbers)
 
     # 모든 영화의 인기도랑 투표수만 가져와서 배열에 넣기
     movies_numbers = []
     for movie in movies:
         movies_numbers.append([movie.vote_avg, movie.popularity])
-    # print(movies_numbers)
 
     # 유클리디안 거리 구하기
     euc = []
-    for user_clicked_movie_numbers in user_clicked_movies_numbers:
-        for i in range(len(movies_numbers)):
+    for i in range(len(user_clicked_movies_numbers)):
+        for j in range(i, len(movies_numbers)):
             temp = []
-            dist = ((movies_numbers[i][0]-user_clicked_movie_numbers[0])**2 + (
-                movies_numbers[i][1]-user_clicked_movie_numbers[1])**2)**(1/2)
+            dist = ((movies_numbers[j][0]-user_clicked_movies_numbers[i][0])**2 + (
+                movies_numbers[j][1]-user_clicked_movies_numbers[i][1])**2)**(1/2)
             if dist != 0:
                 temp.append(dist)
-                temp.append(movies[i])
+                temp.append(movies[j])
                 euc.append(temp)
-
     euc = sorted(euc, key=lambda x: x[0])
     # 중복 없애기
     result = []
     for e in euc:
-        if e not in result:
-            result.append(e)
+        if e[1] not in result:
+            result.append(e[1])
 
-    final_result = []
-    for k in result:
-        final_result.append(k[1])
-
-    result30 = final_result[:30]
-
+    result30 = result[:30]
     serializer = MovieListSerializer(result30, many=True)
     return Response(serializer.data)
 
-# 002
 
+# 로그인 후 투표순 리스트
+@api_view(['GET'])
+def personal_movie_list_voted(request, user_id):
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        isUnseen = UnseenMovies.objects.all()
+        if len(isUnseen) == 0:
+            voted_movies = []
+            for movie in movies:
+                if movie.vote_avg > 5:
+                    voted_movies.append(movie)
+            voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
+            voted_movies150 = voted_movies[:150]
+            voted_movies30 = random.sample(voted_movies150, 30)
+            serializer = MovieListSerializer(voted_movies30, many=True)
+            return Response(serializer.data)
+        else:
+            unseen_movies = get_list_or_404(UnseenMovies)
+            # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
+            user_unseen_movies = []
+            for unseen_movie in unseen_movies:
+                if user_id == unseen_movie.user_id:
+                    user_unseen_movies.append(unseen_movie)
+            voted_movies = []
+            for movie in movies:
+                if movie.vote_avg > 5:
+                    if movie not in user_unseen_movies:
+                        voted_movies.append(movie)
+            voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
+            voted_movies150 = voted_movies[:150]
+            voted_movies30 = random.sample(voted_movies150, 30)
+            serializer = MovieListSerializer(voted_movies30, many=True)
+            return Response(serializer.data)
 
+# 로그인 후 고전명작 리스트
+@api_view(['GET'])
+def personal_movie_list_old(request, user_id):
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        isUnseen = UnseenMovies.objects.all()
+        if len(isUnseen) == 0:
+            old_movies = []
+            for movie in movies:
+                if movie.vote_avg > 5:
+                    old_movies.append(movie)
+            old_movies = sorted(old_movies, key=lambda x: x.released_date)
+            old_movies150 = old_movies[:150]
+            old_movies30 = random.sample(old_movies150, 30)
+            serializer = MovieListSerializer(old_movies30, many=True)
+            return Response(serializer.data)
+        else:
+            unseen_movies = get_list_or_404(UnseenMovies)
+            # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
+            user_unseen_movies = []
+            for unseen_movie in unseen_movies:
+                if user_id == unseen_movie.user_id:
+                    user_unseen_movies.append(unseen_movie)
+
+            old_movies = []
+            for movie in movies:
+                if movie.vote_avg > 5:
+                    if movie not in user_unseen_movies:
+                        old_movies.append(movie)
+            old_movies = sorted(old_movies, key=lambda x: x.released_date)
+            old_movies150 = old_movies[:150]
+            old_movies30 = random.sample(old_movies150, 30)
+            serializer = MovieListSerializer(old_movies30, many=True)
+            return Response(serializer.data)
+
+# 로그인 후 인기순 리스트
+@api_view(['GET'])
+def personal_movie_list_popular(request, user_id):
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        isUnseen = UnseenMovies.objects.all()
+        if len(isUnseen) == 0:
+            popular_movies = []
+            for movie in movies:
+                if movie.vote_avg > 5:
+                    popular_movies.append(movie)
+            popular_movies = sorted(popular_movies, key=lambda x: -x.popularity)
+            popular_movies150 = popular_movies[:150]
+            popular_movies30 = random.sample(popular_movies150, 30)
+            serializer = MovieListSerializer(popular_movies30, many=True)
+            return Response(serializer.data)
+        else:
+            unseen_movies = get_list_or_404(UnseenMovies)
+
+            # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
+            user_unseen_movies = []
+            for unseen_movie in unseen_movies:
+                if user_id == unseen_movie.user_id:
+                    user_unseen_movies.append(unseen_movie)
+
+            popular_movies = []
+            for movie in movies:
+                if movie.vote_avg > 5:
+                    if movie not in user_unseen_movies:
+                        popular_movies.append(movie)
+            popular_movies = sorted(popular_movies, key=lambda x: -x.popularity)
+            popular_movies150 = popular_movies[:150]
+            popular_movies30 = random.sample(popular_movies150, 30)
+            serializer = MovieListSerializer(popular_movies30, many=True)
+            return Response(serializer.data)
+
+# ----------------------------------------------------------------
+# 디테일페이지
+        
+# 영화에 출연한 배우들 가져오기
 @api_view(['GET'])
 def actor_list(request, movie_id):
     if request.method == 'GET':
@@ -231,9 +309,8 @@ def actor_list(request, movie_id):
         serializer = ActorSerializer(actors_5, many=True)
         return Response(serializer.data)
 
-# 002
-
-
+# 영화 디테일 페이지로 가기 (GET)
+# 클릭한 영화 리스트에 추가하기 (POST)
 @api_view(['GET', 'POST'])
 def movie_detail(request, movie_id):
     # article = Article.objects.get(pk=article_pk)
@@ -249,9 +326,8 @@ def movie_detail(request, movie_id):
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# 002
-
-
+        
+# 개별 영화 트레일러
 @api_view(['GET'])
 def movie_detail_video(request, movie_id):
 
@@ -264,11 +340,8 @@ def movie_detail_video(request, movie_id):
         print(serializer.data)
         return Response(serializer.data)
 
+
 # 내가 디테일 페이지 들어간 영화랑 같은 장르 가진 영화들 모두 추출
-
-# 002
-
-
 @api_view(['GET'])
 def movie_list_similar(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -288,7 +361,7 @@ def movie_list_similar(request, movie_id):
                 if i.name == genre:
                     movies_recommend.append(m)
 
-    # # 중복제거 후 출력
+    # 중복제거 후 출력
     result = []
     for movie_recommend in movies_recommend:
         if movie_recommend not in result:
@@ -298,9 +371,11 @@ def movie_list_similar(request, movie_id):
     serializer = MovieListSerializer(result30, many=True)
     return Response(serializer.data)
 
-# 002
 
+#------------------------------------------------------------------
+# 커뮤니티 기능
 
+# 해당 영화의 댓글 리스트
 @api_view(['GET'])
 def comment_list(request, movie_id):
     if request.method == 'GET':
@@ -308,9 +383,8 @@ def comment_list(request, movie_id):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
-# 002
-
-
+# 개별 댓글
+# 조회 수정 삭제
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
@@ -329,9 +403,8 @@ def comment_detail(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
 
-# 002
-
-
+        
+# 댓글 생성
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def comment_create(request, movie_id):
@@ -343,9 +416,8 @@ def comment_create(request, movie_id):
         serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# 002
-
-
+    
+# 개별 댓글 좋아요
 @api_view(['GET'])
 def comment_like_list(request, comment_id):
     if request.method == 'GET':
@@ -353,9 +425,8 @@ def comment_like_list(request, comment_id):
         serializer = CommentLikeSerializer(comment_likes, many=True)
         return Response(serializer.data)
 
-# 002
-
-
+    
+# 
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated, ))
 def comment_like_detail(request, comment_id):
@@ -373,9 +444,7 @@ def comment_like_detail(request, comment_id):
             else:
                 print('qwdwq')
 
-# 002
-
-
+# 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def comment_like_create(request, comment_id):
@@ -393,7 +462,10 @@ def user_profile():
 
 # 003
 
+#---------------------------------------------------------------------------------------
+# 안보고 싶은 영화 관련
 
+# 안보고 싶은 영화 리스트에 추가, 삭제
 @api_view(['POST', 'DELETE'])
 def movie_unseen(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -408,21 +480,7 @@ def movie_unseen(request, movie_id):
         unseen.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # print(request.data['user_id'])
-    # if request.method == 'DELETE':
-    #     for like in likes:
-    #         if str(like.user_id) == str(request.data['user_id']):
-    #             data = {
-    #                 'message': 'del'
-    #             }
-    #             like.delete()
-    #             return Response(data, status=status.HTTP_204_NO_CONTENT)
-    #         else:
-    #             print('qwdwq')
-
-# 003
-
-
+# 이 사용자가 안보고싶어하는 영화 리스트 조회하기
 @api_view(['GET'])
 def movie_list_unseen(request, user_id):
     if request.method == 'GET':
@@ -448,109 +506,3 @@ def movie_list_unseen(request, user_id):
         return Response(serializer.data)
 
 
-@api_view(['GET'])
-def personal_movie_list_voted(request, user_id):
-    if request.method == 'GET':
-        movies = get_list_or_404(Movie)
-        isUnseen = UnseenMovies.objects.all()
-        if len(isUnseen) == 0:
-            voted_movies = []
-            for movie in movies:
-                if movie.vote_avg > 5:
-                    voted_movies.append(movie)
-            voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
-            voted_movies150 = voted_movies[:150]
-            voted_movies30 = random.sample(voted_movies150, 30)
-            serializer = MovieListSerializer(voted_movies30, many=True)
-            return Response(serializer.data)
-        else:
-            unseen_movies = get_list_or_404(UnseenMovies)
-
-            # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
-            user_unseen_movies = []
-            for unseen_movie in unseen_movies:
-                if user_id == unseen_movie.user_id:
-                    user_unseen_movies.append(unseen_movie)
-
-            voted_movies = []
-            for movie in movies:
-                if movie.vote_avg > 5:
-                    if movie not in user_unseen_movies:
-                        voted_movies.append(movie)
-            voted_movies = sorted(voted_movies, key=lambda x: -x.vote_avg)
-            voted_movies150 = voted_movies[:150]
-            voted_movies30 = random.sample(voted_movies150, 30)
-            serializer = MovieListSerializer(voted_movies30, many=True)
-            return Response(serializer.data)
-
-
-@api_view(['GET'])
-def personal_movie_list_old(request, user_id):
-    if request.method == 'GET':
-        movies = get_list_or_404(Movie)
-        isUnseen = UnseenMovies.objects.all()
-        if len(isUnseen) == 0:
-            voted_movies = []
-            for movie in movies:
-                if movie.vote_avg > 5:
-                    voted_movies.append(movie)
-            voted_movies = sorted(voted_movies, key=lambda x: x.released_date)
-            voted_movies150 = voted_movies[:150]
-            voted_movies30 = random.sample(voted_movies150, 30)
-            serializer = MovieListSerializer(voted_movies30, many=True)
-            return Response(serializer.data)
-        else:
-            unseen_movies = get_list_or_404(UnseenMovies)
-
-            # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
-            user_unseen_movies = []
-            for unseen_movie in unseen_movies:
-                if user_id == unseen_movie.user_id:
-                    user_unseen_movies.append(unseen_movie)
-
-            voted_movies = []
-            for movie in movies:
-                if movie.vote_avg > 5:
-                    if movie not in user_unseen_movies:
-                        voted_movies.append(movie)
-            voted_movies = sorted(voted_movies, key=lambda x: x.released_date)
-            voted_movies150 = voted_movies[:150]
-            voted_movies30 = random.sample(voted_movies150, 30)
-            serializer = MovieListSerializer(voted_movies30, many=True)
-            return Response(serializer.data)
-
-
-@api_view(['GET'])
-def personal_movie_list_popular(request, user_id):
-    if request.method == 'GET':
-        movies = get_list_or_404(Movie)
-        isUnseen = UnseenMovies.objects.all()
-        if len(isUnseen) == 0:
-            voted_movies = []
-            for movie in movies:
-                if movie.vote_avg > 5:
-                    voted_movies.append(movie)
-            voted_movies = sorted(voted_movies, key=lambda x: -x.popularity)
-            voted_movies150 = voted_movies[:150]
-            voted_movies30 = random.sample(voted_movies150, 30)
-            serializer = MovieListSerializer(voted_movies30, many=True)
-            return Response(serializer.data)
-        else:
-            unseen_movies = get_list_or_404(UnseenMovies)
-
-            # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
-            user_unseen_movies = []
-            for unseen_movie in unseen_movies:
-                if user_id == unseen_movie.user_id:
-                    user_unseen_movies.append(unseen_movie)
-
-            voted_movies = []
-            for movie in movies:
-                if movie.vote_avg > 5:
-                    if movie not in user_unseen_movies:
-                        voted_movies.append(movie)
-            voted_movies = sorted(voted_movies, key=lambda x: -x.popularity)
-            voted_movies150 = voted_movies[:150]
-            voted_movies30 = random.sample(voted_movies150, 30)
-            serializer = MovieListSerializer(voted_movies30, many=True)
-            return Response(serializer.data)
