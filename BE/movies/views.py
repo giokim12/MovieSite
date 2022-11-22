@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video, CommentLike
-from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer, CommentLikeSerializer
+from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video, CommentLike, UnseenMovies
+from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer, CommentLikeSerializer, UnseenMovieSerializer
 import random
 
 # Create your views here.
@@ -14,6 +14,7 @@ import random
 def movie_list_voted(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
+        unseenmovies = get_list_or_404(UnseenMovies)
         voted_movies = []
         for movie in movies:
             if movie.vote_avg > 5:
@@ -125,8 +126,8 @@ def movie_list_genre_recommend(request, user_id):
                 for l in movies[k].genres.all():
                     if j == l:
                         movies_bucket[k] += bucket[i]
-
     # print(movies_bucket)
+
 
     result = random.choices(movies, movies_bucket, k=6)
     serializer = MovieListSerializer(result, many=True)
@@ -350,8 +351,43 @@ def comment_like_create(request, comment_id):
             serializer.save(comment_id=comment)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+        
 def user_profile():
-    pass
+        pass
+        
 
-def user_unseen_list():
-    pass
+
+@api_view(['POST'])
+def movie_unseen(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if request.method == "POST":
+        serializer = UnseenMovieSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(movie=movie)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def movie_list_unseen(request, user_id):
+    if request.method == 'GET':
+        unseen_movies = get_list_or_404(UnseenMovies)
+        user_unseen_movies = []
+        for unseen_movie in unseen_movies:
+            if user_id == unseen_movie.user_id:
+                user_unseen_movies.append(unseen_movie)
+        movies = get_list_or_404(Movie)
+        show_movies = []
+
+        for unseen_movie in user_unseen_movies:
+            for movie in movies:
+                if unseen_movie.movie_id == movie.movie_id:
+                    show_movies.append(movie)
+
+        result = []
+        for show_movie in show_movies:
+            if show_movie not in result:
+                result.append(show_movie)
+
+        serializer = MovieListSerializer(result, many=True)
+        return Response(serializer.data)
+
