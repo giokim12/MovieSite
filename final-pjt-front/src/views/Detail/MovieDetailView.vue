@@ -64,8 +64,9 @@
                   </slide>
                 </Carousel>
               </div>
-              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-                <SimilarMovieList/>
+              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}" >
+                <h2 class="text-white">🍿이런 영화는 어떠세요?🍿</h2>
+                  <SimilarMovieList/>
               </div>
             </div>
           </div>

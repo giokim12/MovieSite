@@ -8,15 +8,10 @@ from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, 
 import random
 
 # Create your views here.
-# 001 movie_list
-# 002 movie_detail
-# 003 movie_unseen
-# 004
-# 005
 
-# 001
-
-
+# -----------------------------------------------------------
+# 비로그인 메인 페이지
+# 투표 내림차순 (비로그인)
 @api_view(['GET'])
 def movie_list_voted(request):
     if request.method == 'GET':
@@ -31,9 +26,8 @@ def movie_list_voted(request):
         serializer = MovieListSerializer(voted_movies30, many=True)
         return Response(serializer.data)
 
-# 001
 
-
+# 고전명작 (비로그인)
 @api_view(['GET'])
 def movie_list_old(request):
     if request.method == 'GET':
@@ -42,16 +36,14 @@ def movie_list_old(request):
         for movie in movies:
             if movie.vote_avg > 5:
                 old_movies.append(movie)
-        # print(new_movies[0].vote_avg)
         old_movies = sorted(old_movies, key=lambda x: x.released_date)
         old_movies30 = old_movies[:30]
 
         serializer = MovieListSerializer(old_movies30, many=True)
         return Response(serializer.data)
 
-# 001
 
-
+# 인기도 내림차순 (비로그인)
 @api_view(['GET'])
 def movie_list_popular(request):
     if request.method == 'GET':
@@ -60,48 +52,60 @@ def movie_list_popular(request):
         for movie in movies:
             if movie.vote_avg > 5:
                 popular_movies.append(movie)
-        # print(new_movies[0].vote_avg)
         popular_movies = sorted(popular_movies, key=lambda x: -x.popularity)
         popular_movies30 = popular_movies[:30]
 
         serializer = MovieListSerializer(popular_movies30, many=True)
         return Response(serializer.data)
 
-# 001
+#------------------------------------------------------------------------------
+# 로그인 메인 페이지
 
-
+# 내가 클릭한거 중에서 안보고 싶은거 뺀 함수 (여기저기에서 다 사용할거임,,,)
+def get_user_clicked(user_id):
+    clicked_movies = get_list_or_404(ClickedMovies)
+    unseen_movies = get_list_or_404(UnseenMovies)
+    # 내가 클릭한 영화
+    user_clicked_movies = []
+    for clicked_movie in clicked_movies:
+        if user_id == clicked_movie.user_id:
+            user_clicked_movies.append(clicked_movie)
+    # 내가 안보고 싶다고 누른 영화
+    user_unseen_movies=[]
+    for unseen_movie in unseen_movies:
+        if user_id == unseen_movie.user_id:
+            user_unseen_movies.append(unseen_movie)
+    # 내가 클릭한 거랑 안보고 싶은거 비교하면서 title 달라야지만 넣기
+    user_clicked_movies1 = []
+    for movie in user_clicked_movies:
+        if movie not in user_unseen_movies:
+            user_clicked_movies1.append(movie)
+    # 영화의 정보까지 가져오기
+    movies = get_list_or_404(Movie)
+    result = []
+    for clicked_movie in user_clicked_movies:
+        for movie in movies:
+            if clicked_movie.movie_id == movie.movie_id:
+                result.append(movie)
+    return result
+    
+########################################
+# 여기서부터 해야돼!!!!!!!!!!!!!!!!!!
+# 내가 클릭한 영화 최신순
 @api_view(['GET'])
-# @permission_classes((IsAuthenticated, ))
 def movie_list_clicked(request, user_id):
     if request.method == 'GET':
-        clicked_movies = get_list_or_404(ClickedMovies)
-        user_clicked_movies = []
-        for clicked_movie in clicked_movies:
-            if user_id == clicked_movie.user_id:
-                user_clicked_movies.append(clicked_movie)
-        user_clicked_movies = sorted(
-            clicked_movies, key=lambda x: -x.clicked_movie_id)
-        # print(user_clicked_movies)
-        movies = get_list_or_404(Movie)
-        show_movies = []
-
-        for clicked_movie in user_clicked_movies:
-            for movie in movies:
-                if clicked_movie.movie_id == movie.movie_id:
-                    show_movies.append(movie)
-
+        show_movies = get_user_clicked(user_id)
         result = []
         for show_movie in show_movies:
             if show_movie not in result:
                 result.append(show_movie)
         result30 = result[:30]
-
         serializer = MovieListSerializer(result30, many=True)
         return Response(serializer.data)
 
-# 001
 
-
+# 내가 클릭한거 기반 장르 알고리즘
 @api_view(['GET'])
 def movie_list_genre_recommend(request, user_id):
     clicked_movies = get_list_or_404(ClickedMovies)
