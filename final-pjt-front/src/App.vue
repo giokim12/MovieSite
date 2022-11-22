@@ -55,16 +55,42 @@ export default {
       axios.defaults.headers.common['Authorization'] = ''
     }
   },
-  mounted(){
-    // const access = this.$store.state.access
-    // if (access !== '') {
-    //   setInterval(() => {
-    //     this.getAccess()
-    //     this.getMe()
-    //   }, 59000)
-    // }
+  created() {
+    setTimeout(() => {
+      this.loading = false
+    }, 7000)
+    this.getPopularMovies();
+    this.getTopVotedMovies();
+    this.getOldMovies();
+    this.getClickedMovies();
+    this.getAlgoGenre();
+    this.getAlgoEuc();
   },
   methods: {
+    getPopularMovies() {
+      this.$store.dispatch("getPopularMovies");
+    },
+    getTopVotedMovies() {
+      this.$store.dispatch("getTopVotedMovies");
+    },
+    getOldMovies() {
+      this.$store.dispatch("getOldMovies");
+    },
+    getClickedMovies() {
+      if (this.isLogin) {
+        this.$store.dispatch("getClickedMovies", this.$store.state.userdata.id);
+      }
+    },
+    getAlgoGenre() {
+      if (this.isLogin) {
+        this.$store.dispatch("getAlgoGenre", this.$store.state.userdata.id);
+      }
+    },
+    getAlgoEuc() {
+      if (this.isLogin) {
+        this.$store.dispatch("getAlgoEuc", this.$store.state.userdata.id);
+      }
+    },
     getAccess() {
       const accessData = {
         refresh: this.$store.state.refresh
@@ -96,7 +122,7 @@ export default {
           console.log(err)
         })
     }
-  }
+  },
     
 }
 </script>

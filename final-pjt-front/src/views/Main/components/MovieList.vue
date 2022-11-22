@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-white">투표 내림차순 정렬</h2>
     <div class="w-full h-full">
-      <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" centerMode="true" autoplay="true" loop="true" autoplayTimeout="6000" speed="1000">
+      <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
         <slide
           v-for = "(movie, idx) in movies_voted"
           :key = "`movie${idx}`"
