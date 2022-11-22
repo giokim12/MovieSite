@@ -8,6 +8,10 @@ urlpatterns = [
     path('movies/old/', views.movie_list_old),
     path('movies/popular/', views.movie_list_popular),
 
+    path('movies/voted/<int:user_id>/', views.personal_movie_list_voted),
+    path('movies/old/<int:user_id>/', views.personal_movie_list_old),
+    path('movies/popular/<int:user_id>/', views.personal_movie_list_popular),
+
     path('movies/clicked/<int:user_id>/', views.movie_list_clicked),
     #안보고싶은거 조회
     path('movies/unseen/<int:user_id>/', views.movie_list_unseen),

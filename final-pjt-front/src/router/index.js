@@ -35,6 +35,11 @@ const routes = [
     component: MainView,
   },
   {
+    path: "/main/:user_id",
+    name: "main",
+    component: MainView,
+  },
+  {
     path: "/detail/:movie_id",
     name: "detail",
     component: MovieDetailView,
