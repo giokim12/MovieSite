@@ -4,7 +4,7 @@
       v-if="!isLogin"
     >
       <hr>
-      <h2 class="text-white">투표 내림차순 정렬🍿</h2>
+      <h2 class="text-white">🍿투표 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -18,7 +18,7 @@
         </Carousel>
       </div>
       <hr>
-      <h2 class="text-white">인기도 내림차순 정렬🍿</h2>
+      <h2 class="text-white">🍿인기도 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -32,7 +32,7 @@
         </Carousel>
       </div>
       <hr>
-      <h2 class="text-white">고전명작🍿</h2>
+      <h2 class="text-white">🍿고전명작🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
