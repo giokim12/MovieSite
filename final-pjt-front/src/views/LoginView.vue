@@ -22,7 +22,8 @@
                   </div>
                   <button type="submit" class="w-full text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">로그인</button>
                   <p class="text-sm font-light text-white">
-                      JWT 회원이 아닌가요? <a href="#" class="font-medium text-red-400 hover:underline text-red-300">지금 가입하세요.</a>
+                      JWT 회원이 아닌가요?
+                      <router-link to="/signup" class="font-medium text-red-300 hover:underline hover:text-red-400">지금 가입하세요.</router-link>
                   </p>
               </form>
           </div>

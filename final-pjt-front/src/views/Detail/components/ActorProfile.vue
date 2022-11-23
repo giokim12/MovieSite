@@ -2,19 +2,15 @@
   <div class="profile text-center text-black w-[90%] h-[460px] m-3">
     <div class="avatar">
       <img class="photo mx-auto w-[200px] h-[200px] xl:h-[300px] xl:w-[300px]" :src="'https://image.tmdb.org/t/p/original'+actor.profile_path" alt="">
-      <span class='new bg-emerald-200 hover:bg-emerald-400 hover:cursor-pointer' @click="search(actor.name)">More</span>
+      <span class='p-2 new bg-[#F2DB68] hover:bg-[#09D05F] hover:cursor-pointer' @click="search(actor.name)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+      </span>
     </div>
     <h1>{{actor.name}}</h1>
     <p class="text-2xl font-bold">{{actor.character}}</p>
   </div>
-<!-- <div class="no-underline rounded border border-white m-3 text-center text-xl h-{800px} w-{500px} md:h-{1200px} md:w-{800px}">
-      <div class="text-center h-[120px] pt-3">
-        <div class="text-3xl">{{ actor.name }}</div>
-        <div class="text-2xl mb-2">{{ actor.character }}</div>
-      </div>
-      <img :src="'https://image.tmdb.org/t/p/original'+actor.profile_path" class="rounded h-full w-full" alt="">
-      <div @click="search(actor.name)">detail</div>
-    </div> -->
 </template>
 
 <script>
@@ -70,7 +66,7 @@ export default {
 
 .new {
   position: absolute;
-  left: 73%;
+  left: 80%;
   top: 10%;
   /* background-color: aquamarine; */
   padding: 0.2rem 0.5rem;

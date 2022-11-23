@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" >
+    <div @mouseover="hover" @mouseout="hover" class="m-3 lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer relative" >
       <div :class="isUnseen? '' : 'hidden'" class="text-white absolute top-40 left-10 h-[50%]"> 이제 이 영화는 추천되지 않습니다</div>
-      <img @click="goDetail(), addView()" :class="isUnseen? 'opacity-25' : ''" class="w-[90%] h-[100%] rounded-xl" :src="imgPath" alt="..."/>
+      <img @click="goDetail(), addView()" :class="isUnseen? 'opacity-25' : ''" class="w-[90%] h-[35vh] rounded-xl" :src="imgPath" alt="..."/>
       <button 
         :class="isHover? 'visible' : 'invisible'" 
         v-if="isLogin" 
-        class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none focus:ring-red-200 del-button" 
+        class="text-white border bg-red-400 hover:bg-red-500 rounded-lg focus:ring-4 focus:outline-none p-1 focus:ring-red-200 absolute top-[87%] right-[35px]" 
         v-on="isUnseen ? {click:() => {cancelUnseen();}} : {click:() => {addUnseen();}}"
         
       >
@@ -26,7 +26,7 @@ export default {
     return{
       isHover: false,
       isUnseen: false,
-      isUnseenText: '안볼래용'
+      isUnseenText: '관심 없음'
     }
   },
   props: {
@@ -80,7 +80,7 @@ export default {
           .then((res) => {
             console.log(res)
             this.isUnseen = true
-            this.isUnseenText = '볼래용'
+            this.isUnseenText = '추천 받기'
           })
           .catch((err) => {
             console.log(err)
@@ -99,10 +99,9 @@ export default {
         .then((res) => {
           console.log(res)
           this.isUnseen = false
-          this.isUnseenText = '안볼래용'
+          this.isUnseenText = '관심 없음'
         })
         .catch((err) => {
-          console.log('볼래용 에러에용')
           console.log(err)
         })
     }
@@ -120,25 +119,5 @@ export default {
   text-overflow:ellipsis;
 }
 
-.movie-card {
-  /* background-image: :src="imgPath"; */
-  position: relative;
-
-
-}
-
-
-.del-button-container {
-  position: absolute;
-  top: 0%;
-  left: 0%;
-
-}
-.del-button {
-  position: absolute;
-  top: 90%;
-  left: 70%;
-
-}
 
 </style>

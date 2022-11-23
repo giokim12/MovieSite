@@ -35,7 +35,7 @@
           </ul>
         </div>
         <div class="relative flex flex-col min-w-0 break-words w-full mb-3 shadow-lg rounded">
-          <div class="px-4 py-5 flex-auto">
+          <div class="px-5 py-5 flex-auto">
             <div class="tab-content tab-space">
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" class="text-white flex">
                 <CommentStarsVue

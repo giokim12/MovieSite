@@ -1,7 +1,7 @@
 <template>
   <div class="text-slate-200">
     <div v-if="video" class="text-center fixed top-0 left-0 w-full h-full bg-opacity-60 bg-black" @click="video=false">
-      <div id="ytplayer" class="text-center fixed top-[10%] left-[25%]"></div>
+      <div id="ytplayer" class="text-center fixed top-[7%] left-[25%]"></div>
     </div>
     <div class="font-bold text-5xl">{{movie?.title}}</div>
     <br>
@@ -128,8 +128,8 @@ function onYouTubePlayerAPIReady(movieKey) {
   console.log('movie', movieKey)
   // eslint-disable-next-line
   player = new YT.Player('ytplayer', {
-    height: '860',
-    width: '1200',
+    height: '70%',
+    width: '56.25%',
     videoId: String(movieKey),
     playerVars: {
         'rel': 0,    //연관동영상 표시여부(0:표시안함)
