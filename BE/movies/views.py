@@ -13,6 +13,8 @@ import numpy as np
 # -----------------------------------------------------------
 # 비로그인 메인 페이지
 # 투표 내림차순 (비로그인)
+
+
 @api_view(['GET'])
 def movie_list_voted(request):
     if request.method == 'GET':
@@ -59,10 +61,12 @@ def movie_list_popular(request):
         serializer = MovieListSerializer(popular_movies30, many=True)
         return Response(serializer.data)
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # 로그인 후 메인 페이지
 
 # 내가 클릭한거 중에서 안보고 싶은거 뺀 함수 (여기저기에서 다 사용할거임,,,)
+
+
 def get_user_clicked(user_id):
     clicked_movies = get_list_or_404(ClickedMovies)
     unseen_movies = get_list_or_404(UnseenMovies)
@@ -233,6 +237,8 @@ def personal_movie_list_voted(request, user_id):
         return Response(serializer.data)
 
 # 로그인 후 고전명작 리스트
+
+
 @api_view(['GET'])
 def personal_movie_list_old(request, user_id):
     if request.method == 'GET':
@@ -259,6 +265,8 @@ def personal_movie_list_old(request, user_id):
         return Response(serializer.data)
 
 # 로그인 후 인기순 리스트
+
+
 @api_view(['GET'])
 def personal_movie_list_popular(request, user_id):
     if request.method == 'GET':
@@ -285,8 +293,10 @@ def personal_movie_list_popular(request, user_id):
 
 # ----------------------------------------------------------------
 # 디테일페이지
-        
+
 # 영화에 출연한 배우들 가져오기
+
+
 @api_view(['GET'])
 def actor_list(request, movie_id):
     if request.method == 'GET':
@@ -297,6 +307,8 @@ def actor_list(request, movie_id):
 
 # 영화 디테일 페이지로 가기 (GET)
 # 클릭한 영화 리스트에 추가하기 (POST)
+
+
 @api_view(['GET', 'POST'])
 def movie_detail(request, movie_id):
     # article = Article.objects.get(pk=article_pk)
@@ -312,7 +324,7 @@ def movie_detail(request, movie_id):
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        
+
 # 개별 영화 트레일러
 @api_view(['GET'])
 def movie_detail_video(request, movie_id):
@@ -359,19 +371,44 @@ def movie_list_similar(request, movie_id):
     return Response(serializer.data)
 
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # 커뮤니티 기능
 
 # 해당 영화의 댓글 리스트
 @api_view(['GET'])
-def comment_list(request, movie_id):
+def comment_list(request, movie_id, sort):
     if request.method == 'GET':
         comments = get_list_or_404(Comment, movie=movie_id)
-        serializer = CommentSerializer(comments, many=True)
+        for i in range(len(comments)):
+            comment_likes = CommentLike.objects.filter(
+                comment_id=comments[i].comment_id)
+            comments[i].likes = len(comment_likes)
+        # comments.save()
+        # new
+        if sort == 'NEW':
+            comments_new = sorted(comments, key=lambda x: -x.comment_id)
+            serializer = CommentSerializer(comments_new, many=True)
+        # 평점 높은 순
+        elif sort == 'RATE_UP':
+            comments_rate_up = sorted(comments, key=lambda x: -x.rate)
+            serializer = CommentSerializer(comments_rate_up, many=True)
+        # 평점 낮은 순
+        elif sort == 'RATE_DOWN':
+            comments_rate_down = sorted(comments, key=lambda x: x.rate)
+            serializer = CommentSerializer(comments_rate_down, many=True)
+        # 좋아요 순
+        elif sort == 'LIKES':
+            comments_likes = sorted(comments, key=lambda x: -x.likes)
+            serializer = CommentSerializer(comments_likes, many=True)
         return Response(serializer.data)
+
+        # popular_movies = sorted(
+        #     popular_movies, key=lambda x: -x.popularity)
 
 # 개별 댓글
 # 조회 수정 삭제
+
+
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
@@ -390,7 +427,7 @@ def comment_detail(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
 
-        
+
 # 댓글 생성
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -403,7 +440,7 @@ def comment_create(request, movie_id):
         serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    
+
 # 개별 댓글 좋아요
 @api_view(['GET'])
 def comment_like_list(request, comment_id):
@@ -412,14 +449,13 @@ def comment_like_list(request, comment_id):
         serializer = CommentLikeSerializer(comment_likes, many=True)
         return Response(serializer.data)
 
-    
-# 
+
+#
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated, ))
 def comment_like_detail(request, comment_id):
     likes = get_list_or_404(CommentLike, comment_id=comment_id)
 
-    # print(request.data['user_id'])
     if request.method == 'DELETE':
         for like in likes:
             if str(like.user_id) == str(request.data['user_id']):
@@ -428,10 +464,9 @@ def comment_like_detail(request, comment_id):
                 }
                 like.delete()
                 return Response(data, status=status.HTTP_204_NO_CONTENT)
-            else:
-                print('qwdwq')
+#
 
-# 
+
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def comment_like_create(request, comment_id):
@@ -444,15 +479,14 @@ def comment_like_create(request, comment_id):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-def user_profile():
-    pass
-
 # 003
 
-#---------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
 # 안보고 싶은 영화 관련
 
 # 안보고 싶은 영화 리스트에 추가, 삭제
+
+
 @api_view(['POST', 'DELETE'])
 def movie_unseen(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -468,6 +502,8 @@ def movie_unseen(request, movie_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # 이 사용자가 안보고싶어하는 영화 리스트 조회하기
+
+
 @api_view(['GET'])
 def movie_list_unseen(request, user_id):
     if request.method == 'GET':
@@ -491,5 +527,3 @@ def movie_list_unseen(request, user_id):
 
         serializer = MovieListSerializer(result, many=True)
         return Response(serializer.data)
-
-

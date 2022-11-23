@@ -67,7 +67,11 @@ export default {
           .then(() => {
             this.content = null
             this.rate = 3
-            this.$store.dispatch("getCommentList", this.$route.params.movie_id)
+            this.$store.dispatch({
+              type: "getCommentList",
+              movie_id: this.$route.params.movie_id, 
+              sort: 'NEW'
+            })
           })
           .catch((err) => {
             console.log('err = ', err)

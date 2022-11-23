@@ -33,9 +33,9 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:8080', 'http://127.0.0.1:8000']
 
 # JMT
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -55,8 +55,8 @@ SPECTACULAR_SETTINGS = {
 # JMT
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer'),
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(hours=24),
 }
 
 

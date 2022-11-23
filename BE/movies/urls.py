@@ -13,12 +13,12 @@ urlpatterns = [
     path('movies/popular/<int:user_id>/', views.personal_movie_list_popular),
 
     path('movies/clicked/<int:user_id>/', views.movie_list_clicked),
-    #안보고싶은거 조회
+    # 안보고싶은거 조회
     path('movies/unseen/<int:user_id>/', views.movie_list_unseen),
     path('movies/recommend/genre/<int:user_id>/',
-        views.movie_list_genre_recommend),
+         views.movie_list_genre_recommend),
     path('movies/recommend/euclidean/<int:user_id>/',
-        views.movie_list_euclidean_recommend),
+         views.movie_list_euclidean_recommend),
 
     path('detail/<int:movie_id>/', views.movie_detail),
     path('detail/video/<int:movie_id>/', views.movie_detail_video),
@@ -27,7 +27,7 @@ urlpatterns = [
     # 안보고싶은거 추가하는 url
     path('unseen/<int:movie_id>/', views.movie_unseen),
 
-    path('comments/<int:movie_id>/list/', views.comment_list),
+    path('comments/<int:movie_id>/list/<str:sort>/', views.comment_list),
     path('comments/<int:comment_pk>/', views.comment_detail),
     path('movies/<int:movie_id>/comments/', views.comment_create),
 
@@ -35,14 +35,13 @@ urlpatterns = [
     path('comments/like/list/<int:comment_id>/', views.comment_like_list),
     path('comments/like/<int:comment_id>/', views.comment_like_create),
 
-    path('profile/<int:user_id>/', views.user_profile),
 
-    
+
 
     # # 필수 작성
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     # # optional UI
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'),
-        name='swagger-ui'),
+         name='swagger-ui'),
 
 ]

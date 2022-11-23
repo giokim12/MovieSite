@@ -232,11 +232,11 @@ export default new Vuex.Store({
     // main end
 
     // detail start
-    getCommentList(context, movie_id) {
+    getCommentList(context, data) {
       // this.$store.dispatch("getCommentList", this.$route.params.movie_id)
       axios({
         method: "get",
-        url: `${API_URL}/api/v1/comments/${movie_id}/list/`,
+        url: `${API_URL}/api/v1/comments/${data.movie_id}/list/${data.sort}/`,
       })
         .then((res) => {
           context.commit("GET_COMMENT_LIST", res.data);
