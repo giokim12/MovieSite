@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" >
+    <div @mouseover="hover" @mouseout="hover" class="m-3 h-[100%] lg:hover:scale-110 lg:hover:rounded transition-transform ease-in-out duration-500 hover:cursor-pointer movie-card" >
       <div :class="isUnseen? '' : 'hidden'" class="text-white absolute top-40 left-10 h-[50%]"> 이제 이 영화는 추천되지 않습니다</div>
       <img @click="goDetail(), addView()" :class="isUnseen? 'opacity-25' : ''" class="w-[90%] h-[100%] rounded-xl" :src="imgPath" alt="..."/>
       <button 
