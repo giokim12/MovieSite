@@ -455,7 +455,9 @@ def comment_create(request, movie_id):
 @api_view(['GET'])
 def comment_like_list(request, comment_id):
     if request.method == 'GET':
-        comment_likes = get_list_or_404(CommentLike, comment_id=comment_id)
+        # comment_likes = get_list_or_404(CommentLike, comment_id=comment_id)
+        comment_likes = CommentLike.objects.filter(comment_id=comment_id)
+        print(comment_likes)
         serializer = CommentLikeSerializer(comment_likes, many=True)
         return Response(serializer.data)
 

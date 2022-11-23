@@ -36,6 +36,7 @@ export default new Vuex.Store({
     // detail start
     comments: [],
     moviesSimilar: [],
+    getLike: false,
 
     //profile start
     moviesUnseen: [],
@@ -110,6 +111,9 @@ export default new Vuex.Store({
     },
     GET_SIMILAR_MOVIES(state, movies) {
       state.moviesSimilar = movies;
+    },
+    GET_LIKE(state) {
+      state.getLike = !state.getLike;
     },
     //detail end
 

@@ -17,7 +17,7 @@
           </symbol>
         </defs>
       </svg>
-      <div class="absolute top-[110px] left-[180px] text-2xl ">
+      <div class="absolute top-[110px] left-[180px] text-2xl pl-4">
         {{ comment.length }}개 평점
       </div>
       <div class="rating">

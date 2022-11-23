@@ -30,7 +30,7 @@
       <progress class="rating-bg" :value="comment.rate" max="5"></progress>
       <svg><use xlink:href="#fivestars2"/></svg>
     </div>
-    <div class="my-1 text-2xl">{{ comment.content }} {{ comment.likes }}</div>
+    <div class="my-1 text-2xl">{{ comment.content }}</div>
     <div class="text-xs">{{ nickname }} • {{ comment.created_at.slice(0, 10) }}</div>
     <button 
       v-on="isLike ? {click:() => {commentDislike();}} : {click:() => {commentLike();}}" 
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       nickname: null,
-      likes: null,
+      likes: 0,
       isLike: false,
       open: false
     }
@@ -64,6 +64,9 @@ export default {
     comment:Object
   },
   computed: {
+    isLiked() {
+      return this.$store.state.getLike
+    },
     isLogin() {
       return this.$store.state.access
     },
@@ -76,11 +79,12 @@ export default {
     this.getUser()
     this.getCommentLike()    
   },
-  mounted() {
-    console.log(this.likes)
-    // this.likes.forEach((el) => {
-    //   console.log(el)
-    // })
+  
+  watch: {
+    isLiked () {
+      console.log('dqwdqwd')
+      this.getCommentLike()
+    }
   },
   methods: {
     toggleOpen() {
@@ -110,17 +114,15 @@ export default {
         url: `${API_URL}/api/v1/comments/like/list/${this.comment.comment_id}/`,
       })
         .then((res) => {
-          this.likes = res.data
-          this.likes.forEach((el) => {
-            if (el.user_id === this.$store.state.userdata.id) {
-              this.isLike = true
-            } else {
-              this.isLike = false
-            }
-          })
-          // console.log(res.data)
+          this.likes = res.data.length
+          if (res.data[0].user_id === this.$store.state.userdata.id) {
+            this.isLike = true
+          } else {
+            this.isLike = false
+          }
         })
         .catch((err) => {
+          console.log('getCommentLikeError')
           console.log(err)
         })
     },
@@ -142,8 +144,8 @@ export default {
         // eslint-disable-next-line
           .then(() => {
             // console.log(res)
+            this.likes += 1
             this.isLike=true
-            this.$emit('like')
             
           })
           .catch((err) => {
