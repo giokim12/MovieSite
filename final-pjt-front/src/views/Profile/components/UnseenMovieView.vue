@@ -1,7 +1,10 @@
 <template>
-  <div class="bg-black h-[100vh] text-white">
-    <UnseenMovieList/>
-  </div>
+  <!-- <div class="h-screen"> -->
+    <div class="bg-black text-white h-full">
+        <UnseenMovieList
+        />
+    </div>
+  <!-- </div> -->
 </template>
 
 <script>
