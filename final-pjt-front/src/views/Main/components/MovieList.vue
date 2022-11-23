@@ -52,7 +52,7 @@
       <hr>
       <h2 class=" text-white ml-4 pl-2">🍿유클리디안 거리 기반 알고리즘 추천 영화🍿</h2>
       <div class="w-full h-full">
-        <Carousel v-if="!movies_algo_euc" class="text-white ml-4" :per-page="2" :perPageCustom="[[576, 3], [768, 4], [768, 5], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel v-if="movies_algo_euc.length" class="text-white ml-4" :per-page="2" :perPageCustom="[[576, 3], [768, 4], [768, 5], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_algo_euc"
             :key = "`movie${idx}`"

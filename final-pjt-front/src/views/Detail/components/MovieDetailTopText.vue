@@ -93,7 +93,7 @@ export default {
       const API_KEY = 'AIzaSyB1iUyONDiUkQt3nMDN4T9pcxuOi4BXw-0'
       axios({
         method: 'get',
-        url: `${URL}?key=${API_KEY}&type=video&part=snippet&q=${this.movie.title}&maxResuluts=1`,
+        url: `${URL}?key=${API_KEY}&type=video&part=snippet&q=${this.movie.title}&maxResuluts=20`,
         // headers: {
         //   Authorization: `Bearer ${this.$store.state.access}`
         // }
@@ -108,7 +108,7 @@ export default {
           onYouTubePlayerAPIReady(response.data.items[0].id.videoId)
         }) 
         .catch((error) => {
-          console.log('error',error)
+          console.log('유튜브 에러',error)
         })
     },
   }

@@ -11,7 +11,6 @@ urlpatterns = [
     path('movies/voted/<int:user_id>/', views.personal_movie_list_voted),
     path('movies/old/<int:user_id>/', views.personal_movie_list_old),
     path('movies/popular/<int:user_id>/', views.personal_movie_list_popular),
-
     path('movies/clicked/<int:user_id>/', views.movie_list_clicked),
     # 안보고싶은거 조회
     path('movies/unseen/<int:user_id>/', views.movie_list_unseen),
@@ -30,10 +29,11 @@ urlpatterns = [
     path('comments/<int:movie_id>/list/<str:sort>/', views.comment_list),
     path('comments/<int:comment_pk>/', views.comment_detail),
     path('movies/<int:movie_id>/comments/', views.comment_create),
+    path('comments/like/<int:comment_id>/', views.comment_like),
 
-    path('comments/like/detail/<int:comment_id>/', views.comment_like_detail),
-    path('comments/like/list/<int:comment_id>/', views.comment_like_list),
-    path('comments/like/<int:comment_id>/', views.comment_like_create),
+    #     path('comments/like/detail/<int:comment_id>/', views.comment_like_detail),
+    #     path('comments/like/list/<int:comment_id>/', views.comment_like_list),
+    #     path('comments/like/<int:comment_id>/', views.comment_like_create),
 
 
 
