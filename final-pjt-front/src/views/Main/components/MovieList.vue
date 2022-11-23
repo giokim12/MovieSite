@@ -6,12 +6,11 @@
       <hr>
       <h2 class="text-white">🍿투표 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_voted"
             :key = "`movie${idx}`"
             :movie = "movie"
-            class="h-full"
           >
             <MovieListItem :movie = "movie"/>
           </slide>
@@ -20,7 +19,7 @@
       <hr>
       <h2 class="text-white">🍿인기도 내림차순 정렬🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_popular"
             :key = "`movie${idx}`"
@@ -34,7 +33,7 @@
       <hr>
       <h2 class="text-white">🍿고전명작🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_old"
             :key = "`movie${idx}`"
@@ -53,7 +52,7 @@
       <hr>
       <h2 class=" text-white ml-4 pl-2">🍿유클리디안 거리 기반 알고리즘 추천 영화🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_algo_euc"
             :key = "`movie${idx}`"
@@ -67,7 +66,7 @@
       <hr>
       <h2 class="text-white ml-4 pl-2">🍿요즘 핫한 영화🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_algo_popular"
             :key = "`movie${idx}`"
@@ -81,7 +80,7 @@
       <hr>
       <h2 class="text-white ml-4 pl-2">🍿고전 명작🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_algo_old"
             :key = "`movie${idx}`"
@@ -95,7 +94,7 @@
       <hr>
       <h2 class="text-white ml-4 pl-2">🍿타 이용자들이 극찬한 영화🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_algo_voted"
             :key = "`movie${idx}`"
@@ -109,7 +108,7 @@
       <hr>
       <h2 class="text-white ml-4 pl-2">🍿장르 기반 추천 영화🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_algo_genre"
             :key = "`movie${idx}`"
@@ -123,7 +122,7 @@
       <hr>
       <h2 class="text-white ml-4 pl-2">🍿최근 내가 본 영화🍿</h2>
       <div class="w-full h-full">
-        <Carousel class="text-white ml-4" :per-page="6" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
+        <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[768, 4], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
             v-for = "(movie, idx) in movies_clicked"
             :key = "`movie${idx}`"

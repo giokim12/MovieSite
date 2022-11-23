@@ -50,7 +50,7 @@ export default {
         movie_id: this.$route.params.movie_id, 
         sort: this.sortKey
       })
-      this.$refs.CommentListItemVue.getCommentLike()
+      // this.$refs.CommentListItemVue.getCommentLike()
     }
     // onChange(e) {
     //   console.log(e.target.value)

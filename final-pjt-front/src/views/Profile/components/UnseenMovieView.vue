@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="h-screen"> -->
-    <div class="bg-black text-white h-full">
+    <div class="bg-black text-white h-screen">
         <UnseenMovieList
         />
     </div>

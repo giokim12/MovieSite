@@ -24,8 +24,9 @@
                       <input v-model="password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required="">
                   </div>
                   <button type="submit" class="w-full text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">가입하기</button>
-                  <p class="text-sm font-light text-gray-500 text-white">
-                    계정이 있으신가요? <a href="#" class="font-medium text-red-400 hover:underline text-red-300">로그인</a>
+                  <p class="text-sm font-light text-white">
+                    계정이 있으신가요?
+                    <router-link to="/login" class="text-red-300 font-medium hover:text-red-400">로그인</router-link>
                   </p>
               </form>
           </div>
