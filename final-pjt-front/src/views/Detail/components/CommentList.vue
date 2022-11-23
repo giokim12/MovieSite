@@ -7,8 +7,9 @@
       <option value="LIKES">좋아요순</option>
     </select>
     <CommentListItemVue
-      v-for="(comment, idx) in get_comment"
-      :key="idx"
+      ref="CommentListItem"
+      v-for="comment in get_comment"
+      :key="comment?.comment_id"
       :comment="comment"
       v-on:del="getCommentList"
       v-on:like="getCommentList"
@@ -50,11 +51,8 @@ export default {
         movie_id: this.$route.params.movie_id, 
         sort: this.sortKey
       })
-      // this.$refs.CommentListItemVue.getCommentLike()
+      setTimeout(() => this?.$refs.CommentListItem[this.comment?.comment_id]?.checkCommentLike(), 100);
     }
-    // onChange(e) {
-    //   console.log(e.target.value)
-    // }
   }
 }
 </script>

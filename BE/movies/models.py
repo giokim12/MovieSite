@@ -69,13 +69,15 @@ class Comment(models.Model):
     rate = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='like_comments', blank=True, null=True)
 
 
-class CommentLike(models.Model):
-    like_id = models.AutoField(primary_key=True)
-    comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+# class CommentLike(models.Model):
+#     like_id = models.AutoField(primary_key=True)
+#     comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
+#     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
+#                                 on_delete=models.CASCADE)
 
 
 class ClickedMovies(models.Model):

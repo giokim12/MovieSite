@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video, CommentLike, UnseenMovies
-from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer, CommentLikeSerializer, UnseenMovieSerializer
+from .models import Movie, Genre, Credit, Comment, ClickedMovies, Video, UnseenMovies
+from .serializers import MovieListSerializer, ActorSerializer, MovieSerializer, CommentSerializer, ClickedMovieSerializer, VideoSerializer, UnseenMovieSerializer
 import random
 import numpy as np
 
@@ -388,10 +388,6 @@ def movie_list_similar(request, movie_id):
 def comment_list(request, movie_id, sort):
     if request.method == 'GET':
         comments = get_list_or_404(Comment, movie=movie_id)
-        for i in range(len(comments)):
-            comment_likes = CommentLike.objects.filter(
-                comment_id=comments[i].comment_id)
-            comments[i].likes = len(comment_likes)
         # comments.save()
         # new
         if sort == 'NEW':
@@ -413,6 +409,26 @@ def comment_list(request, movie_id, sort):
 
         # popular_movies = sorted(
         #     popular_movies, key=lambda x: -x.popularity)
+
+
+@api_view(['GET', 'DELETE', 'POST'])
+def comment_like(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.method == 'GET':
+        if request.user in comment.like_users.all():
+            data = {
+                'isLike': True
+            }
+            return Response(data)
+    elif request.method == 'POST':
+        comment.like_users.add(request.data['user'])
+        data = {
+            'success': True
+        }
+        return Response(data)
+    elif request.method == 'DELETE':
+        comment.like_users.remove(request.data['user'])
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # 개별 댓글
 # 조회 수정 삭제
@@ -443,49 +459,50 @@ def comment_detail(request, comment_pk):
 def comment_create(request, movie_id):
     # article = Article.objects.get(pk=article_pk)
     movie = get_object_or_404(Movie, pk=movie_id)
-    print(request.data)
+    # print(request.data)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
+        # print(request.data)
         serializer.save(movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # 개별 댓글 좋아요
-@api_view(['GET'])
-def comment_like_list(request, comment_id):
-    if request.method == 'GET':
-        comment_likes = get_list_or_404(CommentLike, comment_id=comment_id)
-        serializer = CommentLikeSerializer(comment_likes, many=True)
-        return Response(serializer.data)
+# @api_view(['GET'])
+# def comment_like_list(request, comment_id):
+#     if request.method == 'GET':
+#         comment_likes = get_list_or_404(CommentLike, comment_id=comment_id)
+#         serializer = CommentLikeSerializer(comment_likes, many=True)
+#         return Response(serializer.data)
 
 
-#
-@api_view(['DELETE'])
-@permission_classes((IsAuthenticated, ))
-def comment_like_detail(request, comment_id):
-    likes = get_list_or_404(CommentLike, comment_id=comment_id)
+# #
+# @api_view(['DELETE'])
+# @permission_classes((IsAuthenticated, ))
+# def comment_like_detail(request, comment_id):
+#     likes = get_list_or_404(CommentLike, comment_id=comment_id)
 
-    if request.method == 'DELETE':
-        for like in likes:
-            if str(like.user_id) == str(request.data['user_id']):
-                data = {
-                    'message': 'del'
-                }
-                like.delete()
-                return Response(data, status=status.HTTP_204_NO_CONTENT)
-#
+#     if request.method == 'DELETE':
+#         for like in likes:
+#             if str(like.user_id) == str(request.data['user_id']):
+#                 data = {
+#                     'message': 'del'
+#                 }
+#                 like.delete()
+#                 return Response(data, status=status.HTTP_204_NO_CONTENT)
+# #
 
 
-@api_view(['POST'])
-@permission_classes((IsAuthenticated, ))
-def comment_like_create(request, comment_id):
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated, ))
+# def comment_like_create(request, comment_id):
 
-    comment = get_object_or_404(Comment, comment_id=comment_id)
-    if request.method == 'POST':
-        serializer = CommentLikeSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(comment_id=comment)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     comment = get_object_or_404(Comment, comment_id=comment_id)
+#     if request.method == 'POST':
+#         serializer = CommentLikeSerializer(data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             serializer.save(comment_id=comment)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # 003
