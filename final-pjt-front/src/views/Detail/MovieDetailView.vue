@@ -32,21 +32,6 @@
                 영화
               </a>
             </li>
-            <!-- <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
-              <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-red-500 bg-white': openTab !== 1, 'text-white bg-red-500': openTab === 1}">
-                코멘트
-              </a>
-            </li>
-            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
-              <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-red-500 bg-white': openTab !== 2, 'text-white bg-red-500': openTab === 2}">
-                출연진
-              </a>
-            </li>
-            <li class="-mb-px mr-2 last:mr-0 flex-auto hover:cursor-pointer text-center">
-              <a class="text-xl font-bold uppercase px-5 py-3 shadow-lg rounded block hover:text-red-300 leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-red-500 bg-white': openTab !== 3, 'text-white bg-red-500': openTab === 3}">
-                영화
-              </a>
-            </li> -->
           </ul>
         </div>
         <div class="relative flex flex-col min-w-0 break-words w-full mb-3 shadow-lg rounded">
@@ -168,7 +153,11 @@ export default {
         })
     },
     getCommentList() {
-      this.$store.dispatch("getCommentList", this.$route.params.movie_id)
+      this.$store.dispatch({
+        type: "getCommentList",
+        movie_id: this.$route.params.movie_id, 
+        sort: 'NEW'
+      })
     },
     toggleTabs: function(tabNumber){
       this.openTab = tabNumber

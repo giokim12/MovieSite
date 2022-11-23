@@ -49,6 +49,7 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          this.logout()
         })
     } else {
       console.log('notaccess')
@@ -96,6 +97,13 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    logout() {
+      this.$store.commit('REMOVE_ACCESS');
+      localStorage.setItem('access', '');
+      localStorage.setItem('refresh', '');
+      localStorage.setItem('vuex', '');
+      this.$router.go()
     }
   },
 }

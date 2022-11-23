@@ -1,16 +1,17 @@
 <template>
   <div>
-    <select id="sort" class="bg-black text-white h-16 text-xl rounded-lg border-none focus:outline-none">
+    <select id="sort" v-model="sortKey" @change="getCommentList" class="bg-black text-white h-16 text-xl rounded-lg border-none focus:outline-none">
       <option value="NEW">최신순</option>
       <option value="RATE_UP">평점 높은순</option>
       <option value="RATE_DOWN">평점 낮은순</option>
-      <option value="LIKE">좋아요순</option>
+      <option value="LIKES">좋아요순</option>
     </select>
     <CommentListItemVue
       v-for="(comment, idx) in get_comment"
       :key="idx"
       :comment="comment"
       v-on:del="getCommentList"
+      v-on:like="getCommentList"
     />
   </div>
 </template>
@@ -24,7 +25,8 @@ export default {
   name: "CommentList",
   data() {
     return {
-      selectArrow: false
+      selectArrow: false,
+      sortKey: 'NEW'
     }
   },
   components: {
@@ -43,8 +45,16 @@ export default {
   },
   methods: {
     getCommentList() {
-      this.$store.dispatch("getCommentList", this.$route.params.movie_id)
+      this.$store.dispatch({
+        type: "getCommentList",
+        movie_id: this.$route.params.movie_id, 
+        sort: this.sortKey
+      })
+      this.$refs.CommentListItemVue.getCommentLike()
     }
+    // onChange(e) {
+    //   console.log(e.target.value)
+    // }
   }
 }
 </script>
