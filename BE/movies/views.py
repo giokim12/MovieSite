@@ -71,9 +71,11 @@ def get_user_clicked(user_id):
     clicked_movies = get_list_or_404(ClickedMovies)
     unseen_movies = get_list_or_404(UnseenMovies)
     # 내가 클릭한 영화
-    user_clicked_movies = list(filter(lambda x: x.user_id== user_id, clicked_movies))
+    user_clicked_movies = list(
+        filter(lambda x: x.user_id == user_id, clicked_movies))
     # 내가 안보고 싶다고 누른 영화
-    user_unseen_movies = list(filter(lambda x: x.user_id== user_id, unseen_movies))
+    user_unseen_movies = list(
+        filter(lambda x: x.user_id == user_id, unseen_movies))
     # 내가 클릭한 거랑 안보고 싶은거 비교하면서 movie_id 달라야지만 넣기
     user_clicked_movies1 = []
     for movie in user_clicked_movies:
@@ -94,7 +96,8 @@ def get_user_clicked(user_id):
 def get_user_candidates(user_id):
     movies = get_list_or_404(Movie)
     unseen_movies = get_list_or_404(UnseenMovies)
-    user_unseen_movies = list(filter(lambda x: x.user_id== user_id, unseen_movies))
+    user_unseen_movies = list(
+        filter(lambda x: x.user_id == user_id, unseen_movies))
     # 내가 안보고 싶은거랑 영화랑 비교하면서 제목 달라야지만 넣기
     user_recommend_candidates = []
     for movie in movies:
@@ -104,7 +107,7 @@ def get_user_candidates(user_id):
                 flg += 1
             else:
                 continue
-        
+
         if flg != 0:
             continue
         else:
@@ -215,17 +218,19 @@ def movie_list_euclidean_recommend(request, user_id):
 @api_view(['GET'])
 def personal_movie_list_voted(request, user_id):
     if request.method == 'GET':
-        movies = get_user_candidates(user_id)
         isUnseen = UnseenMovies.objects.all()
-        unseen_movies = get_list_or_404(UnseenMovies)
-        user_unseen_movies = list(filter(lambda x: x.user_id== user_id, unseen_movies))
         voted_movies = []
         if len(isUnseen) == 0:
+            movies = get_list_or_404(Movie)
             for movie in movies:
                 if movie.vote_avg > 5:
                     voted_movies.append(movie)
         else:
             # 해당 사용자가 클릭한 영화만 뽑아서 user_unseen_movies 에 넣기
+            movies = get_user_candidates(user_id)
+            unseen_movies = get_list_or_404(UnseenMovies)
+            user_unseen_movies = list(
+                filter(lambda x: x.user_id == user_id, unseen_movies))
             for movie in movies:
                 if movie.vote_avg > 5:
                     if movie not in user_unseen_movies:
@@ -242,16 +247,19 @@ def personal_movie_list_voted(request, user_id):
 @api_view(['GET'])
 def personal_movie_list_old(request, user_id):
     if request.method == 'GET':
-        movies = get_user_candidates(user_id)
         isUnseen = UnseenMovies.objects.all()
-        unseen_movies = get_list_or_404(UnseenMovies)
-        user_unseen_movies = list(filter(lambda x: x.user_id== user_id, unseen_movies))
+
         if len(isUnseen) == 0:
+            movies = get_list_or_404(Movie)
             old_movies = []
             for movie in movies:
                 if movie.vote_avg > 5:
                     old_movies.append(movie)
         else:
+            movies = get_user_candidates(user_id)
+            unseen_movies = get_list_or_404(UnseenMovies)
+            user_unseen_movies = list(
+                filter(lambda x: x.user_id == user_id, unseen_movies))
             old_movies = []
             for movie in movies:
                 if movie.vote_avg > 5:
@@ -270,16 +278,19 @@ def personal_movie_list_old(request, user_id):
 @api_view(['GET'])
 def personal_movie_list_popular(request, user_id):
     if request.method == 'GET':
-        movies = get_user_candidates(user_id)
-        unseen_movies = get_list_or_404(UnseenMovies)
         isUnseen = UnseenMovies.objects.all()
-        user_unseen_movies = list(filter(lambda x: x.user_id== user_id, unseen_movies))
+
         if len(isUnseen) == 0:
+            movies = get_list_or_404(Movie)
             popular_movies = []
             for movie in movies:
                 if movie.vote_avg > 5:
                     popular_movies.append(movie)
         else:
+            movies = get_user_candidates(user_id)
+            unseen_movies = get_list_or_404(UnseenMovies)
+            user_unseen_movies = list(
+                filter(lambda x: x.user_id == user_id, unseen_movies))
             popular_movies = []
             for movie in movies:
                 if movie.vote_avg > 5:
@@ -513,7 +524,7 @@ def movie_list_unseen(request, user_id):
         for unseen_movie in unseen_movies:
             if user_id == unseen_movie.user_id:
                 user_unseen_movies.append(unseen_movie)
-        
+
         show_movies = []
         for unseen_movie in user_unseen_movies:
             for movie in movies:
