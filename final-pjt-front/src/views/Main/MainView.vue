@@ -4,7 +4,6 @@
       v-if="!isLoading"
     />
     <MovieList
-      v-else
     />
   </div>
 </template>

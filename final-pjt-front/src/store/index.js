@@ -40,7 +40,8 @@ export default new Vuex.Store({
     //profile start
     moviesUnseen: [],
   },
-  getters: {},
+  getters: {
+  },
   mutations: {
     // JWT START
     INITAILIZE_STORE(state) {

@@ -124,11 +124,10 @@ def get_user_candidates(user_id):
 @api_view(['GET'])
 def movie_list_clicked(request, user_id):
     if request.method == 'GET':
-        print('qwdopqwkdpowqkdpo')
-        print('qwdopqwkdpowqkdpo')
-        print('qwdopqwkdpowqkdpo')
-        print('qwdopqwkdpowqkdpo')
-
+        # print('qwdopqwkdpowqkdpo')
+        # print('qwdopqwkdpowqkdpo')
+        # print('qwdopqwkdpowqkdpo')
+        # print('qwdopqwkdpowqkdpo')
         show_movies = get_user_clicked(user_id)
         result = []
         for show_movie in show_movies:
@@ -176,7 +175,7 @@ def movie_list_genre_recommend(request, user_id):
         return Response(serializer.data)
 
 
-# 유사도측정(유클리디안 거리)!!!!!!!!!!
+# 유사도측정(유클리디안 거리)
 @api_view(['GET'])
 def movie_list_euclidean_recommend(request, user_id):
     clicked_movies_info = get_user_clicked(user_id)
