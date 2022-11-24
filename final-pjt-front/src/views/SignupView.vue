@@ -58,7 +58,7 @@ export default {
       }
       axios
         .post(`${API_URL}/accounts/register/`, formData)
-        .then((res) => {
+        .then(() => {
           alert('🎉회원가입에 성공하셨습니다🎉')
           this.$router.push('/login')
         })
@@ -66,7 +66,7 @@ export default {
           console.log(err.response);
           console.log(typeof(err.response.data))
           if (err.response.data.username !== 'undefined') {
-            alert('중복된 아이디임')
+            alert('이미 가입된 아이디입니다.')
           }
         });
     },
