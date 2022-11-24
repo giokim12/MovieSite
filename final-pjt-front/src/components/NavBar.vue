@@ -9,7 +9,15 @@
         <div>
           <button v-if="isLogin" class="text-white mr-3">{{ nickname.nickname }} 님 환영합니다!</button>
         </div>
-        <div>
+        <div class="flex">
+          <div class="mr-3 my-auto relative align-middle">
+            <button class="absolute top-1 right-2" @click="search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </button>
+            <input type="text" class="rounded" @keyup.enter="search" v-model="searchWord">
+          </div>
           <router-link v-if="!isLogin" to="/signup" class="text-white mr-3">회원가입</router-link>
           <router-link v-if="!isLogin" to="/login" class="text-white rounded">로그인</router-link>
           <!-- <button v-if="isLogin" @click="logout" class="text-white mr-3 hover:underline">로그아웃</button>
@@ -64,6 +72,11 @@ import MainDropdownVue from './MainDropdown.vue'
 
 export default {
   name: 'NavBar',
+  data(){
+    return {
+      searchWord:''
+    }
+  },
   components: {
     MainDropdownVue
   },
@@ -85,6 +98,11 @@ export default {
       localStorage.setItem('refresh', '');
       localStorage.setItem('vuex', '');
       this.$router.go()
+    },
+    search() {
+      this.$router.push({ name: 'search', params: { search:this.searchWord }}).catch(() => {})
+      this.$store.commit('IS_SEARCH')
+      this.searchWord = ''
     }
   }
 }

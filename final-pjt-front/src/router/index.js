@@ -7,6 +7,7 @@ import MainView from "@/views/Main/MainView";
 import MovieDetailView from "@/views/Detail/MovieDetailView.vue";
 import MyProfileView from "@/views/Profile/MyProfileView";
 import UnseenMovieView from "@/views/Profile/components/UnseenMovieView.vue";
+import SearchView from "@/views/SearchView.vue";
 // import AccountDeleteView from '../views/AccountDeleteView.vue'
 
 Vue.use(VueRouter);
@@ -53,6 +54,11 @@ const routes = [
     path: "/profile/unseen",
     name: "unseen",
     component: UnseenMovieView,
+  },
+  {
+    path: "/search/:search",
+    name: "search",
+    component: SearchView,
   },
 ];
 

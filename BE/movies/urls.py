@@ -8,6 +8,8 @@ urlpatterns = [
     path('movies/old/', views.movie_list_old),
     path('movies/popular/', views.movie_list_popular),
 
+    path('movies/search/<str:search>/', views.moive_search),
+
     path('movies/voted/<int:user_id>/', views.personal_movie_list_voted),
     path('movies/old/<int:user_id>/', views.personal_movie_list_old),
     path('movies/popular/<int:user_id>/', views.personal_movie_list_popular),
