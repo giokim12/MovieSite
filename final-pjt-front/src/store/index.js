@@ -19,7 +19,6 @@ export default new Vuex.Store({
     refresh: "",
     userdata: "",
     // JWT END
-
     // main start
     moviesVoted: [],
     moviesPopular: [],
@@ -39,9 +38,9 @@ export default new Vuex.Store({
 
     //profile start
     moviesUnseen: [],
+    isSearch: true,
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
     // JWT START
     INITAILIZE_STORE(state) {
@@ -70,7 +69,6 @@ export default new Vuex.Store({
       state.isAuthenticated = false;
     },
     // JWT END
-
     // main start
     GET_POPULAR_MOVIES(state, movies) {
       state.moviesPopular = movies;
@@ -117,6 +115,9 @@ export default new Vuex.Store({
     //profile start
     GET_UNSEEN_MOVIES(state, movies) {
       state.moviesUnseen = movies;
+    },
+    IS_SEARCH(state) {
+      state.isSearch = !state.isSearch;
     },
   },
   actions: {

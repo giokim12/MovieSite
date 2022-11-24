@@ -10,6 +10,24 @@ import numpy as np
 
 # Create your views here.
 
+
+@api_view(['GET'])
+def moive_search(request, search):
+    # movies = Movie.objects.all()
+    if request.method == 'GET':
+        search_movies = Movie.objects.filter(
+            title__icontains=search)
+
+        if len(search_movies) == 0:
+            data = {
+                'data': '검색된 영화가 없습니다.'
+            }
+            return Response(data)
+        else:
+            serializer = MovieListSerializer(search_movies, many=True)
+        return Response(serializer.data)
+
+
 # -----------------------------------------------------------
 # 비로그인 메인 페이지
 # 투표 내림차순 (비로그인)
@@ -403,7 +421,8 @@ def comment_list(request, movie_id, sort):
             serializer = CommentSerializer(comments_rate_down, many=True)
         # 좋아요 순
         elif sort == 'LIKES':
-            comments_likes = sorted(comments, key=lambda x: -x.like_users.count())
+            comments_likes = sorted(
+                comments, key=lambda x: -x.like_users.count())
             serializer = CommentSerializer(comments_likes, many=True)
         return Response(serializer.data)
 
