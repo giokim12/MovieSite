@@ -20,9 +20,11 @@
             <template slot-scope="context">
               <button
                 @click="context.toggleOpen"
-                class="h-10 w-32 cursor-pointer rounded-full text-white object-cover"
+                class="h-10 w-10 pl-0.5 cursor-pointer rounded text-white object-cover border-2"
               >
-                마이페이지
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                </svg>
               </button>
               <transition
                 enter-active-class="transition-all duration-100 ease-out"
@@ -34,19 +36,18 @@
               >
                 <div
                   v-if="context.open"
-                  class="origin-top-right absolute right-0 mt-2 w-32 bg-white border overflow-hidden rounded-lg shadow-md"
+                  class="origin-top-right absolute right-0 mt-0 w-32 bg-slate-900 border overflow-hidden rounded-lg shadow-md"
                 >
-                  <ul>
-                    <li class="hover:bg-gray-100 h-10 border-b-2">
-                      <router-link to="/profile/unseen" class="text-black">보기 싫은 영화</router-link>
-                    </li>
-                    <li class="hover:bg-gray-100">
-                      <router-link to="/profile" class="text-black">내 프로필</router-link>
-                    </li>
-                    <li class="hover:bg-gray-100">
-                      <button @click="logout" class="mr-3 hover:underline">로그아웃</button>
-                    </li>
-                  </ul>
+                  <div class="p-2 hover:bg-slate-600">
+                    <router-link to="/profile/unseen" class="text-white hover:no-underline">보기 싫은 영화</router-link>
+                  </div>
+                  <div class="p-2 hover:bg-slate-600">
+                    <router-link to="/profile" class="text-white hover:no-underline">내 프로필</router-link>
+                  </div>
+                  <div class="p-2 hover:bg-slate-600 border-t-2 border-gray-500">
+                    <button @click="logout" class="text-white">로그아웃</button>
+                  </div>
+
                 </div>
               </transition>
             </template>

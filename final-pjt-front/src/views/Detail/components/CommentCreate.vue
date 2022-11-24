@@ -39,16 +39,16 @@ export default {
   methods: {
     createComment() {
       if (!this.isLogin) {
-        alert('로그인이 하세용.')
+        alert('로그인이 필요한 서비스입니다.')
       } else if (this.isLogin){
         console.log(this.$store.state.userdata)
         const rate = this.rate
         const content = this.content
         if (!rate) {
-          alert('평점.. 입력..')
+          alert('평점을 선택해주세요.')
           return
         } else if (!content) {
-          alert('내용.. 입력..')
+          alert('내용을 입력해주세요')
           return
         }
         axios({
