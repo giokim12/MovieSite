@@ -24,7 +24,7 @@ export default {
       if (test) {
         this.$router.push({ name: 'main'})
       }
-  }, 500);
+  }, 3000);
   }
 };
 $(document).ready(function() {

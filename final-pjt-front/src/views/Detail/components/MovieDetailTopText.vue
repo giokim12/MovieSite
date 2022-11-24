@@ -90,7 +90,7 @@ export default {
     },
     getYoutube() {
       let URL = `https://www.googleapis.com/youtube/v3/search`
-      const API_KEY = 'AIzaSyB1iUyONDiUkQt3nMDN4T9pcxuOi4BXw-0'
+      const API_KEY = 'AIzaSyCWr3HeAt-LBVtSpx_23eFHcRmUhKdEPys'
       axios({
         method: 'get',
         url: `${URL}?key=${API_KEY}&type=video&part=snippet&q=${this.movie.title}&maxResuluts=20`,
@@ -108,6 +108,7 @@ export default {
           onYouTubePlayerAPIReady(response.data.items[0].id.videoId)
         }) 
         .catch((error) => {
+          alert('😥해당 영화의 트레일러가 없습니다.😥')
           console.log('유튜브 에러',error)
         })
     },
