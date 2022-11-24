@@ -403,7 +403,7 @@ def comment_list(request, movie_id, sort):
             serializer = CommentSerializer(comments_rate_down, many=True)
         # 좋아요 순
         elif sort == 'LIKES':
-            comments_likes = sorted(comments, key=lambda x: -x.likes)
+            comments_likes = sorted(comments, key=lambda x: -x.like_users.count())
             serializer = CommentSerializer(comments_likes, many=True)
         return Response(serializer.data)
 

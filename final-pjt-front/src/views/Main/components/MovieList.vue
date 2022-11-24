@@ -4,7 +4,7 @@
       v-if="!isLogin"
     >
       <hr>
-      <h2 class="text-white">🍿투표 내림차순 정렬🍿</h2>
+      <h2 class="text-white">🍿타 이용자들이 극찬한 영화🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[576, 3], [768, 4], [768, 5], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -17,7 +17,7 @@
         </Carousel>
       </div>
       <hr>
-      <h2 class="text-white">🍿인기도 내림차순 정렬🍿</h2>
+      <h2 class="text-white">🍿요즘 핫한 영화🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[576, 3], [768, 4], [768, 5], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide
@@ -31,7 +31,7 @@
         </Carousel>
       </div>
       <hr>
-      <h2 class="text-white">🍿고전명작🍿</h2>
+      <h2 class="text-white">🍿고전 명작🍿</h2>
       <div class="w-full h-full">
         <Carousel class="text-white ml-4" :per-page="2" :perPageCustom="[[576, 3], [768, 4], [768, 5], [1200, 6]]" paginationColor="white" paginationActiveColor="#FF3471" :centerMode=true :autoplay=true :loop=true :autoplayTimeout=6000>
           <slide

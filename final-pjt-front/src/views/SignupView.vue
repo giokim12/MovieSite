@@ -59,8 +59,8 @@ export default {
       axios
         .post(`${API_URL}/accounts/register/`, formData)
         .then((res) => {
-          console.log(res)
-          this.$router.push('/')
+          alert('🎉회원가입에 성공하셨습니다🎉')
+          this.$router.push('/login')
         })
         .catch((err) => {
           console.log(err.response);
